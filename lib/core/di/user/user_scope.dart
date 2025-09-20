@@ -1,40 +1,43 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 
-import 'app_dependencies.dart';
+import 'user_dependencies.dart';
 
-class AppScope extends StatefulWidget {
-  const AppScope({
+class UserScope extends StatefulWidget {
+  const UserScope({
     required this.init,
-    required this.initialized,
+    required this.authorized,
     this.initialization,
     super.key,
   });
 
-  final Future<AppDependencies> Function() init;
+  final Future<UserDependencies> Function() init;
   final WidgetBuilder? initialization;
-  final WidgetBuilder initialized;
+  final WidgetBuilder authorized;
 
-  static AppDependencies of(
+  static UserDependencies of(
     BuildContext context, {
     bool listen = true,
   }) =>
-      _AppScopeProvider.maybeOf(
+      _UserScopeProvider.maybeOf(
         context,
         listen: false,
       )?.dependencies ??
-      (throw Exception('No AppScope in context'));
+      (throw Exception('No AuthScope in context'));
 
   @override
-  State<AppScope> createState() => _AppScopeState();
+  State<UserScope> createState() => _UserScopeState();
 }
 
-class _AppScopeState extends State<AppScope> {
-  AppDependencies? _dependencies;
+class _UserScopeState extends State<UserScope> {
+  UserDependencies? _dependencies;
 
   @override
   void initState() {
     super.initState();
-    _initDependencies();
+
+    unawaited(_initDependencies());
   }
 
   Future<void> _initDependencies() async {
@@ -49,7 +52,7 @@ class _AppScopeState extends State<AppScope> {
 
   @override
   void dispose() {
-    _dependencies?.dispose();
+    unawaited(_dependencies?.dispose());
 
     super.dispose();
   }
@@ -57,9 +60,9 @@ class _AppScopeState extends State<AppScope> {
   @override
   Widget build(BuildContext context) {
     if (_dependencies case final dependencies?) {
-      return _AppScopeProvider(
+      return _UserScopeProvider(
         dependencies: dependencies,
-        child: widget.initialized(context),
+        child: widget.authorized(context),
       );
     }
 
@@ -67,20 +70,20 @@ class _AppScopeState extends State<AppScope> {
   }
 }
 
-class _AppScopeProvider extends InheritedWidget {
-  const _AppScopeProvider({
+class _UserScopeProvider extends InheritedWidget {
+  const _UserScopeProvider({
     required this.dependencies,
     required super.child,
   });
 
-  final AppDependencies dependencies;
+  final UserDependencies dependencies;
 
-  static _AppScopeProvider? maybeOf(
+  static _UserScopeProvider? maybeOf(
     BuildContext context, {
     bool listen = true,
   }) => listen
-      ? context.dependOnInheritedWidgetOfExactType<_AppScopeProvider>()
-      : context.getInheritedWidgetOfExactType<_AppScopeProvider>();
+      ? context.dependOnInheritedWidgetOfExactType<_UserScopeProvider>()
+      : context.getInheritedWidgetOfExactType<_UserScopeProvider>();
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) => true;
