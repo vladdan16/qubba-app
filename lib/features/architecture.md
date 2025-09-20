@@ -70,7 +70,7 @@ final class MockAuthenticationApi extends AuthenticationApi {
 }
 ```
 
-**Note!** Хорошей практикоя является имплементация `MockSomeApi` для тестирования.
+**Note!** Хорошей практикой является имплементация `MockSomeApi` для тестирования.
 
 - models: тут находятся data модели. Они должны иметь toJson и/или fromJson методы для удобной
   сериализации и десериализации. Можно использовать freezed или json_serializable пакеты.
