@@ -3,7 +3,7 @@ import '../models/user.dart';
 /// Repository which manages user authentication.
 abstract interface class AuthenticationRepository {
   /// Stream of [User] which will emit the current user
-  /// the authentication state changes.
+  /// when the authentication state changes.
   ///
   /// Emits [User.empty] if user is not authenticated.
   Stream<(User, String)> get user;
