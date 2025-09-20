@@ -7,3 +7,7 @@ linter:
     always_use_package_imports: false
     prefer_relative_imports: true
     specify_nonobvious_property_types: false
+    flutter_style_todos: false
+    one_member_abstracts: false
+    sort_unnamed_constructors_first: true
+    sort_constructors_first: false
