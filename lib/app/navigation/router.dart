@@ -1,13 +1,18 @@
 import 'package:go_router/go_router.dart';
 
+import '../../core/di/app/app_scope.dart';
+import '../../core/di/user/user_dependencies_impl.dart';
+import '../../core/di/user/user_scope.dart';
+
 abstract final class AppRouter {
   static final router = GoRouter(
     debugLogDiagnostics: true,
+    initialLocation: '/home',
     routes: [
       ShellRoute(
         builder: (context, state, child) {
           // TODO(vladdan16): тут создаем скоуп с зависимостями
-          //  для логина и регистрации
+          //  для логина и регистрации (если нужно)
           // return RegistrationScope(child: child);
           throw UnimplementedError();
         },
@@ -32,11 +37,17 @@ abstract final class AppRouter {
       ),
       ShellRoute(
         builder: (context, state, child) {
-          // TODO(vladdan16): implement auth scope
-          // тут создаем скоуп авторизации, все дочерние route'ы
-          // будут иметь к нему доступ.
-          // return AuthScope(child: child);
-          throw UnimplementedError();
+          final token =
+              state.uri.queryParameters['token'] ??
+              (throw Exception('token should be provided'));
+
+          return UserScope(
+            init: () => UserDependenciesImpl.init(
+              token: token,
+              appDeps: AppScope.of(context),
+            ),
+            authorized: (context) => child,
+          );
         },
         routes: [
           GoRoute(
