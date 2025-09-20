@@ -28,7 +28,7 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
     required String email,
     required String password,
   }) {
-    // TODO(vladda16): implement loginWithEmailAndPassword
+    // TODO(vladdan16): implement loginWithEmailAndPassword
     throw UnimplementedError();
   }
 
