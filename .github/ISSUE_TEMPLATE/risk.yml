@@ -1,0 +1,29 @@
+name: Risk
+description: Риск проекта
+title: "Risk: "
+labels: ["type: risk"]
+body:
+  - type: textarea
+    id: desc
+    attributes:
+      label: Описание риска
+    validations:
+      required: true
+  - type: dropdown
+    id: probability
+    attributes:
+      label: Вероятность
+      options: ["1 - низкая", "2 - средняя", "3 - высокая"]
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Последствия
+      options: ["1 - низкие", "2 - средние", "3 - высокие"]
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: Митигирование/план действий
+  - type: input
+    id: owner
+    attributes:
+      label: Ответственный

@@ -1,0 +1,52 @@
+name: Epic
+description: Крупная продуктовая область
+title: "EPIC: "
+labels: ["type: epic"]
+body:
+  - type: input
+    id: goal
+    attributes:
+      label: Цель эпика
+      placeholder: Какую ценность даём пользователю/бизнесу?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Объем работ (Scope)
+      description: Что точно входит
+  - type: textarea
+    id: outofscope
+    attributes:
+      label: Вне объёма (Out of scope)
+  - type: dropdown
+    id: component
+    attributes:
+      label: Компонент (основной)
+      options:
+        - Mobile
+        - Backend
+        - DevOps
+        - Design
+        - Docs
+  - type: textarea
+    id: deliverables
+    attributes:
+      label: Результаты/метрики успеха
+      description: Что должно быть на выходе; как меряем успех
+  - type: textarea
+    id: breakdown
+    attributes:
+      label: Декомпозиция (ссылки на подзадачи)
+      description: Перечислите подзадачи/истории. Используйте #номер для связи.
+      value: |
+        - [ ] Story: …
+        - [ ] Task: …
+  - type: textarea
+    id: risks
+    attributes:
+      label: Риски по эпику
+  - type: textarea
+    id: notes
+    attributes:
+      label: Примечания/ссылки (Miro, Figma, Swagger)
