@@ -24,7 +24,7 @@ class UserScope extends StatefulWidget {
         context,
         listen: false,
       )?.dependencies ??
-      (throw Exception('No AuthScope in context'));
+      (throw Exception('No UserScope in context'));
 
   @override
   State<UserScope> createState() => _UserScopeState();
