@@ -1,0 +1,137 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc/login_form_bloc.dart';
+import 'bloc/login_form_event.dart';
+import 'bloc/login_form_state.dart';
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailCtrl = TextEditingController();
+  final _passwordCtrl = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailCtrl.dispose();
+    _passwordCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => BlocProvider(
+    create: (_) => LoginFormBloc(),
+    child: BlocBuilder<LoginFormBloc, LoginFormState>(
+      builder: (context, state) {
+        final bloc = context.read<LoginFormBloc>();
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Вход'),
+            centerTitle: true,
+          ),
+          body: SafeArea(
+            child: LayoutBuilder(
+              builder: (context, constraints) => Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 420),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom,
+                      ),
+                      child: Form(
+                        key: _formKey,
+                        autovalidateMode: state.autovalidateMode,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const SizedBox(height: 24),
+                            Text(
+                              'Добро пожаловать!',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 24),
+                            TextFormField(
+                              controller: _emailCtrl,
+                              keyboardType: TextInputType.emailAddress,
+                              textInputAction: TextInputAction.next,
+                              decoration: const InputDecoration(
+                                labelText: 'Email',
+                                hintText: 'name@example.com',
+                              ),
+                              onChanged: (v) => context
+                                  .read<LoginFormBloc>()
+                                  .add(LoginFormEvent.emailChanged(value: v)),
+                              validator: bloc.validateEmail,
+                            ),
+                            const SizedBox(height: 16),
+                            TextFormField(
+                              controller: _passwordCtrl,
+                              obscureText: state.obscurePassword,
+                              textInputAction: TextInputAction.done,
+                              decoration: InputDecoration(
+                                labelText: 'Пароль',
+                                suffixIcon: IconButton(
+                                  onPressed: () =>
+                                      context.read<LoginFormBloc>().add(
+                                        const LoginFormEvent.toggleObscure(),
+                                      ),
+                                  icon: Icon(
+                                    state.obscurePassword
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                  ),
+                                  tooltip: state.obscurePassword
+                                      ? 'Показать пароль'
+                                      : 'Скрыть пароль',
+                                ),
+                              ),
+                              onChanged: (v) =>
+                                  context.read<LoginFormBloc>().add(
+                                    LoginFormEvent.passwordChanged(value: v),
+                                  ),
+                              onFieldSubmitted: (_) => _onSubmit(context),
+                              validator: bloc.validatePassword,
+                            ),
+                            const SizedBox(height: 24),
+                            FilledButton(
+                              onPressed: () => _onSubmit(context),
+                              child: const Text('Войти'),
+                            ),
+                            const SizedBox(height: 12),
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text('Забыли пароль?'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    ),
+  );
+
+  void _onSubmit(BuildContext context) {
+    context.read<LoginFormBloc>().add(const LoginFormEvent.submitPressed());
+    final valid = _formKey.currentState?.validate() ?? false;
+    if (!valid) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Форма валидна!')),
+    );
+  }
+}
