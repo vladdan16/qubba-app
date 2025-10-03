@@ -1,3 +1,25 @@
 {
-  "helloWorld": "Привет, Мир!"
+  "emailEmpty": "Введите email",
+  "emailInvalid": "Некорректный email",
+
+  "passwordEmpty": "Введите пароль",
+  "passwordTooShort": "Минимум {min} символов",
+  "@passwordTooShort": {
+    "placeholders": {
+      "min": { "type": "int" }
+    }
+  },
+  "passwordNeedLetter": "Добавьте хотя бы одну букву",
+  "passwordNeedDigit": "Добавьте хотя бы одну цифру",
+
+  "loginTitle": "Вход",
+  "welcomeTitle": "Добро пожаловать!",
+  "emailLabel": "Email",
+  "emailHint": "name@example.com",
+  "passwordLabel": "Пароль",
+  "showPasswordTooltip": "Показать пароль",
+  "hidePasswordTooltip": "Скрыть пароль",
+  "loginAction": "Войти",
+  "forgotPasswordAction": "Забыли пароль?",
+  "formValidSnack": "Форма валидна!"
 }

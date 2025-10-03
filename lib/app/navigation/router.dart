@@ -22,6 +22,7 @@ abstract final class AppRouter {
           GoRoute(
             path: '/registration',
             builder: (context, state) =>
+                // TODO(vladdan16): implement RegistrationScreen
                 const _StubPage(title: 'Registration (stub)'),
           ),
         ],
@@ -43,11 +44,14 @@ abstract final class AppRouter {
         routes: [
           GoRoute(
             path: '/home',
-            builder: (context, state) => const _StubPage(title: 'Home (stub)'),
+            builder: (context, state) =>
+                // TODO(vladdan16): implement HomeScreen
+                const _StubPage(title: 'Home (stub)'),
           ),
           GoRoute(
             path: '/profile',
             builder: (context, state) =>
+                // TODO(vladdan16): implement ProfileScreen
                 const _StubPage(title: 'Profile (stub)'),
           ),
         ],

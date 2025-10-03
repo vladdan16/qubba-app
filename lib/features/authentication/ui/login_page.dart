@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../l10n/l10n.dart';
 import 'bloc/login_form_bloc.dart';
 import 'bloc/login_form_event.dart';
 import 'bloc/login_form_state.dart';
@@ -27,6 +28,15 @@ class _LoginViewState extends State<_LoginView> {
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
 
+  static const int _minPasswordLength = 8;
+  static final RegExp _unicodeLetter = RegExp(r'\p{L}', unicode: true);
+  static final RegExp _unicodeDigit = RegExp(r'\p{N}', unicode: true);
+  static final RegExp _emailRegExp = RegExp(
+    r'^[\p{L}\p{N}._%+\-]+@(?:[\p{L}\p{N}](?:[\p{L}\p{N}\-]{0,61}[\p{L}\p{N}])?\.)+[\p{L}]{2,}$',
+    unicode: true,
+    caseSensitive: false,
+  );
+
   @override
   void dispose() {
     _emailCtrl.dispose();
@@ -39,9 +49,10 @@ class _LoginViewState extends State<_LoginView> {
       BlocBuilder<LoginFormBloc, LoginFormState>(
         builder: (context, state) {
           final bloc = context.read<LoginFormBloc>();
+          final strings = Strings.of(context);
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Вход'),
+              title: Text(strings!.loginTitle),
               centerTitle: true,
             ),
             body: SafeArea(
@@ -63,7 +74,7 @@ class _LoginViewState extends State<_LoginView> {
                             children: [
                               const SizedBox(height: 24),
                               Text(
-                                'Добро пожаловать!',
+                                strings.welcomeTitle,
                                 style: Theme.of(
                                   context,
                                 ).textTheme.headlineSmall,
@@ -74,14 +85,15 @@ class _LoginViewState extends State<_LoginView> {
                                 controller: _emailCtrl,
                                 keyboardType: TextInputType.emailAddress,
                                 textInputAction: TextInputAction.next,
-                                decoration: const InputDecoration(
-                                  labelText: 'Email',
-                                  hintText: 'name@example.com',
+                                decoration: InputDecoration(
+                                  labelText: strings.emailLabel,
+                                  hintText: strings.emailHint,
                                 ),
                                 onChanged: (v) => bloc.add(
                                   LoginFormEvent.emailChanged(value: v),
                                 ),
-                                validator: bloc.validateEmail,
+                                validator: (value) =>
+                                    _validateEmail(value, strings),
                               ),
                               const SizedBox(height: 16),
                               TextFormField(
@@ -89,7 +101,7 @@ class _LoginViewState extends State<_LoginView> {
                                 obscureText: state.obscurePassword,
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
-                                  labelText: 'Пароль',
+                                  labelText: strings.passwordLabel,
                                   suffixIcon: IconButton(
                                     onPressed: () => bloc.add(
                                       const LoginFormEvent.toggleObscure(),
@@ -100,25 +112,26 @@ class _LoginViewState extends State<_LoginView> {
                                           : Icons.visibility,
                                     ),
                                     tooltip: state.obscurePassword
-                                        ? 'Показать пароль'
-                                        : 'Скрыть пароль',
+                                        ? strings.showPasswordTooltip
+                                        : strings.hidePasswordTooltip,
                                   ),
                                 ),
                                 onChanged: (v) => bloc.add(
                                   LoginFormEvent.passwordChanged(value: v),
                                 ),
                                 onFieldSubmitted: (_) => _onSubmit(context),
-                                validator: bloc.validatePassword,
+                                validator: (value) =>
+                                    _validatePassword(value, strings),
                               ),
                               const SizedBox(height: 24),
                               FilledButton(
                                 onPressed: () => _onSubmit(context),
-                                child: const Text('Войти'),
+                                child: Text(strings.loginAction),
                               ),
                               const SizedBox(height: 12),
                               TextButton(
                                 onPressed: () {},
-                                child: const Text('Забыли пароль?'),
+                                child: Text(strings.forgotPasswordAction),
                               ),
                             ],
                           ),
@@ -133,6 +146,26 @@ class _LoginViewState extends State<_LoginView> {
         },
       );
 
+  String? _validateEmail(String? value, Strings strings) {
+    final v = (value ?? '').trim();
+    if (v.isEmpty) return strings.emailEmpty;
+    if (!_emailRegExp.hasMatch(v)) return strings.emailInvalid;
+    return null;
+  }
+
+  String? _validatePassword(String? value, Strings strings) {
+    final v = value ?? '';
+    if (v.isEmpty) return strings.passwordEmpty;
+    if (v.length < _minPasswordLength) {
+      return strings.passwordTooShort(_minPasswordLength);
+    }
+    final hasLetter = _unicodeLetter.hasMatch(v);
+    final hasDigit = _unicodeDigit.hasMatch(v);
+    if (!hasLetter) return strings.passwordNeedLetter;
+    if (!hasDigit) return strings.passwordNeedDigit;
+    return null;
+  }
+
   void _onSubmit(BuildContext context) {
     final bloc = context.read<LoginFormBloc>().add(
       const LoginFormEvent.submitPressed(),
@@ -141,7 +174,7 @@ class _LoginViewState extends State<_LoginView> {
     if (!valid) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Форма валидна!')),
+      SnackBar(content: Text(Strings.of(context)!.formValidSnack)),
     );
   }
 }
