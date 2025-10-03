@@ -1,4 +1,3 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,10 +28,20 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     });
   }
 
+  static final RegExp _unicodeLetter = RegExp(r'\p{L}', unicode: true);
+  static final RegExp _unicodeDigit = RegExp(r'\p{N}', unicode: true);
+
+  static final RegExp _emailRegExp = RegExp(
+    r'^[\p{L}\p{N}._%+\-]+@(?:[\p{L}\p{N}](?:[\p{L}\p{N}\-]{0,61}[\p{L}\p{N}])?\.)+[\p{L}]{2,}$',
+    unicode: true,
+    caseSensitive: false,
+  );
+
   String? validateEmail(String? value) {
     final v = (value ?? '').trim();
     if (v.isEmpty) return 'Введите email';
-    if (!EmailValidator.validate(v)) return 'Некорректный email';
+    if (!_emailRegExp.hasMatch(v)) return 'Некорректный email';
+
     return null;
   }
 
@@ -41,15 +50,11 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     if (v.isEmpty) return 'Введите пароль';
     if (v.length < 8) return 'Минимум 8 символов';
 
-    final hasDigit = v.codeUnits.any((char) => char >= 48 && char <= 57);
-    final hasLetter = v.codeUnits.any((char) {
-      final isLatinUpper = char >= 65 && char <= 90;
-      final isLatinLower = char >= 97 && char <= 122;
-      return isLatinUpper || isLatinLower;
-    });
+    final hasLetter = _unicodeLetter.hasMatch(v);
+    final hasDigit = _unicodeDigit.hasMatch(v);
 
-    if (!hasDigit) return 'Добавьте хотя бы одну цифру';
     if (!hasLetter) return 'Добавьте хотя бы одну букву';
+    if (!hasDigit) return 'Добавьте хотя бы одну цифру';
 
     return null;
   }
