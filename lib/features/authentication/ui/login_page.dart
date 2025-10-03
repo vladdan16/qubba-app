@@ -5,14 +5,24 @@ import 'bloc/login_form_bloc.dart';
 import 'bloc/login_form_event.dart';
 import 'bloc/login_form_state.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  Widget build(BuildContext context) => BlocProvider<LoginFormBloc>(
+    create: (_) => LoginFormBloc(),
+    child: const _LoginView(),
+  );
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginView extends StatefulWidget {
+  const _LoginView();
+
+  @override
+  State<_LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<_LoginView> {
   final _formKey = GlobalKey<FormState>();
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
@@ -25,93 +35,93 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  Widget build(BuildContext context) => BlocProvider(
-    create: (_) => LoginFormBloc(),
-    child: BlocBuilder<LoginFormBloc, LoginFormState>(
-      builder: (context, state) {
-        final bloc = context.read<LoginFormBloc>();
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Вход'),
-            centerTitle: true,
-          ),
-          body: SafeArea(
-            child: LayoutBuilder(
-              builder: (context, constraints) => Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 420),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom,
-                      ),
-                      child: Form(
-                        key: _formKey,
-                        autovalidateMode: state.autovalidateMode,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const SizedBox(height: 24),
-                            Text(
-                              'Добро пожаловать!',
-                              style: Theme.of(context).textTheme.headlineSmall,
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 24),
-                            TextFormField(
-                              controller: _emailCtrl,
-                              keyboardType: TextInputType.emailAddress,
-                              textInputAction: TextInputAction.next,
-                              decoration: const InputDecoration(
-                                labelText: 'Email',
-                                hintText: 'name@example.com',
+  Widget build(BuildContext context) =>
+      BlocBuilder<LoginFormBloc, LoginFormState>(
+        builder: (context, state) {
+          final bloc = context.read<LoginFormBloc>();
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Вход'),
+              centerTitle: true,
+            ),
+            body: SafeArea(
+              child: LayoutBuilder(
+                builder: (context, constraints) => Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 420),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: Form(
+                          key: _formKey,
+                          autovalidateMode: state.autovalidateMode,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              const SizedBox(height: 24),
+                              Text(
+                                'Добро пожаловать!',
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.headlineSmall,
+                                textAlign: TextAlign.center,
                               ),
-                              onChanged: (v) => context
-                                  .read<LoginFormBloc>()
-                                  .add(LoginFormEvent.emailChanged(value: v)),
-                              validator: bloc.validateEmail,
-                            ),
-                            const SizedBox(height: 16),
-                            TextFormField(
-                              controller: _passwordCtrl,
-                              obscureText: state.obscurePassword,
-                              textInputAction: TextInputAction.done,
-                              decoration: InputDecoration(
-                                labelText: 'Пароль',
-                                suffixIcon: IconButton(
-                                  onPressed: () =>
-                                      context.read<LoginFormBloc>().add(
-                                        const LoginFormEvent.toggleObscure(),
-                                      ),
-                                  icon: Icon(
-                                    state.obscurePassword
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
-                                  ),
-                                  tooltip: state.obscurePassword
-                                      ? 'Показать пароль'
-                                      : 'Скрыть пароль',
+                              const SizedBox(height: 24),
+                              TextFormField(
+                                controller: _emailCtrl,
+                                keyboardType: TextInputType.emailAddress,
+                                textInputAction: TextInputAction.next,
+                                decoration: const InputDecoration(
+                                  labelText: 'Email',
+                                  hintText: 'name@example.com',
                                 ),
+                                onChanged: (v) => bloc.add(
+                                  LoginFormEvent.emailChanged(value: v),
+                                ),
+                                validator: bloc.validateEmail,
                               ),
-                              onChanged: (v) =>
-                                  context.read<LoginFormBloc>().add(
-                                    LoginFormEvent.passwordChanged(value: v),
+                              const SizedBox(height: 16),
+                              TextFormField(
+                                controller: _passwordCtrl,
+                                obscureText: state.obscurePassword,
+                                textInputAction: TextInputAction.done,
+                                decoration: InputDecoration(
+                                  labelText: 'Пароль',
+                                  suffixIcon: IconButton(
+                                    onPressed: () => bloc.add(
+                                      const LoginFormEvent.toggleObscure(),
+                                    ),
+                                    icon: Icon(
+                                      state.obscurePassword
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                    ),
+                                    tooltip: state.obscurePassword
+                                        ? 'Показать пароль'
+                                        : 'Скрыть пароль',
                                   ),
-                              onFieldSubmitted: (_) => _onSubmit(context),
-                              validator: bloc.validatePassword,
-                            ),
-                            const SizedBox(height: 24),
-                            FilledButton(
-                              onPressed: () => _onSubmit(context),
-                              child: const Text('Войти'),
-                            ),
-                            const SizedBox(height: 12),
-                            TextButton(
-                              onPressed: () {},
-                              child: const Text('Забыли пароль?'),
-                            ),
-                          ],
+                                ),
+                                onChanged: (v) => bloc.add(
+                                  LoginFormEvent.passwordChanged(value: v),
+                                ),
+                                onFieldSubmitted: (_) => _onSubmit(context),
+                                validator: bloc.validatePassword,
+                              ),
+                              const SizedBox(height: 24),
+                              FilledButton(
+                                onPressed: () => _onSubmit(context),
+                                child: const Text('Войти'),
+                              ),
+                              const SizedBox(height: 12),
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text('Забыли пароль?'),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -119,14 +129,14 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-          ),
-        );
-      },
-    ),
-  );
+          );
+        },
+      );
 
   void _onSubmit(BuildContext context) {
-    context.read<LoginFormBloc>().add(const LoginFormEvent.submitPressed());
+    final bloc = context.read<LoginFormBloc>().add(
+      const LoginFormEvent.submitPressed(),
+    );
     final valid = _formKey.currentState?.validate() ?? false;
     if (!valid) return;
 
