@@ -28,10 +28,10 @@ abstract final class AppRouter {
       ),
       ShellRoute(
         builder: (context, state, child) {
-          final token =
-              state.uri.queryParameters['token'] ??
-              (throw Exception('token should be provided'));
-
+          final token = state.extra is String ? state.extra! as String : null;
+          if (token == null) {
+            throw Exception('Auth token is required via GoRouter.extra');
+          }
           return UserScope(
             init: () => UserDependenciesImpl.init(
               token: token,

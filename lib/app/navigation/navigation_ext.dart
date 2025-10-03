@@ -6,7 +6,7 @@ extension NavigationExt on BuildContext {
 
   void goToRegistrationPage() => go('/registration');
 
-  void goToHome(String token) => go('/home?token=$token');
+  void goToHome(String token) => go('/home', extra: token);
 
-  void goToProfile(String token) => go('/profile?token=$token');
+  void goToProfile(String token) => go('/profile', extra: token);
 }
