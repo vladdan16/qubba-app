@@ -48,7 +48,8 @@ class App extends StatelessWidget {
   void _handleChangeAuth(BuildContext context, AuthState state) =>
       switch (state) {
         AuthenticatedAppState(:final token) => AppRouter.router.go(
-          '/home?token=$token',
+          '/home',
+          extra: token,
         ),
         UnauthenticatedAppState() => AppRouter.router.go('/login'),
       };
