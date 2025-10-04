@@ -1,16 +1,19 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+sealed class LoginFormEvent {
+  const LoginFormEvent();
+}
 
-part 'login_form_event.freezed.dart';
+final class EmailChanged extends LoginFormEvent {
+  const EmailChanged({required this.value});
 
-@freezed
-sealed class LoginFormEvent with _$LoginFormEvent {
-  const factory LoginFormEvent.emailChanged({required String value}) =
-      EmailChanged;
+  final String value;
+}
 
-  const factory LoginFormEvent.passwordChanged({required String value}) =
-      PasswordChanged;
+final class PasswordChanged extends LoginFormEvent {
+  const PasswordChanged({required this.value});
 
-  const factory LoginFormEvent.toggleObscure() = ToggleObscure;
+  final String value;
+}
 
-  const factory LoginFormEvent.submitPressed() = SubmitPressed;
+final class SubmitPressed extends LoginFormEvent {
+  const SubmitPressed();
 }
