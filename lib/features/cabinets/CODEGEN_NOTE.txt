@@ -1,0 +1,4 @@
+The .freezed.dart and .g.dart files in this feature need to be generated using:
+  dart run build_runner build --delete-conflicting-outputs
+
+These files have been created as stubs to allow the code to compile.
