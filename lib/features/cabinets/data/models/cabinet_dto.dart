@@ -4,7 +4,7 @@ part 'cabinet_dto.freezed.dart';
 part 'cabinet_dto.g.dart';
 
 @freezed
-class CabinetDto with _$CabinetDto {
+abstract class CabinetDto with _$CabinetDto {
   const factory CabinetDto({
     required String id,
     required String name,
