@@ -1,8 +1,13 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/di/app/app_scope.dart';
 import '../../core/di/user/user_dependencies_impl.dart';
 import '../../core/di/user/user_scope.dart';
+import '../../features/cabinets/domain/bloc/cabinets_bloc.dart';
+import '../../features/cabinets/domain/models/cabinet.dart';
+import '../../features/cabinets/ui/cabinet_form_screen.dart';
+import '../../features/cabinets/ui/cabinets_list_screen.dart';
 
 abstract final class AppRouter {
   static final router = GoRouter(
@@ -65,6 +70,28 @@ abstract final class AppRouter {
               // return ProfileScreen();
               throw UnimplementedError();
             },
+          ),
+          GoRoute(
+            path: '/cabinets',
+            builder: (context, state) => BlocProvider(
+              create: (context) => CabinetsBloc(
+                repository: UserScope.of(context).cabinetsRepository,
+              ),
+              child: const CabinetsListScreen(),
+            ),
+            routes: [
+              GoRoute(
+                path: 'add',
+                builder: (context, state) => const CabinetFormScreen(),
+              ),
+              GoRoute(
+                path: 'edit/:id',
+                builder: (context, state) {
+                  final cabinet = state.extra as Cabinet?;
+                  return CabinetFormScreen(cabinet: cabinet);
+                },
+              ),
+            ],
           ),
         ],
       ),
