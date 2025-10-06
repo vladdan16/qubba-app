@@ -4,7 +4,7 @@ part 'update_cabinet_request_dto.freezed.dart';
 part 'update_cabinet_request_dto.g.dart';
 
 @freezed
-class UpdateCabinetRequestDto with _$UpdateCabinetRequestDto {
+abstract class UpdateCabinetRequestDto with _$UpdateCabinetRequestDto {
   const factory UpdateCabinetRequestDto({
     required String name,
     String? description,

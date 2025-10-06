@@ -22,15 +22,13 @@ final class CabinetFormState {
     String? address,
     String? phone,
     String? email,
-  }) {
-    return CabinetFormState(
-      name: name ?? this.name,
-      description: description ?? this.description,
-      address: address ?? this.address,
-      phone: phone ?? this.phone,
-      email: email ?? this.email,
-    );
-  }
+  }) => CabinetFormState(
+    name: name ?? this.name,
+    description: description ?? this.description,
+    address: address ?? this.address,
+    phone: phone ?? this.phone,
+    email: email ?? this.email,
+  );
 
   bool get isValid => name.isNotEmpty;
 }

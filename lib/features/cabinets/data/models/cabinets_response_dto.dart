@@ -6,7 +6,7 @@ part 'cabinets_response_dto.freezed.dart';
 part 'cabinets_response_dto.g.dart';
 
 @freezed
-class CabinetsResponseDto with _$CabinetsResponseDto {
+abstract class CabinetsResponseDto with _$CabinetsResponseDto {
   const factory CabinetsResponseDto({
     required List<CabinetDto> cabinets,
     int? total,

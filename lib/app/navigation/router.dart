@@ -75,10 +75,7 @@ abstract final class AppRouter {
                 path: 'edit/:id',
                 builder: (context, state) {
                   final cabinet = state.extra as Cabinet?;
-                  return BlocProvider.value(
-                    value: context.read<CabinetsBloc>(),
-                    child: CabinetFormScreen(cabinet: cabinet),
-                  );
+                  return CabinetFormScreen(cabinet: cabinet);
                 },
               ),
             ],

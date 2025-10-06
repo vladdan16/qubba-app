@@ -15,18 +15,16 @@ class CabinetFormScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CabinetFormBloc(
-        initialName: cabinet?.name,
-        initialDescription: cabinet?.description,
-        initialAddress: cabinet?.address,
-        initialPhone: cabinet?.phone,
-        initialEmail: cabinet?.email,
-      ),
-      child: _CabinetFormView(cabinet: cabinet),
-    );
-  }
+  Widget build(BuildContext context) => BlocProvider(
+    create: (context) => CabinetFormBloc(
+      initialName: cabinet?.name,
+      initialDescription: cabinet?.description,
+      initialAddress: cabinet?.address,
+      initialPhone: cabinet?.phone,
+      initialEmail: cabinet?.email,
+    ),
+    child: _CabinetFormView(cabinet: cabinet),
+  );
 }
 
 class _CabinetFormView extends StatelessWidget {
@@ -43,83 +41,78 @@ class _CabinetFormView extends StatelessWidget {
         title: Text(isEditing ? 'Edit Cabinet' : 'Add Cabinet'),
       ),
       body: BlocBuilder<CabinetFormBloc, CabinetFormState>(
-        builder: (context, state) {
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Name *',
-                    border: OutlineInputBorder(),
-                  ),
-                  controller: TextEditingController(text: state.name),
-                  onChanged: (value) => context
-                      .read<CabinetFormBloc>()
-                      .add(NameChanged(value)),
+        builder: (context, state) => SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Name *',
+                  border: OutlineInputBorder(),
                 ),
-                const SizedBox(height: 16),
-                TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Description',
-                    border: OutlineInputBorder(),
-                  ),
-                  maxLines: 3,
-                  controller: TextEditingController(text: state.description),
-                  onChanged: (value) => context
-                      .read<CabinetFormBloc>()
-                      .add(DescriptionChanged(value)),
+                controller: TextEditingController(text: state.name),
+                onChanged: (value) =>
+                    context.read<CabinetFormBloc>().add(NameChanged(value)),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Description',
+                  border: OutlineInputBorder(),
                 ),
-                const SizedBox(height: 16),
-                TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Address',
-                    border: OutlineInputBorder(),
-                  ),
-                  controller: TextEditingController(text: state.address),
-                  onChanged: (value) => context
-                      .read<CabinetFormBloc>()
-                      .add(AddressChanged(value)),
+                maxLines: 3,
+                controller: TextEditingController(text: state.description),
+                onChanged: (value) => context.read<CabinetFormBloc>().add(
+                  DescriptionChanged(value),
                 ),
-                const SizedBox(height: 16),
-                TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Phone',
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.phone,
-                  controller: TextEditingController(text: state.phone),
-                  onChanged: (value) => context
-                      .read<CabinetFormBloc>()
-                      .add(PhoneChanged(value)),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Address',
+                  border: OutlineInputBorder(),
                 ),
-                const SizedBox(height: 16),
-                TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  controller: TextEditingController(text: state.email),
-                  onChanged: (value) => context
-                      .read<CabinetFormBloc>()
-                      .add(EmailChanged(value)),
+                controller: TextEditingController(text: state.address),
+                onChanged: (value) => context.read<CabinetFormBloc>().add(
+                  AddressChanged(value),
                 ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: state.isValid
-                      ? () => _saveCabinet(context, state)
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: Text(isEditing ? 'Save Changes' : 'Add Cabinet'),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Phone',
+                  border: OutlineInputBorder(),
                 ),
-              ],
-            ),
-          );
-        },
+                keyboardType: TextInputType.phone,
+                controller: TextEditingController(text: state.phone),
+                onChanged: (value) =>
+                    context.read<CabinetFormBloc>().add(PhoneChanged(value)),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.emailAddress,
+                controller: TextEditingController(text: state.email),
+                onChanged: (value) =>
+                    context.read<CabinetFormBloc>().add(EmailChanged(value)),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: state.isValid
+                    ? () => _saveCabinet(context, state)
+                    : null,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+                child: Text(isEditing ? 'Save Changes' : 'Add Cabinet'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

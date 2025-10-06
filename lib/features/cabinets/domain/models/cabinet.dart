@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'cabinet.freezed.dart';
 
 @freezed
-class Cabinet with _$Cabinet {
+abstract class Cabinet with _$Cabinet {
   const factory Cabinet({
     required String id,
     required String name,
