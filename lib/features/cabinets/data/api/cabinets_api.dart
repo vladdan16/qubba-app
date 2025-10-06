@@ -11,15 +11,15 @@ sealed class CabinetsApi {
 
   const CabinetsApi._();
 
-  Future<List<Map<String, Object?>>> getAllCabinets({int? limit});
+  Future<Map<String, Object?>?> getAllCabinets({int limit});
 
   CabinetsResponseDto parseCabinetsResponse(List<Map<String, Object?>> json) =>
       CabinetsResponseDto(
-        cabinets: json.map((e) => CabinetDto.fromJson(e)).toList(),
+        cabinets: json.map(CabinetDto.fromJson).toList(),
         total: json.length,
       );
 
-  Future<Map<String, Object?>> updateCabinet(
+  Future<Map<String, Object?>?> updateCabinet(
     String cabinetId,
     UpdateCabinetRequestDto dto,
   );
@@ -34,19 +34,17 @@ final class _CabinetsApiImpl extends CabinetsApi {
   _CabinetsApiImpl(this.dio) : super._();
 
   @override
-  Future<List<Map<String, Object?>>> getAllCabinets({int? limit}) async {
-    final response = await dio.get<List<dynamic>>(
+  Future<Map<String, Object?>?> getAllCabinets({int limit = 1000}) async {
+    final response = await dio.get<Map<String, Object?>>(
       _ApiParams.getAllCabinets,
-      queryParameters: limit != null ? {'limit': limit} : null,
+      queryParameters: {'limit': limit},
     );
-    
-    return (response.data as List<dynamic>)
-        .cast<Map<String, Object?>>()
-        .toList();
+
+    return response.data;
   }
 
   @override
-  Future<Map<String, Object?>> updateCabinet(
+  Future<Map<String, Object?>?> updateCabinet(
     String cabinetId,
     UpdateCabinetRequestDto dto,
   ) async {
@@ -54,6 +52,6 @@ final class _CabinetsApiImpl extends CabinetsApi {
       _ApiParams.updateCabinet(cabinetId),
       data: dto.toJson(),
     );
-    return response.data!;
+    return response.data;
   }
 }

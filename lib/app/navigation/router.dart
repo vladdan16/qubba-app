@@ -73,32 +73,22 @@ abstract final class AppRouter {
           ),
           GoRoute(
             path: '/cabinets',
-            builder: (context, state) {
-              return BlocProvider(
-                create: (context) => CabinetsBloc(
-                  repository: UserScope.of(context).cabinetsRepository,
-                ),
-                child: const CabinetsListScreen(),
-              );
-            },
+            builder: (context, state) => BlocProvider(
+              create: (context) => CabinetsBloc(
+                repository: UserScope.of(context).cabinetsRepository,
+              ),
+              child: const CabinetsListScreen(),
+            ),
             routes: [
               GoRoute(
                 path: 'add',
-                builder: (context, state) {
-                  return BlocProvider.value(
-                    value: context.read<CabinetsBloc>(),
-                    child: const CabinetFormScreen(),
-                  );
-                },
+                builder: (context, state) => const CabinetFormScreen(),
               ),
               GoRoute(
                 path: 'edit/:id',
                 builder: (context, state) {
                   final cabinet = state.extra as Cabinet?;
-                  return BlocProvider.value(
-                    value: context.read<CabinetsBloc>(),
-                    child: CabinetFormScreen(cabinet: cabinet),
-                  );
+                  return CabinetFormScreen(cabinet: cabinet);
                 },
               ),
             ],

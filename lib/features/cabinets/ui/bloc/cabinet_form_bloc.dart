@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -13,13 +11,15 @@ final class CabinetFormBloc extends Bloc<CabinetFormEvent, CabinetFormState> {
     String? initialAddress,
     String? initialPhone,
     String? initialEmail,
-  }) : super(CabinetFormState(
-          name: initialName ?? '',
-          description: initialDescription ?? '',
-          address: initialAddress ?? '',
-          phone: initialPhone ?? '',
-          email: initialEmail ?? '',
-        )) {
+  }) : super(
+         CabinetFormState(
+           name: initialName ?? '',
+           description: initialDescription ?? '',
+           address: initialAddress ?? '',
+           phone: initialPhone ?? '',
+           email: initialEmail ?? '',
+         ),
+       ) {
     on<NameChanged>(_onNameChanged);
     on<DescriptionChanged>(_onDescriptionChanged);
     on<AddressChanged>(_onAddressChanged);

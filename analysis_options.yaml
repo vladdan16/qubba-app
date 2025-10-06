@@ -12,3 +12,7 @@ linter:
     sort_constructors_first: false
     discarded_futures: true
     prefer_expression_function_bodies: true
+
+analyzer:
+  errors:
+    invalid_annotation_target: ignore
