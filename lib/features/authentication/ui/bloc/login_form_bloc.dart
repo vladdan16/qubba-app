@@ -20,8 +20,27 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
   );
 
   void _onEmailChanged(EmailChangedEvent event, Emitter<LoginFormState> emit) {
+    final email = event.value;
     final password = state.password;
-    _emitValidated(event.value, password, emit);
+
+    final emailError = _validateEmail(email);
+    final passwordIsValid =
+        _validatePassword(password) == null && password.isNotEmpty;
+
+    if (email.isEmpty && password.isEmpty) {
+      emit(LoginFormInitial(email: email, password: password));
+    } else if (emailError == null && passwordIsValid) {
+      emit(LoginFormSuccess(email: email, password: password));
+    } else {
+      emit(
+        LoginFormFailure(
+          email: email,
+          password: password,
+          emailStatus: emailError,
+          passwordStatus: state.passwordStatus,
+        ),
+      );
+    }
   }
 
   void _onPasswordChanged(
@@ -29,7 +48,25 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     Emitter<LoginFormState> emit,
   ) {
     final email = state.email;
-    _emitValidated(email, event.value, emit);
+    final password = event.value;
+
+    final passwordError = _validatePassword(password);
+    final emailIsValid = _validateEmail(email) == null && email.isNotEmpty;
+
+    if (email.isEmpty && password.isEmpty) {
+      emit(LoginFormInitial(email: email, password: password));
+    } else if (passwordError == null && emailIsValid) {
+      emit(LoginFormSuccess(email: email, password: password));
+    } else {
+      emit(
+        LoginFormFailure(
+          email: email,
+          password: password,
+          emailStatus: state.emailStatus,
+          passwordStatus: passwordError,
+        ),
+      );
+    }
   }
 
   void _onSubmitPressed(
@@ -54,57 +91,33 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     }
   }
 
-  void _emitValidated(
-    String email,
-    String password,
-    Emitter<LoginFormState> emit,
-  ) {
-    final (emailError, passwordError) = _validate(email, password);
-
-    if (email.isEmpty && password.isEmpty) {
-      emit(LoginFormInitial(email: email, password: password));
-    } else if (emailError == null && passwordError == null) {
-      emit(LoginFormSuccess(email: email, password: password));
-    } else {
-      emit(
-        LoginFormFailure(
-          email: email,
-          password: password,
-          emailStatus: emailError,
-          passwordStatus: passwordError,
-        ),
-      );
-    }
-  }
-
   (EmailInvalidStatus?, PasswordInvalidStatus?) _validate(
     String email,
     String password,
   ) {
-    EmailInvalidStatus? emailError;
-    PasswordInvalidStatus? passwordError;
-
-    final trimmed = email.trim();
-    if (trimmed.isEmpty) {
-      emailError = EmailInvalidStatus.empty;
-    } else if (!_emailRegExp.hasMatch(trimmed)) {
-      emailError = EmailInvalidStatus.invalid;
-    }
-
-    if (password.isEmpty) {
-      passwordError = PasswordInvalidStatus.empty;
-    } else if (password.length < minLen) {
-      passwordError = PasswordInvalidStatus.tooShort;
-    } else {
-      final hasLetter = _unicodeLetter.hasMatch(password);
-      final hasDigit = _unicodeDigit.hasMatch(password);
-      if (!hasLetter) {
-        passwordError = PasswordInvalidStatus.needLetter;
-      } else if (!hasDigit) {
-        passwordError = PasswordInvalidStatus.needDigit;
-      }
-    }
+    final emailError = _validateEmail(email);
+    final passwordError = _validatePassword(password);
 
     return (emailError, passwordError);
+  }
+
+  EmailInvalidStatus? _validateEmail(String email) {
+    final trimmed = email.trim();
+    if (trimmed.isEmpty) return EmailInvalidStatus.empty;
+    if (!_emailRegExp.hasMatch(trimmed)) return EmailInvalidStatus.invalid;
+
+    return null;
+  }
+
+  PasswordInvalidStatus? _validatePassword(String password) {
+    if (password.isEmpty) return PasswordInvalidStatus.empty;
+    if (password.length < minLen) return PasswordInvalidStatus.tooShort;
+
+    final hasLetter = _unicodeLetter.hasMatch(password);
+    final hasDigit = _unicodeDigit.hasMatch(password);
+    if (!hasLetter) return PasswordInvalidStatus.needLetter;
+    if (!hasDigit) return PasswordInvalidStatus.needDigit;
+
+    return null;
   }
 }
