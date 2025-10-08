@@ -21,7 +21,7 @@ class _LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final strings = Strings.of(context)!;
+    final strings = Strings.of(context);
     return BlocListener<LoginFormBloc, LoginFormState>(
       listenWhen: (prev, curr) =>
           prev is! LoginFormSubmitted && curr is LoginFormSubmitted,
@@ -41,9 +41,6 @@ class _LoginView extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: SingleChildScrollView(
-                padding: EdgeInsets.only(
-                  bottom: MediaQuery.viewInsetsOf(context).bottom,
-                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -80,7 +77,7 @@ class _EmailField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final strings = Strings.of(context)!;
+    final strings = Strings.of(context);
     return BlocBuilder<LoginFormBloc, LoginFormState>(
       buildWhen: (prev, curr) =>
           prev.email != curr.email || prev.emailStatus != curr.emailStatus,
@@ -115,7 +112,7 @@ class _PasswordFieldState extends State<_PasswordField> {
 
   @override
   Widget build(BuildContext context) {
-    final strings = Strings.of(context)!;
+    final strings = Strings.of(context);
     return BlocBuilder<LoginFormBloc, LoginFormState>(
       buildWhen: (prev, curr) =>
           prev.password != curr.password ||
@@ -154,7 +151,7 @@ class _SubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final strings = Strings.of(context)!;
+    final strings = Strings.of(context);
     return BlocBuilder<LoginFormBloc, LoginFormState>(
       buildWhen: (prev, curr) => prev.canSubmit != curr.canSubmit,
       builder: (context, state) => FilledButton(

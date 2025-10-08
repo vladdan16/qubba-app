@@ -1,15 +1,29 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'login_form_event.dart';
 import 'login_form_state.dart';
 
 class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
   LoginFormBloc() : super(const LoginFormInitial()) {
-    on<EmailChangedEvent>(_onEmailChanged);
-    on<PasswordChangedEvent>(_onPasswordChanged);
-    on<SubmitPressedEvent>(_onSubmitPressed);
+    on<EmailChangedEvent>(
+      _onEmailChanged,
+      transformer: (events, mapper) =>
+          events.debounceTime(_debounceDuration).switchMap(mapper),
+    );
+    on<PasswordChangedEvent>(
+      _onPasswordChanged,
+      transformer: (events, mapper) =>
+          events.debounceTime(_debounceDuration).switchMap(mapper),
+    );
+    on<SubmitPressedEvent>(
+      _onSubmitPressed,
+      transformer: droppable(),
+    );
   }
 
+  static const _debounceDuration = Duration(milliseconds: 300);
   static const int minLen = 8;
   static final RegExp _unicodeLetter = RegExp(r'\p{L}', unicode: true);
   static final RegExp _unicodeDigit = RegExp(r'\p{N}', unicode: true);

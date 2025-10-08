@@ -67,8 +67,8 @@ abstract class Strings {
 
   final String localeName;
 
-  static Strings? of(BuildContext context) {
-    return Localizations.of<Strings>(context, Strings);
+  static Strings of(BuildContext context) {
+    return Localizations.of<Strings>(context, Strings)!;
   }
 
   static const LocalizationsDelegate<Strings> delegate = _StringsDelegate();
