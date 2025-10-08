@@ -2,18 +2,18 @@ sealed class LoginFormEvent {
   const LoginFormEvent();
 }
 
-final class EmailChanged extends LoginFormEvent {
-  const EmailChanged({required this.value});
+final class EmailChangedEvent extends LoginFormEvent {
+  const EmailChangedEvent({required this.value});
 
   final String value;
 }
 
-final class PasswordChanged extends LoginFormEvent {
-  const PasswordChanged({required this.value});
+final class PasswordChangedEvent extends LoginFormEvent {
+  const PasswordChangedEvent({required this.value});
 
   final String value;
 }
 
-final class SubmitPressed extends LoginFormEvent {
-  const SubmitPressed();
+final class SubmitPressedEvent extends LoginFormEvent {
+  const SubmitPressedEvent();
 }
