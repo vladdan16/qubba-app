@@ -1,46 +1,38 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/di/app/app_scope.dart';
 import '../../core/di/user/user_dependencies_impl.dart';
 import '../../core/di/user/user_scope.dart';
 
+import '../../features/authentication/ui/login_page.dart';
+
 abstract final class AppRouter {
   static final router = GoRouter(
     debugLogDiagnostics: true,
-    initialLocation: '/home',
+    initialLocation: '/login',
     routes: [
       ShellRoute(
-        builder: (context, state, child) {
-          // TODO(vladdan16): тут создаем скоуп с зависимостями
-          //  для логина и регистрации (если нужно)
-          // return RegistrationScope(child: child);
-          throw UnimplementedError();
-        },
+        builder: (context, state, child) => child,
         routes: [
           GoRoute(
             path: '/login',
-            builder: (context, state) {
-              // TODO(vladdan16): implement LoginScreen
-              // return LoginScreen();
-              throw UnimplementedError();
-            },
+            builder: (context, state) => const LoginPage(),
           ),
           GoRoute(
             path: '/registration',
-            builder: (context, state) {
-              // TODO(vladdan16): implement RegistrationScreen
-              // return RegistrationScreen();
-              throw UnimplementedError();
-            },
+            builder: (context, state) =>
+                // TODO(vladdan16): implement RegistrationScreen
+                const _StubPage(title: 'Registration (stub)'),
           ),
         ],
       ),
       ShellRoute(
         builder: (context, state, child) {
-          final token =
-              state.uri.queryParameters['token'] ??
-              (throw Exception('token should be provided'));
-
+          final token = state.extra is String ? state.extra! as String : null;
+          if (token == null) {
+            throw Exception('Auth token is required via GoRouter.extra');
+          }
           return UserScope(
             init: () => UserDependenciesImpl.init(
               token: token,
@@ -52,22 +44,33 @@ abstract final class AppRouter {
         routes: [
           GoRoute(
             path: '/home',
-            builder: (context, state) {
-              // TODO(vladdan16): implement HomeScreen
-              // return HomeScreen();
-              throw UnimplementedError();
-            },
+            builder: (context, state) =>
+                // TODO(vladdan16): implement HomeScreen
+                const _StubPage(title: 'Home (stub)'),
           ),
           GoRoute(
             path: '/profile',
-            builder: (context, state) {
-              // TODO(vladdan16): implement ProfileScreen
-              // return ProfileScreen();
-              throw UnimplementedError();
-            },
+            builder: (context, state) =>
+                // TODO(vladdan16): implement ProfileScreen
+                const _StubPage(title: 'Profile (stub)'),
           ),
         ],
       ),
     ],
+  );
+}
+
+/// Временная заглушка для экранов, чтобы приложение собиралось
+class _StubPage extends StatelessWidget {
+  const _StubPage({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: Text(title)),
+    body: Center(
+      child: Text(title, style: Theme.of(context).textTheme.titleLarge),
+    ),
   );
 }

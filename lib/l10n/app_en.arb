@@ -1,6 +1,25 @@
 {
-  "helloWorld": "Hello World!",
-  "@helloWorld": {
-    "description": "The conventional newborn programmer greeting"
-  }
+  "emailEmpty": "Enter email",
+  "emailInvalid": "Invalid email",
+
+  "passwordEmpty": "Enter password",
+  "passwordTooShort": "At least {min} characters",
+  "@passwordTooShort": {
+    "placeholders": {
+      "min": { "type": "int" }
+    }
+  },
+  "passwordNeedLetter": "Add at least one letter",
+  "passwordNeedDigit": "Add at least one digit",
+
+  "loginTitle": "Sign in",
+  "welcomeTitle": "Welcome!",
+  "emailLabel": "Email",
+  "emailHint": "name@example.com",
+  "passwordLabel": "Password",
+  "showPasswordTooltip": "Show password",
+  "hidePasswordTooltip": "Hide password",
+  "loginAction": "Sign in",
+  "forgotPasswordAction": "Forgot password?",
+  "formValidSnack": "Form is valid!"
 }
