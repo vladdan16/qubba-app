@@ -1,19 +1,24 @@
-part of 'auth_bloc.dart';
+import '../models/auth_tokens.dart';
+import '../models/user.dart';
 
 sealed class AuthEvent {
   const AuthEvent();
 }
 
-class LogoutRequested extends AuthEvent {
-  const LogoutRequested();
+final class AuthLoginRequestedEvent extends AuthEvent {
+  const AuthLoginRequestedEvent({required this.email, required this.password});
+
+  final String email;
+  final String password;
 }
 
-class _UserChanged extends AuthEvent {
-  final User user;
-  final String token;
+final class AuthLogoutRequestedEvent extends AuthEvent {
+  const AuthLogoutRequestedEvent();
+}
 
-  const _UserChanged({
-    required this.user,
-    required this.token,
-  });
+final class AuthUserChangedEvent extends AuthEvent {
+  const AuthUserChangedEvent(this.user, this.tokens);
+
+  final User user;
+  final AuthTokens tokens;
 }

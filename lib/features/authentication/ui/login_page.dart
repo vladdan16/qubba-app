@@ -1,7 +1,11 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../l10n/l10n.dart';
+import '../../authentication/domain/bloc/auth_bloc.dart';
+import '../../authentication/domain/bloc/auth_event.dart';
+import '../../authentication/domain/bloc/auth_state.dart';
 import 'bloc/login_form_bloc.dart';
 import 'bloc/login_form_event.dart';
 import 'bloc/login_form_state.dart';
@@ -22,14 +26,48 @@ class _LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = Strings.of(context);
-    return BlocListener<LoginFormBloc, LoginFormState>(
-      listenWhen: (prev, curr) =>
-          prev is! LoginFormSubmitted && curr is LoginFormSubmitted,
-      listener: (context, state) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(strings.formValidSnack)),
-        );
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<LoginFormBloc, LoginFormState>(
+          listenWhen: (prev, curr) =>
+              prev is! LoginFormSubmitted && curr is LoginFormSubmitted,
+          listener: (context, state) {
+            if (state case LoginFormSubmitted(:final email, :final password)) {
+              FocusScope.of(context).unfocus();
+              context.read<AuthBloc>().add(
+                AuthLoginRequestedEvent(email: email, password: password),
+              );
+            }
+          },
+        ),
+        BlocListener<AuthBloc, AuthState>(
+          listener: (context, authState) async {
+            if (authState is AuthLoading) {
+              _showLoading(context);
+              return;
+            } else {
+              _hideLoading(context);
+            }
+            if (authState is AuthFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(authState.message)),
+              );
+              return;
+            }
+            if (authState is AuthAuthenticated) {
+              if (!context.mounted) return;
+              await showModalBottomSheet<void>(
+                context: context,
+                isScrollControlled: true,
+                builder: (_) => _TokensSheet(
+                  accessToken: authState.tokens.accessToken,
+                  refreshToken: authState.tokens.refreshToken,
+                ),
+              );
+            }
+          },
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(
           title: Text(strings.loginTitle),
@@ -41,6 +79,8 @@ class _LoginView extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: SingleChildScrollView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -188,5 +228,60 @@ String? _passwordErrorText(PasswordInvalidStatus? status, Strings s) {
       return s.passwordNeedDigit;
     case null:
       return null;
+  }
+}
+
+class _TokensSheet extends StatelessWidget {
+  const _TokensSheet({
+    required this.accessToken,
+    required this.refreshToken,
+  });
+
+  final String accessToken;
+  final String refreshToken;
+
+  @override
+  Widget build(BuildContext context) => SafeArea(
+    child: Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Text(
+            'Tokens',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 12),
+          const Text('accessToken'),
+          SelectableText(accessToken),
+          const SizedBox(height: 12),
+          const Text('refreshToken'),
+          SelectableText(refreshToken),
+          const SizedBox(height: 16),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+void _showLoading(BuildContext context) {
+  unawaited(
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    ),
+  );
+}
+
+void _hideLoading(BuildContext context) {
+  final navigator = Navigator.of(context, rootNavigator: true);
+  if (navigator.canPop()) {
+    navigator.pop();
   }
 }

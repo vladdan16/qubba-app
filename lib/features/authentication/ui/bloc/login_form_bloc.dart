@@ -23,10 +23,12 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     );
   }
 
-  static const _debounceDuration = Duration(milliseconds: 300);
+  static const _debounceDuration = Duration(milliseconds: 500);
   static const int minLen = 8;
-  static final RegExp _unicodeLetter = RegExp(r'\p{L}', unicode: true);
-  static final RegExp _unicodeDigit = RegExp(r'\p{N}', unicode: true);
+
+  // static final RegExp _unicodeLetter = RegExp(r'\p{L}', unicode: true);
+  // static final RegExp _unicodeDigit = RegExp(r'\p{N}', unicode: true);
+
   static final RegExp _emailRegExp = RegExp(
     r'^[\p{L}\p{N}._%+\-]+@(?:[\p{L}\p{N}](?:[\p{L}\p{N}\-]{0,61}[\p{L}\p{N}])?\.)+[\p{L}]{2,}$',
     unicode: true,
@@ -127,10 +129,10 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     if (password.isEmpty) return PasswordInvalidStatus.empty;
     if (password.length < minLen) return PasswordInvalidStatus.tooShort;
 
-    final hasLetter = _unicodeLetter.hasMatch(password);
-    final hasDigit = _unicodeDigit.hasMatch(password);
-    if (!hasLetter) return PasswordInvalidStatus.needLetter;
-    if (!hasDigit) return PasswordInvalidStatus.needDigit;
+    // final hasLetter = _unicodeLetter.hasMatch(password);
+    // final hasDigit = _unicodeDigit.hasMatch(password);
+    // if (!hasLetter) return PasswordInvalidStatus.needLetter;
+    // if (!hasDigit) return PasswordInvalidStatus.needDigit;
 
     return null;
   }

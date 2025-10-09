@@ -27,13 +27,25 @@ final class _AuthenticationApiImpl extends AuthenticationApi {
   Future<Map<String, Object?>> loginWithEmailAndPassword(
     LoginWithEmailAndPasswordRequest dto,
   ) async {
-    // TODO(vladdan16): implement loginWithEmailAndPassword
-    // await dio.post<Map<String, Object?>>(
-    //   _ApiParams.login,
-    //   data: dto.toJson(),
-    // );
-    await Future<void>.delayed(const Duration(seconds: 1));
-    return {};
+    const url = '${ApiParams.baseUrl}${ApiParams.loginPath}';
+    try {
+      final response = await dio.post<Map<String, dynamic>>(
+        url,
+        data: dto.toJson(),
+        options: Options(
+          headers: const {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+        ),
+      );
+
+      final data = response.data ?? const <String, dynamic>{};
+
+      return Map<String, Object?>.from(data);
+    } on DioException {
+      rethrow;
+    }
   }
 }
 
@@ -44,11 +56,12 @@ final class MockAuthenticationApi extends AuthenticationApi {
   Future<Map<String, Object?>> loginWithEmailAndPassword(
     LoginWithEmailAndPasswordRequest dto,
   ) async {
-    await Future<void>.delayed(const Duration(seconds: 1));
-    // TODO(vladdan16): adjust this mock according to API
-    return {
-      'token': 'token',
-      'refresh_token': 'refreshToken',
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    return <String, Object?>{
+      'accessToken': 'mock.access.token',
+      'refreshToken': 'mock.refresh.token',
+      'isSuccess': true,
+      'errorMessage': null,
     };
   }
 }

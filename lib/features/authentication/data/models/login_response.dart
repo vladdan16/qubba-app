@@ -6,15 +6,23 @@ part 'login_response.g.dart';
 @immutable
 @JsonSerializable(createToJson: false)
 final class LoginResponse {
-  // TODO(vladdan16): adjust this fields according to backend API
-  @JsonKey(name: 'token')
-  final String token;
-  @JsonKey(name: 'refresh_token')
+  @JsonKey(name: 'accessToken')
+  final String accessToken;
+
+  @JsonKey(name: 'refreshToken')
   final String refreshToken;
 
+  @JsonKey(name: 'isSuccess')
+  final bool isSuccess;
+
+  @JsonKey(name: 'errorMessage')
+  final String? errorMessage;
+
   const LoginResponse({
-    required this.token,
+    required this.accessToken,
     required this.refreshToken,
+    required this.isSuccess,
+    this.errorMessage,
   });
 
   factory LoginResponse.fromJson(Map<String, Object?> json) =>

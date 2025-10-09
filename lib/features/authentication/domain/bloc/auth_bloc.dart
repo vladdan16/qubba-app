@@ -1,67 +1,71 @@
 import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:meta/meta.dart';
-
+import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../models/auth_tokens.dart';
 import '../models/user.dart';
 import '../repository/authentication_repository.dart';
 
-part 'auth_event.dart';
+import 'auth_event.dart';
+import 'auth_state.dart';
 
-part 'auth_state.dart';
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  AuthBloc(this._repo) : super(const AuthUnknown()) {
+    _subscription = _repo.user.listen((pair) {
+      final user = pair.$1;
+      final tokens = pair.$2;
+      add(AuthUserChangedEvent(user, tokens));
+    });
 
-final class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthenticationRepository _authenticationRepository;
-
-  late final StreamSubscription<(User, String)> _userSubscription;
-
-  AuthBloc({
-    required AuthenticationRepository authRepository,
-  }) : _authenticationRepository = authRepository,
-       super(
-         authRepository.currentUser.isNotEmpty
-             ? AuthenticatedAppState(
-                 authRepository.currentUser,
-                 authRepository.token,
-               )
-             : const UnauthenticatedAppState(),
-       ) {
-    on<_UserChanged>(_onUserChanged, transformer: sequential());
-    on<LogoutRequested>(_onLogoutRequested, transformer: droppable());
-
-    _userSubscription = _authenticationRepository.user.listen(
-      (pair) => add(
-        _UserChanged(
-          user: pair.$1,
-          token: pair.$2,
-        ),
-      ),
+    on<AuthLoginRequestedEvent>(
+      _onLoginRequested,
+      transformer: droppable(),
     );
+    on<AuthLogoutRequestedEvent>(_onLogoutRequested);
+    on<AuthUserChangedEvent>(_onUserChanged);
   }
 
-  Future<void> _onUserChanged(
-    _UserChanged event,
+  final AuthenticationRepository _repo;
+  StreamSubscription<(User, AuthTokens)>? _subscription;
+
+  Future<void> _onLoginRequested(
+    AuthLoginRequestedEvent event,
     Emitter<AuthState> emit,
   ) async {
-    emit(
-      event.user.isNotEmpty
-          ? AuthenticatedAppState(event.user, event.token)
-          : const UnauthenticatedAppState(),
-    );
+    emit(const AuthLoading());
+    try {
+      await _repo.loginWithEmailAndPassword(
+        email: event.email,
+        password: event.password,
+      );
+    } on DioException catch (_) {
+      emit(const AuthFailure('Login failed'));
+    } on Object catch (_) {
+      emit(const AuthFailure('Login failed'));
+    }
   }
 
   Future<void> _onLogoutRequested(
-    LogoutRequested event,
+    AuthLogoutRequestedEvent event,
     Emitter<AuthState> emit,
   ) async {
-    await _authenticationRepository.logOut();
+    await _repo.logOut();
+  }
+
+  void _onUserChanged(
+    AuthUserChangedEvent event,
+    Emitter<AuthState> emit,
+  ) {
+    if (event.tokens.accessToken.isEmpty) {
+      emit(const AuthUnauthenticated());
+    } else {
+      emit(AuthAuthenticated(user: event.user, tokens: event.tokens));
+    }
   }
 
   @override
   Future<void> close() async {
-    await _userSubscription.cancel();
-
+    await _subscription?.cancel();
     return super.close();
   }
 }

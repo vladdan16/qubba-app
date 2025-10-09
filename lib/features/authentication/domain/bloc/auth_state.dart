@@ -1,18 +1,31 @@
-part of 'auth_bloc.dart';
+import '../models/auth_tokens.dart';
+import '../models/user.dart';
 
-@immutable
 sealed class AuthState {
-  const AuthState(this.user);
+  const AuthState();
+}
+
+final class AuthUnknown extends AuthState {
+  const AuthUnknown();
+}
+
+final class AuthLoading extends AuthState {
+  const AuthLoading();
+}
+
+final class AuthUnauthenticated extends AuthState {
+  const AuthUnauthenticated();
+}
+
+final class AuthAuthenticated extends AuthState {
+  const AuthAuthenticated({required this.user, required this.tokens});
 
   final User user;
+  final AuthTokens tokens;
 }
 
-final class AuthenticatedAppState extends AuthState {
-  final String token;
+final class AuthFailure extends AuthState {
+  const AuthFailure(this.message);
 
-  const AuthenticatedAppState(super.user, this.token);
-}
-
-final class UnauthenticatedAppState extends AuthState {
-  const UnauthenticatedAppState() : super(User.empty);
+  final String message;
 }

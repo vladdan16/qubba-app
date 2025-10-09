@@ -1,4 +1,5 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 part 'login_with_email_and_password_request.g.dart';
 

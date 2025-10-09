@@ -8,6 +8,8 @@ part of 'login_response.dart';
 
 LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) =>
     LoginResponse(
-      token: json['token'] as String,
-      refreshToken: json['refresh_token'] as String,
+      accessToken: json['accessToken'] as String,
+      refreshToken: json['refreshToken'] as String,
+      isSuccess: json['isSuccess'] as bool,
+      errorMessage: json['errorMessage'] as String?,
     );

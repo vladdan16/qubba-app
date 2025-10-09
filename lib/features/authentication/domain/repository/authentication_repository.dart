@@ -1,21 +1,16 @@
+import '../models/auth_tokens.dart';
 import '../models/user.dart';
 
-/// Repository which manages user authentication.
 abstract interface class AuthenticationRepository {
-  /// Stream of [User] which will emit the current user
-  /// when the authentication state changes.
-  ///
-  /// Emits [User.empty] if user is not authenticated.
-  Stream<(User, String)> get user;
+  Stream<(User, AuthTokens)> get user;
 
-  /// The current cached user.
   User get currentUser;
 
-  /// The current cached token.
-  String get token;
+  AuthTokens get tokens;
 
-  // For now there is no signUp available
-  // Future<void> signUp({required String email, required String password});
+  String get accessToken;
+
+  String get refreshToken;
 
   Future<void> loginWithEmailAndPassword({
     required String email,

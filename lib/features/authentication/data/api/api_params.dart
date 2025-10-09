@@ -1,6 +1,6 @@
 part of 'authentication_api.dart';
 
-// abstract final class _ApiParams {
-//   // TODO(vladdan16): adjust according to real API
-//   static const login = '/login';
-// }
+class ApiParams {
+  static const String baseUrl = 'https://auth-api.qubba.io/';
+  static const String loginPath = 'auth/login';
+}
