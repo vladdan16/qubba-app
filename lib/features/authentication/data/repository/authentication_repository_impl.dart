@@ -14,6 +14,7 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
   static const _tokenKey = 'auth_token';
   static const _refreshTokenKey = 'refresh_token';
+  static const _userIdKey = 'user_id';
 
   User _currentUser = User.empty;
 
@@ -25,10 +26,17 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
   );
 
   @override
-  Stream<User> get user => _controller.stream;
+  User get currentUser => _currentUser;
 
   @override
-  User get currentUser => _currentUser;
+  Stream<User> get user async* {
+    final savedUser = await _loadUser();
+    if (savedUser != null) {
+      yield savedUser;
+    }
+
+    yield* _controller.stream;
+  }
 
   Future<String?> get _refreshToken =>
       _secureStorage.read(key: _refreshTokenKey);
@@ -68,14 +76,16 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
       _currentUser = User.empty;
       rethrow;
     } finally {
+      await _saveUser(_currentUser);
       _controller.add(_currentUser);
     }
   }
 
   @override
   Future<void> logOut() async {
-    await _clearTokens();
+    await _clearAll();
     _currentUser = User.empty;
+    await _saveUser(_currentUser);
     _controller.add(_currentUser);
   }
 
@@ -103,12 +113,24 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
     }
   }
 
+  // TODO(vladdan16): make user saving and retrieving correct
+  Future<void> _saveUser(User user) =>
+      _secureStorage.write(key: _userIdKey, value: user.id);
+
+  Future<User?> _loadUser() async {
+    final userId = await _secureStorage.read(key: _userIdKey);
+    if (userId != null) {
+      return User(id: userId);
+    }
+    return null;
+  }
+
   Future<void> _saveTokens(String token, String refreshToken) => [
     _secureStorage.write(key: _tokenKey, value: token),
     _secureStorage.write(key: _refreshTokenKey, value: refreshToken),
   ].wait;
 
-  Future<void> _clearTokens() => [
+  Future<void> _clearAll() => [
     _secureStorage.delete(key: _tokenKey),
     _secureStorage.delete(key: _refreshTokenKey),
   ].wait;

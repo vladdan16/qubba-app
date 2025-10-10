@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../common/ui/splash_screen.dart';
 import '../../core/di/app/app_scope.dart';
 import '../../core/di/user/user_dependencies_impl.dart';
 import '../../core/di/user/user_scope.dart';
@@ -11,11 +12,15 @@ import '../../features/cabinets/ui/cabinets_page.dart';
 abstract final class AppRouter {
   static final router = GoRouter(
     debugLogDiagnostics: true,
-    initialLocation: '/login',
+    initialLocation: '/splash',
     routes: [
       ShellRoute(
         builder: (context, state, child) => child,
         routes: [
+          GoRoute(
+            path: '/splash',
+            builder: (context, state) => const SplashScreen(),
+          ),
           GoRoute(
             path: '/login',
             builder: (context, state) => const LoginPage(),
