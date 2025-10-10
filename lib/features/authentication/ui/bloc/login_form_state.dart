@@ -16,7 +16,8 @@ sealed class LoginFormState {
   PasswordInvalidStatus? get passwordStatus => null;
 
   bool get isValid =>
-      this is! LoginFormInitial &&
+      email.isNotEmpty &&
+      password.isNotEmpty &&
       emailStatus == null &&
       passwordStatus == null;
 }

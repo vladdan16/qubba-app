@@ -9,7 +9,7 @@ import 'login_form_state.dart';
 class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
   final AuthenticationRepository _authRepository;
 
-  LoginFormBloc(this._authRepository) : super(const LoginFormFilling()) {
+  LoginFormBloc(this._authRepository) : super(const LoginFormInitial()) {
     on<EmailChangedEvent>(
       _onEmailChanged,
       transformer: (events, mapper) =>

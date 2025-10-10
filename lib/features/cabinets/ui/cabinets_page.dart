@@ -17,7 +17,8 @@ class CabinetsPage extends StatelessWidget {
     ),
     body: Center(
       child: TextButton(
-        onPressed: () => context.read<AuthBloc>(),
+        onPressed: () =>
+            context.read<AuthBloc>().add(const AuthLogoutRequested()),
         child: const Text('Log out'),
       ),
     ),
