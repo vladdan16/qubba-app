@@ -2,11 +2,14 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../domain/repository/authentication_repository.dart';
 import 'login_form_event.dart';
 import 'login_form_state.dart';
 
 class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
-  LoginFormBloc() : super(const LoginFormInitial()) {
+  final AuthenticationRepository _authRepository;
+
+  LoginFormBloc(this._authRepository) : super(const LoginFormFilling()) {
     on<EmailChangedEvent>(
       _onEmailChanged,
       transformer: (events, mapper) =>
@@ -40,16 +43,12 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     final password = state.password;
 
     final emailError = _validateEmail(email);
-    final passwordIsValid =
-        _validatePassword(password) == null && password.isNotEmpty;
 
     if (email.isEmpty && password.isEmpty) {
-      emit(LoginFormInitial(email: email, password: password));
-    } else if (emailError == null && passwordIsValid) {
-      emit(LoginFormSuccess(email: email, password: password));
+      emit(const LoginFormInitial());
     } else {
       emit(
-        LoginFormFailure(
+        LoginFormFilling(
           email: email,
           password: password,
           emailStatus: emailError,
@@ -67,15 +66,12 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     final password = event.value;
 
     final passwordError = _validatePassword(password);
-    final emailIsValid = _validateEmail(email) == null && email.isNotEmpty;
 
     if (email.isEmpty && password.isEmpty) {
-      emit(LoginFormInitial(email: email, password: password));
-    } else if (passwordError == null && emailIsValid) {
-      emit(LoginFormSuccess(email: email, password: password));
+      emit(const LoginFormInitial());
     } else {
       emit(
-        LoginFormFailure(
+        LoginFormFilling(
           email: email,
           password: password,
           emailStatus: state.emailStatus,
@@ -85,19 +81,38 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     }
   }
 
-  void _onSubmitPressed(
+  Future<void> _onSubmitPressed(
     SubmitPressedEvent event,
     Emitter<LoginFormState> emit,
-  ) {
+  ) async {
     final email = state.email;
     final password = state.password;
 
+    emit(LoginFormLoading(email: email, password: password));
+
     final (emailError, passwordError) = _validate(email, password);
     if (emailError == null && passwordError == null) {
-      emit(LoginFormSubmitted(email: email, password: password));
+      try {
+        await _authRepository.loginWithEmailAndPassword(
+          email: email.trim(),
+          password: password,
+        );
+
+        // явно ставим стейт загрузки, так как при успешном логине пользователя
+        // должно перебросить на главный экран автоматически
+        emit(LoginFormLoading(email: email, password: password));
+      } on Object catch (e) {
+        emit(
+          LoginFormFailure(
+            email: email,
+            password: password,
+            message: e.toString(),
+          ),
+        );
+      }
     } else {
       emit(
-        LoginFormFailure(
+        LoginFormFilling(
           email: email,
           password: password,
           emailStatus: emailError,

@@ -5,7 +5,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import '../core/di/app/app_dependencies_impl.dart';
 import '../core/di/app/app_scope.dart';
 import '../features/authentication/domain/bloc/auth_bloc.dart';
-import '../features/authentication/domain/bloc/auth_state.dart';
 import '../l10n/l10n.dart';
 import 'navigation/router.dart';
 
@@ -18,7 +17,7 @@ class App extends StatelessWidget {
     // initialization: () => const SplashScreen(),
     initialized: (context) => BlocProvider<AuthBloc>(
       create: (context) => AuthBloc(
-        AppScope.of(context).authRepository,
+        authRepository: AppScope.of(context).authRepository,
       ),
       child: BlocListener<AuthBloc, AuthState>(
         listener: _handleChangeAuth,
@@ -48,7 +47,7 @@ class App extends StatelessWidget {
 
   void _handleChangeAuth(BuildContext context, AuthState state) {
     if (state is AuthAuthenticated) {
-      // AppRouter.router.go('/home', extra: state.tokens);
+      AppRouter.router.go('/home');
     } else if (state is AuthUnauthenticated) {
       AppRouter.router.go('/login');
     }

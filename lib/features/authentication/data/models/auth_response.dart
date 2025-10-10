@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
-part 'login_response.g.dart';
+part 'auth_response.g.dart';
 
 @immutable
 @JsonSerializable(createToJson: false)
-final class LoginResponse {
+final class AuthResponse {
   @JsonKey(name: 'accessToken')
   final String accessToken;
 
@@ -18,13 +18,13 @@ final class LoginResponse {
   @JsonKey(name: 'errorMessage')
   final String? errorMessage;
 
-  const LoginResponse({
+  const AuthResponse({
     required this.accessToken,
     required this.refreshToken,
     required this.isSuccess,
     this.errorMessage,
   });
 
-  factory LoginResponse.fromJson(Map<String, Object?> json) =>
-      _$LoginResponseFromJson(json);
+  factory AuthResponse.fromJson(Map<String, Object?> json) =>
+      _$AuthResponseFromJson(json);
 }

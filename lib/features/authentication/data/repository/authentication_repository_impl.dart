@@ -1,39 +1,40 @@
 import 'dart:async';
-import 'package:dio/dio.dart';
-import '../../domain/models/auth_tokens.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import '../../domain/models/user.dart';
 import '../../domain/repository/authentication_repository.dart';
 import '../api/authentication_api.dart';
 import '../models/login_with_email_and_password_request.dart';
+import '../models/refresh_error.dart';
+import '../models/refresh_request.dart';
 
 final class AuthenticationRepositoryImpl implements AuthenticationRepository {
-  AuthenticationRepositoryImpl({
-    required AuthenticationApi authenticationApi,
-  }) : _authenticationApi = authenticationApi {
-    _controller.add((_currentUser, _tokens));
-  }
-
   final AuthenticationApi _authenticationApi;
+  final FlutterSecureStorage _secureStorage;
+
+  static const _tokenKey = 'auth_token';
+  static const _refreshTokenKey = 'refresh_token';
 
   User _currentUser = User.empty;
-  AuthTokens _tokens = const AuthTokens(accessToken: '', refreshToken: '');
 
-  final _controller = StreamController<(User, AuthTokens)>.broadcast();
+  final _controller = StreamController<User>.broadcast();
+
+  AuthenticationRepositoryImpl(
+    this._authenticationApi,
+    this._secureStorage,
+  );
 
   @override
-  Stream<(User, AuthTokens)> get user => _controller.stream;
+  Stream<User> get user => _controller.stream;
 
   @override
   User get currentUser => _currentUser;
 
-  @override
-  AuthTokens get tokens => _tokens;
+  Future<String?> get _refreshToken =>
+      _secureStorage.read(key: _refreshTokenKey);
 
   @override
-  String get accessToken => _tokens.accessToken;
-
-  @override
-  String get refreshToken => _tokens.refreshToken;
+  Future<String?> get token => _secureStorage.read(key: _tokenKey);
 
   @override
   Future<void> loginWithEmailAndPassword({
@@ -41,44 +42,76 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
     required String password,
   }) async {
     final requestDto = LoginWithEmailAndPasswordRequest(
-      email: email.trim(),
+      email: email,
       password: password,
     );
 
-    final responseJson = await _authenticationApi.loginWithEmailAndPassword(
-      requestDto,
-    );
-
-    final loginResponse = _authenticationApi.parseLoginResponse(responseJson);
-
-    if (!loginResponse.isSuccess) {
-      throw DioException(
-        requestOptions: RequestOptions(path: 'auth/login'),
-        error: loginResponse.errorMessage ?? 'Login failed',
-        response: Response(
-          requestOptions: RequestOptions(path: 'auth/login'),
-          data: responseJson,
-          statusCode: 400,
-        ),
+    try {
+      final responseJson = await _authenticationApi.loginWithEmailAndPassword(
+        requestDto,
       );
+
+      final authResponse = _authenticationApi.parseAuthResponse(responseJson);
+
+      if (authResponse.isSuccess) {
+        await _saveTokens(
+          authResponse.accessToken,
+          authResponse.refreshToken,
+        );
+
+        // TODO(vladdan16): change this to real user model
+        _currentUser = User(id: email);
+      } else {
+        _currentUser = User.empty;
+      }
+    } on Object catch (_) {
+      _currentUser = User.empty;
+      rethrow;
+    } finally {
+      _controller.add(_currentUser);
     }
-
-    _tokens = AuthTokens(
-      accessToken: loginResponse.accessToken,
-      refreshToken: loginResponse.refreshToken,
-    );
-
-    _currentUser = User.empty;
-
-    _controller.add((_currentUser, _tokens));
   }
 
   @override
   Future<void> logOut() async {
-    _tokens = const AuthTokens(accessToken: '', refreshToken: '');
+    await _clearTokens();
     _currentUser = User.empty;
-    _controller.add((_currentUser, _tokens));
+    _controller.add(_currentUser);
   }
+
+  @override
+  Future<void> refreshToken() async {
+    final refreshToken = await _refreshToken;
+    if (refreshToken == null) {
+      throw RefreshError('Token is empty cannot refresh', StackTrace.current);
+    }
+
+    try {
+      final request = RefreshRequest(refreshToken: refreshToken);
+
+      final response = await _authenticationApi.refresh(request);
+      final authResponse = _authenticationApi.parseAuthResponse(response);
+
+      if (authResponse.isSuccess) {
+        await _saveTokens(
+          authResponse.accessToken,
+          authResponse.refreshToken,
+        );
+      }
+    } on Object catch (e, s) {
+      throw RefreshError(e, s);
+    }
+  }
+
+  Future<void> _saveTokens(String token, String refreshToken) => [
+    _secureStorage.write(key: _tokenKey, value: token),
+    _secureStorage.write(key: _refreshTokenKey, value: refreshToken),
+  ].wait;
+
+  Future<void> _clearTokens() => [
+    _secureStorage.delete(key: _tokenKey),
+    _secureStorage.delete(key: _refreshTokenKey),
+  ].wait;
 
   @override
   Future<void> dispose() async {

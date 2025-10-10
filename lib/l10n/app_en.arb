@@ -21,5 +21,6 @@
   "hidePasswordTooltip": "Hide password",
   "loginAction": "Sign in",
   "forgotPasswordAction": "Forgot password?",
-  "formValidSnack": "Form is valid!"
+  "formValidSnack": "Form is valid!",
+  "loginFailure": "Something went wrong. Try again later."
 }

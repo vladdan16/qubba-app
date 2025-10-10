@@ -57,4 +57,7 @@ class StringsRu extends Strings {
 
   @override
   String get formValidSnack => 'Форма валидна!';
+
+  @override
+  String get loginFailure => 'Что-то пошло не так. Попробуйте позже.';
 }

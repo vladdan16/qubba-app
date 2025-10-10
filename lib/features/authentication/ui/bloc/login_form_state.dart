@@ -15,9 +15,10 @@ sealed class LoginFormState {
 
   PasswordInvalidStatus? get passwordStatus => null;
 
-  bool get canSubmit => this is LoginFormSuccess || this is LoginFormSubmitted;
-
-  bool get isSubmitted => this is LoginFormSubmitted;
+  bool get isValid =>
+      this is! LoginFormInitial &&
+      emailStatus == null &&
+      passwordStatus == null;
 }
 
 final class LoginFormInitial extends LoginFormState {
@@ -27,31 +28,34 @@ final class LoginFormInitial extends LoginFormState {
   });
 }
 
-final class LoginFormSuccess extends LoginFormState {
-  const LoginFormSuccess({
-    required super.email,
-    required super.password,
-  });
-}
-
-final class LoginFormSubmitted extends LoginFormState {
-  const LoginFormSubmitted({
-    required super.email,
-    required super.password,
-  });
-}
-
-final class LoginFormFailure extends LoginFormState {
+final class LoginFormFilling extends LoginFormState {
   @override
   final EmailInvalidStatus? emailStatus;
 
   @override
   final PasswordInvalidStatus? passwordStatus;
 
+  const LoginFormFilling({
+    super.email = '',
+    super.password = '',
+    this.emailStatus,
+    this.passwordStatus,
+  });
+}
+
+final class LoginFormLoading extends LoginFormState {
+  const LoginFormLoading({
+    required super.email,
+    required super.password,
+  });
+}
+
+final class LoginFormFailure extends LoginFormState {
+  final String? message;
+
   const LoginFormFailure({
     required super.email,
     required super.password,
-    this.emailStatus,
-    this.passwordStatus,
+    this.message,
   });
 }
