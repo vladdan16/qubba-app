@@ -12,12 +12,15 @@ final class UserDependenciesImpl implements UserDependencies {
   });
 
   static Future<UserDependencies> init({
-    required String token,
     required AppDependencies appDeps,
   }) async {
-    final dio = appDeps.dio.clone(
-      options: appDeps.dio.options.copyWith(
+    final token = await appDeps.authRepository.token;
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: 'https://user-api.qubba.io',
         headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
       ),

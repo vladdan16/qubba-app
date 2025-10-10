@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/di/app/app_scope.dart';
 import '../../../l10n/l10n.dart';
 import 'bloc/login_form_bloc.dart';
 import 'bloc/login_form_event.dart';
@@ -11,7 +12,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider<LoginFormBloc>(
-    create: (_) => LoginFormBloc(),
+    create: (context) => LoginFormBloc(AppScope.of(context).authRepository),
     child: const _LoginView(),
   );
 }
@@ -23,12 +24,15 @@ class _LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = Strings.of(context);
     return BlocListener<LoginFormBloc, LoginFormState>(
-      listenWhen: (prev, curr) =>
-          prev is! LoginFormSubmitted && curr is LoginFormSubmitted,
+      listenWhen: (prev, curr) => curr is LoginFormFailure,
       listener: (context, state) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(strings.formValidSnack)),
-        );
+        if (state case LoginFormFailure(:final message)) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message ?? Strings.of(context).loginFailure),
+            ),
+          );
+        }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -41,6 +45,8 @@ class _LoginView extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: SingleChildScrollView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -153,13 +159,14 @@ class _SubmitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = Strings.of(context);
     return BlocBuilder<LoginFormBloc, LoginFormState>(
-      buildWhen: (prev, curr) => prev.canSubmit != curr.canSubmit,
       builder: (context, state) => FilledButton(
-        onPressed: state.canSubmit
+        onPressed: state.isValid
             ? () =>
                   context.read<LoginFormBloc>().add(const SubmitPressedEvent())
             : null,
-        child: Text(strings.loginAction),
+        child: state is LoginFormLoading
+            ? const CircularProgressIndicator()
+            : Text(strings.loginAction),
       ),
     );
   }

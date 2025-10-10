@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:meta/meta.dart';
 
 import '../models/user.dart';
 import '../repository/authentication_repository.dart';
@@ -11,57 +9,43 @@ part 'auth_event.dart';
 
 part 'auth_state.dart';
 
-final class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthenticationRepository _authenticationRepository;
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  final AuthenticationRepository _authRepository;
+  late final StreamSubscription<User> _userSubscription;
 
-  late final StreamSubscription<(User, String)> _userSubscription;
-
-  AuthBloc({
-    required AuthenticationRepository authRepository,
-  }) : _authenticationRepository = authRepository,
-       super(
-         authRepository.currentUser.isNotEmpty
-             ? AuthenticatedAppState(
-                 authRepository.currentUser,
-                 authRepository.token,
-               )
-             : const UnauthenticatedAppState(),
-       ) {
-    on<_UserChanged>(_onUserChanged, transformer: sequential());
-    on<LogoutRequested>(_onLogoutRequested, transformer: droppable());
-
-    _userSubscription = _authenticationRepository.user.listen(
-      (pair) => add(
-        _UserChanged(
-          user: pair.$1,
-          token: pair.$2,
-        ),
-      ),
-    );
-  }
-
-  Future<void> _onUserChanged(
-    _UserChanged event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(
-      event.user.isNotEmpty
-          ? AuthenticatedAppState(event.user, event.token)
-          : const UnauthenticatedAppState(),
+  AuthBloc({required AuthenticationRepository authRepository})
+    : _authRepository = authRepository,
+      super(
+        authRepository.currentUser.isNotEmpty
+            ? AuthAuthenticated(authRepository.currentUser)
+            : const AuthUnauthenticated(),
+      ) {
+    on<_AuthUserChanged>(_onUserChanged, transformer: sequential());
+    on<AuthLogoutRequested>(_onLogoutRequested, transformer: droppable());
+    _userSubscription = _authRepository.user.listen(
+      (user) => add(_AuthUserChanged(user)),
     );
   }
 
   Future<void> _onLogoutRequested(
-    LogoutRequested event,
+    AuthLogoutRequested event,
+    Emitter<AuthState> _,
+  ) => _authRepository.logOut();
+
+  void _onUserChanged(
+    _AuthUserChanged event,
     Emitter<AuthState> emit,
-  ) async {
-    await _authenticationRepository.logOut();
+  ) {
+    emit(
+      event.user.isNotEmpty
+          ? AuthAuthenticated(event.user)
+          : const AuthUnauthenticated(),
+    );
   }
 
   @override
   Future<void> close() async {
     await _userSubscription.cancel();
-
     return super.close();
   }
 }

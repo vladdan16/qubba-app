@@ -57,4 +57,7 @@ class StringsEn extends Strings {
 
   @override
   String get formValidSnack => 'Form is valid!';
+
+  @override
+  String get loginFailure => 'Something went wrong. Try again later.';
 }

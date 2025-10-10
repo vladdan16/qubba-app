@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../common/ui/splash_screen.dart';
 import '../../core/di/app/app_scope.dart';
 import '../../core/di/user/user_dependencies_impl.dart';
 import '../../core/di/user/user_scope.dart';
 
 import '../../features/authentication/ui/login_page.dart';
+import '../../features/cabinets/ui/cabinets_page.dart';
 
 abstract final class AppRouter {
   static final router = GoRouter(
     debugLogDiagnostics: true,
-    initialLocation: '/login',
+    initialLocation: '/splash',
     routes: [
       ShellRoute(
         builder: (context, state, child) => child,
         routes: [
+          GoRoute(
+            path: '/splash',
+            builder: (context, state) => const SplashScreen(),
+          ),
           GoRoute(
             path: '/login',
             builder: (context, state) => const LoginPage(),
@@ -28,25 +34,16 @@ abstract final class AppRouter {
         ],
       ),
       ShellRoute(
-        builder: (context, state, child) {
-          final token = state.extra is String ? state.extra! as String : null;
-          if (token == null) {
-            throw Exception('Auth token is required via GoRouter.extra');
-          }
-          return UserScope(
-            init: () => UserDependenciesImpl.init(
-              token: token,
-              appDeps: AppScope.of(context),
-            ),
-            authorized: (context) => child,
-          );
-        },
+        builder: (context, state, child) => UserScope(
+          init: () => UserDependenciesImpl.init(
+            appDeps: AppScope.of(context),
+          ),
+          authorized: (context) => child,
+        ),
         routes: [
           GoRoute(
             path: '/home',
-            builder: (context, state) =>
-                // TODO(vladdan16): implement HomeScreen
-                const _StubPage(title: 'Home (stub)'),
+            builder: (context, state) => const CabinetsPage(),
           ),
           GoRoute(
             path: '/profile',

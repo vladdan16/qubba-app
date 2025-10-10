@@ -192,6 +192,12 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Form is valid!'**
   String get formValidSnack;
+
+  /// No description provided for @loginFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Try again later.'**
+  String get loginFailure;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {
