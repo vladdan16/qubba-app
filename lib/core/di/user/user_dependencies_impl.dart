@@ -15,10 +15,12 @@ final class UserDependenciesImpl implements UserDependencies {
     required AppDependencies appDeps,
   }) async {
     final token = await appDeps.authRepository.token;
-    final dio = appDeps.dio.clone(
-      options: appDeps.dio.options.copyWith(
+    final dio = Dio(
+      BaseOptions(
         baseUrl: 'https://user-api.qubba.io',
         headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
       ),

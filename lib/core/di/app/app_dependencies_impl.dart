@@ -54,6 +54,7 @@ final class AppDependenciesImpl implements AppDependencies {
     // Important! We should dispose dependencies
     // in the reverse order of creation
     await authRepository.dispose();
+    dio.interceptors.clear();
     dio.close();
   }
 }

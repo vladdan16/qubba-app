@@ -1,11 +1,13 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../../domain/models/login_error.dart';
+import '../../domain/models/refresh_error.dart';
 import '../../domain/models/user.dart';
 import '../../domain/repository/authentication_repository.dart';
 import '../api/authentication_api.dart';
 import '../models/login_with_email_and_password_request.dart';
-import '../models/refresh_error.dart';
 import '../models/refresh_request.dart';
 
 final class AuthenticationRepositoryImpl implements AuthenticationRepository {
@@ -63,16 +65,18 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
       if (authResponse.isSuccess) {
         await _saveTokens(
-          authResponse.accessToken,
-          authResponse.refreshToken,
+          authResponse.accessToken ?? (throw Exception('AccessToken is empty')),
+          authResponse.refreshToken ??
+              (throw Exception('RefreshToken is empty')),
         );
 
         // TODO(vladdan16): change this to real user model
         _currentUser = User(id: email);
       } else {
-        _currentUser = User.empty;
+        throw LoginError(authResponse.errorMessage);
       }
-    } on Object catch (_) {
+    } on Object catch (e, s) {
+      log('Login error: e: $e, s: $s');
       _currentUser = User.empty;
       rethrow;
     } finally {
@@ -104,8 +108,9 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
       if (authResponse.isSuccess) {
         await _saveTokens(
-          authResponse.accessToken,
-          authResponse.refreshToken,
+          authResponse.accessToken ?? (throw Exception('AccessToken is empty')),
+          authResponse.refreshToken ??
+              (throw Exception('RefreshToken is empty')),
         );
       }
     } on Object catch (e, s) {

@@ -2,6 +2,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../domain/models/login_error.dart';
 import '../../domain/repository/authentication_repository.dart';
 import 'login_form_event.dart';
 import 'login_form_state.dart';
@@ -101,14 +102,16 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
         // явно ставим стейт загрузки, так как при успешном логине пользователя
         // должно перебросить на главный экран автоматически
         emit(LoginFormLoading(email: email, password: password));
-      } on Object catch (e) {
+      } on LoginError catch (e) {
         emit(
           LoginFormFailure(
             email: email,
             password: password,
-            message: e.toString(),
+            message: e.message,
           ),
         );
+      } on Object catch (_) {
+        LoginFormFailure(email: email, password: password);
       }
     } else {
       emit(

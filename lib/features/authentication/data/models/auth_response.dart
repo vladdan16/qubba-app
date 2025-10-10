@@ -7,10 +7,10 @@ part 'auth_response.g.dart';
 @JsonSerializable(createToJson: false)
 final class AuthResponse {
   @JsonKey(name: 'accessToken')
-  final String accessToken;
+  final String? accessToken;
 
   @JsonKey(name: 'refreshToken')
-  final String refreshToken;
+  final String? refreshToken;
 
   @JsonKey(name: 'isSuccess')
   final bool isSuccess;

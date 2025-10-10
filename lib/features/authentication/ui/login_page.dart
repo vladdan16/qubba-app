@@ -25,9 +25,15 @@ class _LoginView extends StatelessWidget {
     final strings = Strings.of(context);
     return BlocListener<LoginFormBloc, LoginFormState>(
       listenWhen: (prev, curr) => curr is LoginFormFailure,
-      listener: (context, state) => ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(Strings.of(context).loginFailure)),
-      ),
+      listener: (context, state) {
+        if (state case LoginFormFailure(:final message)) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message ?? Strings.of(context).loginFailure),
+            ),
+          );
+        }
+      },
       child: Scaffold(
         appBar: AppBar(
           title: Text(strings.loginTitle),
