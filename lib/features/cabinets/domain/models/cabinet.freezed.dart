@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Cabinet {
 
- String get id; String get name; String? get description; String? get address; String? get phone; String? get email; DateTime? get createdAt; DateTime? get updatedAt;
+ String get id; String get name; String? get organizationName; String? get organizationInn; int? get legalType; int? get taxType; int? get taxRate; int? get ndsRate; int? get taxType2024; int? get taxRate2024; int? get unitMaintenanceCost; bool? get isActive; String? get wbApiKey; bool? get wbApiActive; String? get ozonClientId; String? get ozonApiKey; String? get ozonPerformanceClientId; String? get ozonPerformanceClientSecret; bool? get ozonApiActive; DateTime? get createdAt; DateTime? get updatedAt;
 /// Create a copy of Cabinet
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $CabinetCopyWith<Cabinet> get copyWith => _$CabinetCopyWithImpl<Cabinet>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Cabinet&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.address, address) || other.address == address)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Cabinet&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.organizationName, organizationName) || other.organizationName == organizationName)&&(identical(other.organizationInn, organizationInn) || other.organizationInn == organizationInn)&&(identical(other.legalType, legalType) || other.legalType == legalType)&&(identical(other.taxType, taxType) || other.taxType == taxType)&&(identical(other.taxRate, taxRate) || other.taxRate == taxRate)&&(identical(other.ndsRate, ndsRate) || other.ndsRate == ndsRate)&&(identical(other.taxType2024, taxType2024) || other.taxType2024 == taxType2024)&&(identical(other.taxRate2024, taxRate2024) || other.taxRate2024 == taxRate2024)&&(identical(other.unitMaintenanceCost, unitMaintenanceCost) || other.unitMaintenanceCost == unitMaintenanceCost)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.wbApiKey, wbApiKey) || other.wbApiKey == wbApiKey)&&(identical(other.wbApiActive, wbApiActive) || other.wbApiActive == wbApiActive)&&(identical(other.ozonClientId, ozonClientId) || other.ozonClientId == ozonClientId)&&(identical(other.ozonApiKey, ozonApiKey) || other.ozonApiKey == ozonApiKey)&&(identical(other.ozonPerformanceClientId, ozonPerformanceClientId) || other.ozonPerformanceClientId == ozonPerformanceClientId)&&(identical(other.ozonPerformanceClientSecret, ozonPerformanceClientSecret) || other.ozonPerformanceClientSecret == ozonPerformanceClientSecret)&&(identical(other.ozonApiActive, ozonApiActive) || other.ozonApiActive == ozonApiActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,address,phone,email,createdAt,updatedAt);
+int get hashCode => Object.hashAll([runtimeType,id,name,organizationName,organizationInn,legalType,taxType,taxRate,ndsRate,taxType2024,taxRate2024,unitMaintenanceCost,isActive,wbApiKey,wbApiActive,ozonClientId,ozonApiKey,ozonPerformanceClientId,ozonPerformanceClientSecret,ozonApiActive,createdAt,updatedAt]);
 
 @override
 String toString() {
-  return 'Cabinet(id: $id, name: $name, description: $description, address: $address, phone: $phone, email: $email, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Cabinet(id: $id, name: $name, organizationName: $organizationName, organizationInn: $organizationInn, legalType: $legalType, taxType: $taxType, taxRate: $taxRate, ndsRate: $ndsRate, taxType2024: $taxType2024, taxRate2024: $taxRate2024, unitMaintenanceCost: $unitMaintenanceCost, isActive: $isActive, wbApiKey: $wbApiKey, wbApiActive: $wbApiActive, ozonClientId: $ozonClientId, ozonApiKey: $ozonApiKey, ozonPerformanceClientId: $ozonPerformanceClientId, ozonPerformanceClientSecret: $ozonPerformanceClientSecret, ozonApiActive: $ozonApiActive, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $CabinetCopyWith<$Res>  {
   factory $CabinetCopyWith(Cabinet value, $Res Function(Cabinet) _then) = _$CabinetCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String? description, String? address, String? phone, String? email, DateTime? createdAt, DateTime? updatedAt
+ String id, String name, String? organizationName, String? organizationInn, int? legalType, int? taxType, int? taxRate, int? ndsRate, int? taxType2024, int? taxRate2024, int? unitMaintenanceCost, bool? isActive, String? wbApiKey, bool? wbApiActive, String? ozonClientId, String? ozonApiKey, String? ozonPerformanceClientId, String? ozonPerformanceClientSecret, bool? ozonApiActive, DateTime? createdAt, DateTime? updatedAt
 });
 
 
@@ -62,15 +62,28 @@ class _$CabinetCopyWithImpl<$Res>
 
 /// Create a copy of Cabinet
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? address = freezed,Object? phone = freezed,Object? email = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? organizationName = freezed,Object? organizationInn = freezed,Object? legalType = freezed,Object? taxType = freezed,Object? taxRate = freezed,Object? ndsRate = freezed,Object? taxType2024 = freezed,Object? taxRate2024 = freezed,Object? unitMaintenanceCost = freezed,Object? isActive = freezed,Object? wbApiKey = freezed,Object? wbApiActive = freezed,Object? ozonClientId = freezed,Object? ozonApiKey = freezed,Object? ozonPerformanceClientId = freezed,Object? ozonPerformanceClientSecret = freezed,Object? ozonApiActive = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
-as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,organizationName: freezed == organizationName ? _self.organizationName : organizationName // ignore: cast_nullable_to_non_nullable
+as String?,organizationInn: freezed == organizationInn ? _self.organizationInn : organizationInn // ignore: cast_nullable_to_non_nullable
+as String?,legalType: freezed == legalType ? _self.legalType : legalType // ignore: cast_nullable_to_non_nullable
+as int?,taxType: freezed == taxType ? _self.taxType : taxType // ignore: cast_nullable_to_non_nullable
+as int?,taxRate: freezed == taxRate ? _self.taxRate : taxRate // ignore: cast_nullable_to_non_nullable
+as int?,ndsRate: freezed == ndsRate ? _self.ndsRate : ndsRate // ignore: cast_nullable_to_non_nullable
+as int?,taxType2024: freezed == taxType2024 ? _self.taxType2024 : taxType2024 // ignore: cast_nullable_to_non_nullable
+as int?,taxRate2024: freezed == taxRate2024 ? _self.taxRate2024 : taxRate2024 // ignore: cast_nullable_to_non_nullable
+as int?,unitMaintenanceCost: freezed == unitMaintenanceCost ? _self.unitMaintenanceCost : unitMaintenanceCost // ignore: cast_nullable_to_non_nullable
+as int?,isActive: freezed == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
+as bool?,wbApiKey: freezed == wbApiKey ? _self.wbApiKey : wbApiKey // ignore: cast_nullable_to_non_nullable
+as String?,wbApiActive: freezed == wbApiActive ? _self.wbApiActive : wbApiActive // ignore: cast_nullable_to_non_nullable
+as bool?,ozonClientId: freezed == ozonClientId ? _self.ozonClientId : ozonClientId // ignore: cast_nullable_to_non_nullable
+as String?,ozonApiKey: freezed == ozonApiKey ? _self.ozonApiKey : ozonApiKey // ignore: cast_nullable_to_non_nullable
+as String?,ozonPerformanceClientId: freezed == ozonPerformanceClientId ? _self.ozonPerformanceClientId : ozonPerformanceClientId // ignore: cast_nullable_to_non_nullable
+as String?,ozonPerformanceClientSecret: freezed == ozonPerformanceClientSecret ? _self.ozonPerformanceClientSecret : ozonPerformanceClientSecret // ignore: cast_nullable_to_non_nullable
+as String?,ozonApiActive: freezed == ozonApiActive ? _self.ozonApiActive : ozonApiActive // ignore: cast_nullable_to_non_nullable
+as bool?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
@@ -157,10 +170,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String? description,  String? address,  String? phone,  String? email,  DateTime? createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String? organizationName,  String? organizationInn,  int? legalType,  int? taxType,  int? taxRate,  int? ndsRate,  int? taxType2024,  int? taxRate2024,  int? unitMaintenanceCost,  bool? isActive,  String? wbApiKey,  bool? wbApiActive,  String? ozonClientId,  String? ozonApiKey,  String? ozonPerformanceClientId,  String? ozonPerformanceClientSecret,  bool? ozonApiActive,  DateTime? createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Cabinet() when $default != null:
-return $default(_that.id,_that.name,_that.description,_that.address,_that.phone,_that.email,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.organizationName,_that.organizationInn,_that.legalType,_that.taxType,_that.taxRate,_that.ndsRate,_that.taxType2024,_that.taxRate2024,_that.unitMaintenanceCost,_that.isActive,_that.wbApiKey,_that.wbApiActive,_that.ozonClientId,_that.ozonApiKey,_that.ozonPerformanceClientId,_that.ozonPerformanceClientSecret,_that.ozonApiActive,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -178,10 +191,10 @@ return $default(_that.id,_that.name,_that.description,_that.address,_that.phone,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String? description,  String? address,  String? phone,  String? email,  DateTime? createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String? organizationName,  String? organizationInn,  int? legalType,  int? taxType,  int? taxRate,  int? ndsRate,  int? taxType2024,  int? taxRate2024,  int? unitMaintenanceCost,  bool? isActive,  String? wbApiKey,  bool? wbApiActive,  String? ozonClientId,  String? ozonApiKey,  String? ozonPerformanceClientId,  String? ozonPerformanceClientSecret,  bool? ozonApiActive,  DateTime? createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Cabinet():
-return $default(_that.id,_that.name,_that.description,_that.address,_that.phone,_that.email,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.organizationName,_that.organizationInn,_that.legalType,_that.taxType,_that.taxRate,_that.ndsRate,_that.taxType2024,_that.taxRate2024,_that.unitMaintenanceCost,_that.isActive,_that.wbApiKey,_that.wbApiActive,_that.ozonClientId,_that.ozonApiKey,_that.ozonPerformanceClientId,_that.ozonPerformanceClientSecret,_that.ozonApiActive,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +211,10 @@ return $default(_that.id,_that.name,_that.description,_that.address,_that.phone,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String? description,  String? address,  String? phone,  String? email,  DateTime? createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String? organizationName,  String? organizationInn,  int? legalType,  int? taxType,  int? taxRate,  int? ndsRate,  int? taxType2024,  int? taxRate2024,  int? unitMaintenanceCost,  bool? isActive,  String? wbApiKey,  bool? wbApiActive,  String? ozonClientId,  String? ozonApiKey,  String? ozonPerformanceClientId,  String? ozonPerformanceClientSecret,  bool? ozonApiActive,  DateTime? createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Cabinet() when $default != null:
-return $default(_that.id,_that.name,_that.description,_that.address,_that.phone,_that.email,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.organizationName,_that.organizationInn,_that.legalType,_that.taxType,_that.taxRate,_that.ndsRate,_that.taxType2024,_that.taxRate2024,_that.unitMaintenanceCost,_that.isActive,_that.wbApiKey,_that.wbApiActive,_that.ozonClientId,_that.ozonApiKey,_that.ozonPerformanceClientId,_that.ozonPerformanceClientSecret,_that.ozonApiActive,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -213,15 +226,28 @@ return $default(_that.id,_that.name,_that.description,_that.address,_that.phone,
 
 
 class _Cabinet implements Cabinet {
-  const _Cabinet({required this.id, required this.name, this.description, this.address, this.phone, this.email, this.createdAt, this.updatedAt});
+  const _Cabinet({required this.id, required this.name, this.organizationName, this.organizationInn, this.legalType, this.taxType, this.taxRate, this.ndsRate, this.taxType2024, this.taxRate2024, this.unitMaintenanceCost, this.isActive, this.wbApiKey, this.wbApiActive, this.ozonClientId, this.ozonApiKey, this.ozonPerformanceClientId, this.ozonPerformanceClientSecret, this.ozonApiActive, this.createdAt, this.updatedAt});
   
 
 @override final  String id;
 @override final  String name;
-@override final  String? description;
-@override final  String? address;
-@override final  String? phone;
-@override final  String? email;
+@override final  String? organizationName;
+@override final  String? organizationInn;
+@override final  int? legalType;
+@override final  int? taxType;
+@override final  int? taxRate;
+@override final  int? ndsRate;
+@override final  int? taxType2024;
+@override final  int? taxRate2024;
+@override final  int? unitMaintenanceCost;
+@override final  bool? isActive;
+@override final  String? wbApiKey;
+@override final  bool? wbApiActive;
+@override final  String? ozonClientId;
+@override final  String? ozonApiKey;
+@override final  String? ozonPerformanceClientId;
+@override final  String? ozonPerformanceClientSecret;
+@override final  bool? ozonApiActive;
 @override final  DateTime? createdAt;
 @override final  DateTime? updatedAt;
 
@@ -235,16 +261,16 @@ _$CabinetCopyWith<_Cabinet> get copyWith => __$CabinetCopyWithImpl<_Cabinet>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Cabinet&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.address, address) || other.address == address)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Cabinet&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.organizationName, organizationName) || other.organizationName == organizationName)&&(identical(other.organizationInn, organizationInn) || other.organizationInn == organizationInn)&&(identical(other.legalType, legalType) || other.legalType == legalType)&&(identical(other.taxType, taxType) || other.taxType == taxType)&&(identical(other.taxRate, taxRate) || other.taxRate == taxRate)&&(identical(other.ndsRate, ndsRate) || other.ndsRate == ndsRate)&&(identical(other.taxType2024, taxType2024) || other.taxType2024 == taxType2024)&&(identical(other.taxRate2024, taxRate2024) || other.taxRate2024 == taxRate2024)&&(identical(other.unitMaintenanceCost, unitMaintenanceCost) || other.unitMaintenanceCost == unitMaintenanceCost)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.wbApiKey, wbApiKey) || other.wbApiKey == wbApiKey)&&(identical(other.wbApiActive, wbApiActive) || other.wbApiActive == wbApiActive)&&(identical(other.ozonClientId, ozonClientId) || other.ozonClientId == ozonClientId)&&(identical(other.ozonApiKey, ozonApiKey) || other.ozonApiKey == ozonApiKey)&&(identical(other.ozonPerformanceClientId, ozonPerformanceClientId) || other.ozonPerformanceClientId == ozonPerformanceClientId)&&(identical(other.ozonPerformanceClientSecret, ozonPerformanceClientSecret) || other.ozonPerformanceClientSecret == ozonPerformanceClientSecret)&&(identical(other.ozonApiActive, ozonApiActive) || other.ozonApiActive == ozonApiActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,address,phone,email,createdAt,updatedAt);
+int get hashCode => Object.hashAll([runtimeType,id,name,organizationName,organizationInn,legalType,taxType,taxRate,ndsRate,taxType2024,taxRate2024,unitMaintenanceCost,isActive,wbApiKey,wbApiActive,ozonClientId,ozonApiKey,ozonPerformanceClientId,ozonPerformanceClientSecret,ozonApiActive,createdAt,updatedAt]);
 
 @override
 String toString() {
-  return 'Cabinet(id: $id, name: $name, description: $description, address: $address, phone: $phone, email: $email, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Cabinet(id: $id, name: $name, organizationName: $organizationName, organizationInn: $organizationInn, legalType: $legalType, taxType: $taxType, taxRate: $taxRate, ndsRate: $ndsRate, taxType2024: $taxType2024, taxRate2024: $taxRate2024, unitMaintenanceCost: $unitMaintenanceCost, isActive: $isActive, wbApiKey: $wbApiKey, wbApiActive: $wbApiActive, ozonClientId: $ozonClientId, ozonApiKey: $ozonApiKey, ozonPerformanceClientId: $ozonPerformanceClientId, ozonPerformanceClientSecret: $ozonPerformanceClientSecret, ozonApiActive: $ozonApiActive, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -255,7 +281,7 @@ abstract mixin class _$CabinetCopyWith<$Res> implements $CabinetCopyWith<$Res> {
   factory _$CabinetCopyWith(_Cabinet value, $Res Function(_Cabinet) _then) = __$CabinetCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String? description, String? address, String? phone, String? email, DateTime? createdAt, DateTime? updatedAt
+ String id, String name, String? organizationName, String? organizationInn, int? legalType, int? taxType, int? taxRate, int? ndsRate, int? taxType2024, int? taxRate2024, int? unitMaintenanceCost, bool? isActive, String? wbApiKey, bool? wbApiActive, String? ozonClientId, String? ozonApiKey, String? ozonPerformanceClientId, String? ozonPerformanceClientSecret, bool? ozonApiActive, DateTime? createdAt, DateTime? updatedAt
 });
 
 
@@ -272,15 +298,28 @@ class __$CabinetCopyWithImpl<$Res>
 
 /// Create a copy of Cabinet
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? address = freezed,Object? phone = freezed,Object? email = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? organizationName = freezed,Object? organizationInn = freezed,Object? legalType = freezed,Object? taxType = freezed,Object? taxRate = freezed,Object? ndsRate = freezed,Object? taxType2024 = freezed,Object? taxRate2024 = freezed,Object? unitMaintenanceCost = freezed,Object? isActive = freezed,Object? wbApiKey = freezed,Object? wbApiActive = freezed,Object? ozonClientId = freezed,Object? ozonApiKey = freezed,Object? ozonPerformanceClientId = freezed,Object? ozonPerformanceClientSecret = freezed,Object? ozonApiActive = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_Cabinet(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
-as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,organizationName: freezed == organizationName ? _self.organizationName : organizationName // ignore: cast_nullable_to_non_nullable
+as String?,organizationInn: freezed == organizationInn ? _self.organizationInn : organizationInn // ignore: cast_nullable_to_non_nullable
+as String?,legalType: freezed == legalType ? _self.legalType : legalType // ignore: cast_nullable_to_non_nullable
+as int?,taxType: freezed == taxType ? _self.taxType : taxType // ignore: cast_nullable_to_non_nullable
+as int?,taxRate: freezed == taxRate ? _self.taxRate : taxRate // ignore: cast_nullable_to_non_nullable
+as int?,ndsRate: freezed == ndsRate ? _self.ndsRate : ndsRate // ignore: cast_nullable_to_non_nullable
+as int?,taxType2024: freezed == taxType2024 ? _self.taxType2024 : taxType2024 // ignore: cast_nullable_to_non_nullable
+as int?,taxRate2024: freezed == taxRate2024 ? _self.taxRate2024 : taxRate2024 // ignore: cast_nullable_to_non_nullable
+as int?,unitMaintenanceCost: freezed == unitMaintenanceCost ? _self.unitMaintenanceCost : unitMaintenanceCost // ignore: cast_nullable_to_non_nullable
+as int?,isActive: freezed == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
+as bool?,wbApiKey: freezed == wbApiKey ? _self.wbApiKey : wbApiKey // ignore: cast_nullable_to_non_nullable
+as String?,wbApiActive: freezed == wbApiActive ? _self.wbApiActive : wbApiActive // ignore: cast_nullable_to_non_nullable
+as bool?,ozonClientId: freezed == ozonClientId ? _self.ozonClientId : ozonClientId // ignore: cast_nullable_to_non_nullable
+as String?,ozonApiKey: freezed == ozonApiKey ? _self.ozonApiKey : ozonApiKey // ignore: cast_nullable_to_non_nullable
+as String?,ozonPerformanceClientId: freezed == ozonPerformanceClientId ? _self.ozonPerformanceClientId : ozonPerformanceClientId // ignore: cast_nullable_to_non_nullable
+as String?,ozonPerformanceClientSecret: freezed == ozonPerformanceClientSecret ? _self.ozonPerformanceClientSecret : ozonPerformanceClientSecret // ignore: cast_nullable_to_non_nullable
+as String?,ozonApiActive: freezed == ozonApiActive ? _self.ozonApiActive : ozonApiActive // ignore: cast_nullable_to_non_nullable
+as bool?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
