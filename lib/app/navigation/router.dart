@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../common/ui/splash_screen.dart';
 import '../../core/di/app/app_scope.dart';
 import '../../core/di/user/user_dependencies_impl.dart';
 import '../../core/di/user/user_scope.dart';
-
 import '../../features/authentication/ui/login_page.dart';
+import '../../features/cabinets/domain/bloc/cabinets_bloc.dart';
+import '../../features/cabinets/domain/models/cabinet.dart';
+import '../../features/cabinets/ui/cabinet_form_screen.dart';
+import '../../features/cabinets/ui/cabinets_list_screen.dart';
 import '../../features/cabinets/ui/cabinets_page.dart';
 
 abstract final class AppRouter {
@@ -50,6 +54,31 @@ abstract final class AppRouter {
             builder: (context, state) =>
                 // TODO(vladdan16): implement ProfileScreen
                 const _StubPage(title: 'Profile (stub)'),
+          ),
+          GoRoute(
+            path: '/cabinets',
+            builder: (context, state) => BlocProvider(
+              create: (context) => CabinetsBloc(
+                repository: UserScope.of(context).cabinetsRepository,
+              ),
+              child: const CabinetsListScreen(),
+            ),
+            routes: [
+              GoRoute(
+                path: 'add',
+                builder: (context, state) => BlocProvider.value(
+                  value: context.read<CabinetsBloc>(),
+                  child: const CabinetFormScreen(),
+                ),
+              ),
+              GoRoute(
+                path: 'edit/:id',
+                builder: (context, state) {
+                  final cabinet = state.extra as Cabinet?;
+                  return CabinetFormScreen(cabinet: cabinet);
+                },
+              ),
+            ],
           ),
         ],
       ),
