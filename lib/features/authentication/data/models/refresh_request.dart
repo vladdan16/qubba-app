@@ -3,12 +3,10 @@ import 'package:meta/meta.dart';
 
 part 'refresh_request.g.dart';
 
-// TODO(vladdan16): adjust this request to real API
-
 @immutable
 @JsonSerializable(createToJson: true)
 final class RefreshRequest {
-  @JsonKey(name: 'refreshToken')
+  @JsonKey(name: 'refresh_token')
   final String refreshToken;
 
   const RefreshRequest({

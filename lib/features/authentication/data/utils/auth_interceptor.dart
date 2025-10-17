@@ -6,7 +6,7 @@ final class AuthInterceptor extends QueuedInterceptor {
   final Dio _dio;
   final AuthenticationRepository _authRepository;
 
-  static const _authUrl = 'https://auth-api.qubba.io/';
+  static const _authUrl = 'https://api.qubba.io/';
 
   AuthInterceptor(this._dio, this._authRepository);
 

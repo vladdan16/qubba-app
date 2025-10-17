@@ -59,10 +59,12 @@ final class MockAuthenticationApi extends AuthenticationApi {
   ) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
     return <String, Object?>{
-      'accessToken': 'mock.access.token',
-      'refreshToken': 'mock.refresh.token',
-      'isSuccess': true,
-      'errorMessage': null,
+      'status': 'success',
+      'data': {
+        'access_token': 'mock.access.token',
+        'refresh_token': 'mock.refresh.token',
+      },
+      'details': null,
     };
   }
 
@@ -70,10 +72,12 @@ final class MockAuthenticationApi extends AuthenticationApi {
   Future<Map<String, Object?>> refresh(RefreshRequest dto) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
     return <String, Object?>{
-      'accessToken': 'mock.access.token',
-      'refreshToken': 'mock.refresh.token',
-      'isSuccess': true,
-      'errorMessage': null,
+      'status': 'success',
+      'data': {
+        'access_token': 'mock.access.token.refreshed',
+        'refresh_token': 'mock.refresh.token.refreshed',
+      },
+      'details': null,
     };
   }
 }

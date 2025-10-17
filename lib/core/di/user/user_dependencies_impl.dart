@@ -17,7 +17,7 @@ final class UserDependenciesImpl implements UserDependencies {
     final token = await appDeps.authRepository.token;
     final dio = Dio(
       BaseOptions(
-        baseUrl: 'https://user-api.qubba.io',
+        baseUrl: 'https://api.qubba.io/',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
