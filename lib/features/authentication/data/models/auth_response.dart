@@ -6,25 +6,28 @@ part 'auth_response.g.dart';
 @immutable
 @JsonSerializable(createToJson: false)
 final class AuthResponse {
-  @JsonKey(name: 'accessToken')
-  final String? accessToken;
-
-  @JsonKey(name: 'refreshToken')
-  final String? refreshToken;
-
-  @JsonKey(name: 'isSuccess')
-  final bool isSuccess;
-
-  @JsonKey(name: 'errorMessage')
-  final String? errorMessage;
+  final AuthData? data;
+  final String? details;
 
   const AuthResponse({
-    required this.accessToken,
-    required this.refreshToken,
-    required this.isSuccess,
-    this.errorMessage,
+    required this.data,
+    required this.details,
   });
 
   factory AuthResponse.fromJson(Map<String, Object?> json) =>
       _$AuthResponseFromJson(json);
+}
+
+@immutable
+@JsonSerializable(createToJson: false)
+final class AuthData {
+  @JsonKey(name: 'access_token')
+  final String accessToken;
+  @JsonKey(name: 'refresh_token')
+  final String refreshToken;
+
+  const AuthData({required this.accessToken, required this.refreshToken});
+
+  factory AuthData.fromJson(Map<String, Object?> json) =>
+      _$AuthDataFromJson(json);
 }

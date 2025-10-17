@@ -63,20 +63,26 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
       final authResponse = _authenticationApi.parseAuthResponse(responseJson);
 
-      if (authResponse.isSuccess) {
-        await _saveTokens(
-          authResponse.accessToken ?? (throw Exception('AccessToken is empty')),
-          authResponse.refreshToken ??
-              (throw Exception('RefreshToken is empty')),
+      final data = authResponse.data;
+      if (data == null) {
+        throw LoginError(
+          authResponse.details ?? 'Login failed',
         );
-
-        // TODO(vladdan16): change this to real user model
-        _currentUser = User(id: email);
-      } else {
-        throw LoginError(authResponse.errorMessage);
       }
-    } on Object catch (e, s) {
-      log('Login error: e: $e, s: $s');
+
+      await _saveTokens(
+        data.accessToken.isNotEmpty
+            ? data.accessToken
+            : (throw Exception('AccessToken is empty')),
+        data.refreshToken.isNotEmpty
+            ? data.refreshToken
+            : (throw Exception('RefreshToken is empty')),
+      );
+
+      // TODO(vladdan16): change this to real user model
+      _currentUser = User(id: email);
+    } on Object catch (error, stackTrace) {
+      log('Login error: error: $error, stackTrace: $stackTrace');
       _currentUser = User.empty;
       rethrow;
     } finally {
@@ -96,8 +102,11 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
   @override
   Future<void> refreshToken() async {
     final refreshToken = await _refreshToken;
-    if (refreshToken == null) {
-      throw RefreshError('Token is empty cannot refresh', StackTrace.current);
+    if (refreshToken == null || refreshToken.isEmpty) {
+      throw RefreshError(
+        'Refresh token is empty; cannot refresh',
+        StackTrace.current,
+      );
     }
 
     try {
@@ -106,15 +115,26 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
       final response = await _authenticationApi.refresh(request);
       final authResponse = _authenticationApi.parseAuthResponse(response);
 
-      if (authResponse.isSuccess) {
-        await _saveTokens(
-          authResponse.accessToken ?? (throw Exception('AccessToken is empty')),
-          authResponse.refreshToken ??
-              (throw Exception('RefreshToken is empty')),
+      final data = authResponse.data;
+      if (data == null) {
+        throw RefreshError(
+          authResponse.details ?? 'Refresh failed',
+          StackTrace.current,
         );
       }
-    } on Object catch (e, s) {
-      throw RefreshError(e, s);
+
+      await _saveTokens(
+        data.accessToken.isNotEmpty
+            ? data.accessToken
+            : (throw Exception('AccessToken is empty')),
+        data.refreshToken.isNotEmpty
+            ? data.refreshToken
+            : (throw Exception('RefreshToken is empty')),
+      );
+    } on RefreshError {
+      rethrow;
+    } on Object catch (error, stackTrace) {
+      throw RefreshError(error, stackTrace);
     }
   }
 

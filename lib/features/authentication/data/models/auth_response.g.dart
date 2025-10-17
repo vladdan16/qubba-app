@@ -7,8 +7,13 @@ part of 'auth_response.dart';
 // **************************************************************************
 
 AuthResponse _$AuthResponseFromJson(Map<String, dynamic> json) => AuthResponse(
-  accessToken: json['accessToken'] as String?,
-  refreshToken: json['refreshToken'] as String?,
-  isSuccess: json['isSuccess'] as bool,
-  errorMessage: json['errorMessage'] as String?,
+  data: json['data'] == null
+      ? null
+      : AuthData.fromJson(json['data'] as Map<String, dynamic>),
+  details: json['details'] as String?,
+);
+
+AuthData _$AuthDataFromJson(Map<String, dynamic> json) => AuthData(
+  accessToken: json['access_token'] as String,
+  refreshToken: json['refresh_token'] as String,
 );
