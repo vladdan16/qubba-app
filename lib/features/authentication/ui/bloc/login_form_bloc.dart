@@ -102,12 +102,12 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
         // Явно ставим стейт загрузки, так как при успешном логине пользователя
         // должно перебросить на главный экран автоматически
         emit(LoginFormLoading(email: email, password: password));
-      } on LoginError catch (e) {
+      } on LoginError catch (error) {
         emit(
           LoginFormFailure(
             email: email,
             password: password,
-            message: e.message,
+            message: error.message,
           ),
         );
       } on Object catch (_) {

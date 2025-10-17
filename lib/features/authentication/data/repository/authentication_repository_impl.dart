@@ -81,8 +81,8 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
       // TODO(vladdan16): change this to real user model
       _currentUser = User(id: email);
-    } on Object catch (e, s) {
-      log('Login error: e: $e, s: $s');
+    } on Object catch (error, stackTrace) {
+      log('Login error: error: $error, stackTrace: $stackTrace');
       _currentUser = User.empty;
       rethrow;
     } finally {
@@ -133,8 +133,8 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
       );
     } on RefreshError {
       rethrow;
-    } on Object catch (e, s) {
-      throw RefreshError(e, s);
+    } on Object catch (error, stackTrace) {
+      throw RefreshError(error, stackTrace);
     }
   }
 
