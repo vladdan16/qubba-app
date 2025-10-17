@@ -25,6 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _userSubscription = _authRepository.user.listen(
       (user) => add(_AuthUserChanged(user)),
     );
+    add(_AuthUserChanged(_authRepository.currentUser));
   }
 
   Future<void> _onLogoutRequested(
