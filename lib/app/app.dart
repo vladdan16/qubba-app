@@ -15,7 +15,9 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AppScope(
     init: AppDependenciesImpl.init,
-    initialization: (context) => const SplashScreen(),
+    initialization: (context) => const MaterialApp(
+      home: SplashScreen(),
+    ),
     initialized: (context) => BlocProvider<AuthBloc>(
       create: (context) => AuthBloc(
         authRepository: AppScope.of(context).authRepository,

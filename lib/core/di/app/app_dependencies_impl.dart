@@ -22,7 +22,7 @@ final class AppDependenciesImpl implements AppDependencies {
   static Future<AppDependencies> init() async {
     final dio = Dio(
       BaseOptions(
-        baseUrl: 'https://auth-api.qubba.io/',
+        baseUrl: 'https://api.qubba.io/',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
