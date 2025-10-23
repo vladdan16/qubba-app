@@ -8,9 +8,9 @@ extension NavigationExt on BuildContext {
 
   void goToRegistrationPage() => go('/registration');
 
-  void goToHome(String token) => go('/home', extra: token);
+  void goToHome() => go('/home');
 
-  void goToProfile(String token) => go('/profile', extra: token);
+  void goToProfile() => go('/profile');
 
   void openCabinetAdd() => push('/cabinets/add');
 

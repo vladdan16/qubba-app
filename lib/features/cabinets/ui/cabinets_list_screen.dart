@@ -29,7 +29,10 @@ class _CabinetsListScreenState extends State<CabinetsListScreen> {
       appBar: AppBar(
         title: Row(
           children: [
-            const Icon(Icons.dashboard, size: 20),
+            GestureDetector(
+              onTap: () => context.goToHome(),
+              child: const Icon(Icons.dashboard, size: 20),
+            ),
             const SizedBox(width: 8),
             Text(l10n.cabinetsTitle),
           ],

@@ -7,11 +7,6 @@ import '../app/app_dependencies.dart';
 import 'user_dependencies.dart';
 
 final class UserDependenciesImpl implements UserDependencies {
-  static final _logInterceptor = LogInterceptor(
-    requestBody: true,
-    responseBody: true,
-  );
-
   @override
   final Dio dio;
 
@@ -41,8 +36,6 @@ final class UserDependenciesImpl implements UserDependencies {
     final cabinetsApi = CabinetsApi(dio);
     final cabinetsRepository = CabinetsRepositoryImpl(api: cabinetsApi);
 
-    dio.interceptors.add(_logInterceptor);
-
     return UserDependenciesImpl._(
       dio: dio,
       cabinetsRepository: cabinetsRepository,
@@ -52,7 +45,6 @@ final class UserDependenciesImpl implements UserDependencies {
   @override
   Future<void> dispose() async {
     await cabinetsRepository.dispose();
-    dio.interceptors.remove(_logInterceptor);
     dio.close();
   }
 }

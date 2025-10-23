@@ -41,7 +41,10 @@ final class AppDependenciesImpl implements AppDependencies {
       secureStorage,
     );
 
-    dio.interceptors.add(AuthInterceptor(dio, authRepository));
+    dio.interceptors.addAll([
+      AuthInterceptor(dio, authRepository),
+      LogInterceptor(requestBody: true, responseBody: true),
+    ]);
 
     return AppDependenciesImpl._(
       dio: dio,
