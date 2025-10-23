@@ -5,7 +5,7 @@ part 'cabinet.freezed.dart';
 @freezed
 abstract class Cabinet with _$Cabinet {
   const factory Cabinet({
-    required String id,
+    required String? id,
     required String name,
     String? organizationName,
     String? organizationInn,

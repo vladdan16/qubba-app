@@ -8,19 +8,19 @@ part of 'cabinets_response_dto.dart';
 
 _CabinetsResponseDto _$CabinetsResponseDtoFromJson(Map<String, dynamic> json) =>
     _CabinetsResponseDto(
-      cabinets: (json['cabinets'] as List<dynamic>)
-          .map((e) => CabinetDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      total: (json['total'] as num?)?.toInt(),
-      limit: (json['limit'] as num?)?.toInt(),
-      offset: (json['offset'] as num?)?.toInt(),
+      cabinets:
+          (json['cabinets'] as List<dynamic>?)
+              ?.map((e) => CabinetDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <CabinetDto>[],
+      total: (json['all_quantity'] as num?)?.toInt(),
+      offlineMode: json['offline_mode'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$CabinetsResponseDtoToJson(
   _CabinetsResponseDto instance,
 ) => <String, dynamic>{
   'cabinets': instance.cabinets,
-  'total': instance.total,
-  'limit': instance.limit,
-  'offset': instance.offset,
+  'all_quantity': instance.total,
+  'offline_mode': instance.offlineMode,
 };

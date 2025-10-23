@@ -22,5 +22,48 @@
   "loginAction": "Sign in",
   "forgotPasswordAction": "Forgot password?",
   "formValidSnack": "Form is valid!",
-  "loginFailure": "Something went wrong. Try again later."
+  "loginFailure": "Something went wrong. Try again later.",
+  "logOut": "Log out",
+
+  "cabinetsTitle": "Cabinets",
+  "cabinetsNew": "New",
+  "cabinetsError": "Error: {error}",
+  "@cabinetsError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "cabinetsRetry": "Retry",
+  "cabinetsEmpty": "No cabinets",
+  "cabinetsAddCabinet": "Add cabinet",
+  "cabinetsActive": "Active",
+  "cabinetsInactive": "Inactive",
+
+  "cabinetFormEditTitle": "Edit cabinet",
+  "cabinetFormNewTitle": "New cabinet",
+  "cabinetFormSaved": "Cabinet saved",
+  "cabinetFormError": "Error: {error}",
+  "@cabinetFormError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "cabinetFormBasicInfo": "Basic information",
+  "cabinetFormNameLabel": "Name *",
+  "cabinetFormOrganizationNameLabel": "Organization name",
+  "cabinetFormOrganizationInnLabel": "Organization INN",
+  "cabinetFormTaxesSection": "Taxes and fees",
+  "cabinetFormTaxTypeLabel": "Tax type *",
+  "cabinetFormTaxRateLabel": "Tax rate *",
+  "cabinetFormNdsRateLabel": "VAT rate *",
+  "cabinetFormWbApiSection": "Wildberries API",
+  "cabinetFormActivateApi": "Activate API",
+  "cabinetFormApiKeyLabel": "API key",
+  "cabinetFormOzonApiSection": "Ozon API",
+  "cabinetFormOzonClientIdLabel": "Client ID",
+  "cabinetFormIsActiveLabel": "Active",
+  "cabinetFormIsActiveSubtitle": "Cabinet available for work",
+  "cabinetFormSaveButton": "Save",
+  "cabinetFormCreateButton": "Create",
+  "cabinetFormDelete": "Delete"
 }

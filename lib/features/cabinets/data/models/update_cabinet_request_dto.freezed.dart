@@ -223,8 +223,8 @@ return $default(_that.name,_that.organizationName,_that.organizationInn,_that.le
 }
 
 /// @nodoc
-@JsonSerializable()
 
+@JsonSerializable(includeIfNull: false)
 class _UpdateCabinetRequestDto implements UpdateCabinetRequestDto {
   const _UpdateCabinetRequestDto({this.name, @JsonKey(name: 'organization_name') this.organizationName, @JsonKey(name: 'organization_inn') this.organizationInn, @JsonKey(name: 'legal_type') this.legalType, @JsonKey(name: 'tax_type') this.taxType, @JsonKey(name: 'tax_rate') this.taxRate, @JsonKey(name: 'nds_rate') this.ndsRate, @JsonKey(name: 'tax_type_2024') this.taxType2024, @JsonKey(name: 'tax_rate_2024') this.taxRate2024, @JsonKey(name: 'unit_maintenance_cost') this.unitMaintenanceCost, @JsonKey(name: 'is_active') this.isActive, @JsonKey(name: 'wb_api_key') this.wbApiKey, @JsonKey(name: 'wb_api_active') this.wbApiActive, @JsonKey(name: 'ozon_client_id') this.ozonClientId, @JsonKey(name: 'ozon_api_key') this.ozonApiKey, @JsonKey(name: 'ozon_performance_client_id') this.ozonPerformanceClientId, @JsonKey(name: 'ozon_performance_client_secret') this.ozonPerformanceClientSecret, @JsonKey(name: 'ozon_api_active') this.ozonApiActive});
   factory _UpdateCabinetRequestDto.fromJson(Map<String, dynamic> json) => _$UpdateCabinetRequestDtoFromJson(json);

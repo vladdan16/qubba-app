@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import '../../domain/models/cabinet.dart';
 
 part 'cabinet_form_event.dart';
+
 part 'cabinet_form_state.dart';
 
 final class CabinetFormBloc extends Bloc<CabinetFormEvent, CabinetFormState> {
@@ -14,6 +15,7 @@ final class CabinetFormBloc extends Bloc<CabinetFormEvent, CabinetFormState> {
   }) : _initialCabinet = initialCabinet,
        super(
          CabinetFormState(
+           id: initialCabinet?.id,
            name: initialCabinet?.name ?? '',
            organizationName: initialCabinet?.organizationName,
            organizationInn: initialCabinet?.organizationInn,
@@ -135,9 +137,7 @@ final class CabinetFormBloc extends Bloc<CabinetFormEvent, CabinetFormState> {
 
     try {
       final cabinet = Cabinet(
-        id:
-            _initialCabinet?.id ??
-            DateTime.now().millisecondsSinceEpoch.toString(),
+        id: _initialCabinet?.id,
         name: state.name,
         organizationName: state.organizationName?.isEmpty ?? false
             ? null

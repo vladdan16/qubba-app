@@ -60,4 +60,101 @@ class StringsEn extends Strings {
 
   @override
   String get loginFailure => 'Something went wrong. Try again later.';
+
+  @override
+  String get logOut => 'Log out';
+
+  @override
+  String get cabinetsTitle => 'Cabinets';
+
+  @override
+  String get cabinetsNew => 'New';
+
+  @override
+  String cabinetsError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get cabinetsRetry => 'Retry';
+
+  @override
+  String get cabinetsEmpty => 'No cabinets';
+
+  @override
+  String get cabinetsAddCabinet => 'Add cabinet';
+
+  @override
+  String get cabinetsActive => 'Active';
+
+  @override
+  String get cabinetsInactive => 'Inactive';
+
+  @override
+  String get cabinetFormEditTitle => 'Edit cabinet';
+
+  @override
+  String get cabinetFormNewTitle => 'New cabinet';
+
+  @override
+  String get cabinetFormSaved => 'Cabinet saved';
+
+  @override
+  String cabinetFormError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get cabinetFormBasicInfo => 'Basic information';
+
+  @override
+  String get cabinetFormNameLabel => 'Name *';
+
+  @override
+  String get cabinetFormOrganizationNameLabel => 'Organization name';
+
+  @override
+  String get cabinetFormOrganizationInnLabel => 'Organization INN';
+
+  @override
+  String get cabinetFormTaxesSection => 'Taxes and fees';
+
+  @override
+  String get cabinetFormTaxTypeLabel => 'Tax type *';
+
+  @override
+  String get cabinetFormTaxRateLabel => 'Tax rate *';
+
+  @override
+  String get cabinetFormNdsRateLabel => 'VAT rate *';
+
+  @override
+  String get cabinetFormWbApiSection => 'Wildberries API';
+
+  @override
+  String get cabinetFormActivateApi => 'Activate API';
+
+  @override
+  String get cabinetFormApiKeyLabel => 'API key';
+
+  @override
+  String get cabinetFormOzonApiSection => 'Ozon API';
+
+  @override
+  String get cabinetFormOzonClientIdLabel => 'Client ID';
+
+  @override
+  String get cabinetFormIsActiveLabel => 'Active';
+
+  @override
+  String get cabinetFormIsActiveSubtitle => 'Cabinet available for work';
+
+  @override
+  String get cabinetFormSaveButton => 'Save';
+
+  @override
+  String get cabinetFormCreateButton => 'Create';
+
+  @override
+  String get cabinetFormDelete => 'Delete';
 }

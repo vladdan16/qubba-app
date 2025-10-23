@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -32,6 +33,7 @@ final class CabinetsBloc extends Bloc<CabinetsEvent, CabinetsState> {
       final cabinets = await _repository.getAllCabinets(limit: event.limit);
       emit(CabinetsLoaded(cabinets: cabinets));
     } on Object catch (error, stackTrace) {
+      log('_onLoadCabinets', error: error, stackTrace: stackTrace);
       emit(CabinetsError(error: error, stackTrace: stackTrace));
     }
   }
@@ -49,6 +51,7 @@ final class CabinetsBloc extends Bloc<CabinetsEvent, CabinetsState> {
       final cabinets = [...currentState.cabinets, createdCabinet];
       emit(CabinetsLoaded(cabinets: cabinets));
     } on Object catch (error, stackTrace) {
+      log('_onCreateCabinet', error: error, stackTrace: stackTrace);
       emit(CabinetsError(error: error, stackTrace: stackTrace));
     }
   }
@@ -77,6 +80,7 @@ final class CabinetsBloc extends Bloc<CabinetsEvent, CabinetsState> {
 
       emit(CabinetsLoaded(cabinets: cabinets));
     } on Object catch (error, stackTrace) {
+      log('_onUpdateCabinet', error: error, stackTrace: stackTrace);
       emit(CabinetsError(error: error, stackTrace: stackTrace));
     }
   }
@@ -96,6 +100,7 @@ final class CabinetsBloc extends Bloc<CabinetsEvent, CabinetsState> {
           .toList();
       emit(CabinetsLoaded(cabinets: cabinets));
     } on Object catch (error, stackTrace) {
+      log('_onDeleteCabinet', error: error, stackTrace: stackTrace);
       emit(CabinetsError(error: error, stackTrace: stackTrace));
     }
   }

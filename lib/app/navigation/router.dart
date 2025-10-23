@@ -11,7 +11,7 @@ import '../../features/cabinets/domain/bloc/cabinets_bloc.dart';
 import '../../features/cabinets/domain/models/cabinet.dart';
 import '../../features/cabinets/ui/cabinet_form_screen.dart';
 import '../../features/cabinets/ui/cabinets_list_screen.dart';
-import '../../features/cabinets/ui/cabinets_page.dart';
+import '../../features/home/ui/home_page.dart';
 
 abstract final class AppRouter {
   static final router = GoRouter(
@@ -47,7 +47,7 @@ abstract final class AppRouter {
         routes: [
           GoRoute(
             path: '/home',
-            builder: (context, state) => const CabinetsPage(),
+            builder: (context, state) => const HomePage(),
           ),
           GoRoute(
             path: '/profile',
@@ -55,28 +55,30 @@ abstract final class AppRouter {
                 // TODO(vladdan16): implement ProfileScreen
                 const _StubPage(title: 'Profile (stub)'),
           ),
-          GoRoute(
-            path: '/cabinets',
-            builder: (context, state) => BlocProvider(
+          ShellRoute(
+            builder: (context, state, child) => BlocProvider(
               create: (context) => CabinetsBloc(
                 repository: UserScope.of(context).cabinetsRepository,
               ),
-              child: const CabinetsListScreen(),
+              child: child,
             ),
             routes: [
               GoRoute(
-                path: 'add',
-                builder: (context, state) => BlocProvider.value(
-                  value: context.read<CabinetsBloc>(),
-                  child: const CabinetFormScreen(),
-                ),
-              ),
-              GoRoute(
-                path: 'edit/:id',
-                builder: (context, state) {
-                  final cabinet = state.extra as Cabinet?;
-                  return CabinetFormScreen(cabinet: cabinet);
-                },
+                path: '/cabinets',
+                builder: (context, state) => const CabinetsListScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'add',
+                    builder: (context, state) => const CabinetFormScreen(),
+                  ),
+                  GoRoute(
+                    path: 'edit/:id',
+                    builder: (context, state) {
+                      final cabinet = state.extra as Cabinet?;
+                      return CabinetFormScreen(cabinet: cabinet);
+                    },
+                  ),
+                ],
               ),
             ],
           ),

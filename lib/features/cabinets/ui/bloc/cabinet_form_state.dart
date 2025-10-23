@@ -2,6 +2,7 @@ part of 'cabinet_form_bloc.dart';
 
 @immutable
 final class CabinetFormState {
+  final String? id;
   final String name;
   final String? organizationName;
   final String? organizationInn;
@@ -20,6 +21,7 @@ final class CabinetFormState {
   final String? nameError;
 
   const CabinetFormState({
+    this.id,
     this.name = '',
     this.organizationName,
     this.organizationInn,
@@ -41,6 +43,7 @@ final class CabinetFormState {
   bool get isValid => name.isNotEmpty && nameError == null;
 
   CabinetFormState copyWith({
+    String? id,
     String? name,
     String? organizationName,
     String? organizationInn,
@@ -58,6 +61,7 @@ final class CabinetFormState {
     String? error,
     String? nameError,
   }) => CabinetFormState(
+    id: id ?? this.id,
     name: name ?? this.name,
     organizationName: organizationName ?? this.organizationName,
     organizationInn: organizationInn ?? this.organizationInn,

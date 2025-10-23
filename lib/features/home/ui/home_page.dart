@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../l10n/l10n.dart';
 import '../../authentication/domain/bloc/auth_bloc.dart';
 
-class CabinetsPage extends StatelessWidget {
-  const CabinetsPage({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
-  // TODO(vladdan16): this is a fake page. Will implement later
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
@@ -19,7 +19,7 @@ class CabinetsPage extends StatelessWidget {
       child: TextButton(
         onPressed: () =>
             context.read<AuthBloc>().add(const AuthLogoutRequested()),
-        child: const Text('Log out'),
+        child: Text(Strings.of(context).logOut),
       ),
     ),
   );

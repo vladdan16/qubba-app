@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../../../../utils/require_data.dart';
 import '../models/add_cabinet_request_dto.dart';
 import '../models/cabinet_dto.dart';
 import '../models/cabinets_response_dto.dart';
@@ -12,16 +13,16 @@ sealed class CabinetsApi {
 
   const CabinetsApi._();
 
-  Future<Map<String, Object?>?> getAllCabinets({int? limit, int? offset});
+  Future<Map<String, Object?>> getAllCabinets({int? limit, int? offset});
 
   CabinetsResponseDto parseCabinetsResponse(Map<String, Object?> json) =>
       CabinetsResponseDto.fromJson(json);
 
-  Future<Map<String, Object?>?> getCabinetById(String cabinetId);
+  Future<Map<String, Object?>> getCabinetById(String cabinetId);
 
-  Future<Map<String, Object?>?> createCabinet(AddCabinetRequestDto dto);
+  Future<Map<String, Object?>> createCabinet(AddCabinetRequestDto dto);
 
-  Future<Map<String, Object?>?> updateCabinet(
+  Future<Map<String, Object?>> updateCabinet(
     String cabinetId,
     UpdateCabinetRequestDto dto,
   );
@@ -38,7 +39,7 @@ final class _CabinetsApiImpl extends CabinetsApi {
   _CabinetsApiImpl(this.dio) : super._();
 
   @override
-  Future<Map<String, Object?>?> getAllCabinets({
+  Future<Map<String, Object?>> getAllCabinets({
     int? limit,
     int? offset,
   }) async {
@@ -50,30 +51,30 @@ final class _CabinetsApiImpl extends CabinetsApi {
       },
     );
 
-    return response.data;
+    return response.requireData;
   }
 
   @override
-  Future<Map<String, Object?>?> getCabinetById(String cabinetId) async {
+  Future<Map<String, Object?>> getCabinetById(String cabinetId) async {
     final response = await dio.get<Map<String, Object?>>(
       _ApiParams.getCabinetById(cabinetId),
     );
-    return response.data;
+    return response.requireData;
   }
 
   @override
-  Future<Map<String, Object?>?> createCabinet(
+  Future<Map<String, Object?>> createCabinet(
     AddCabinetRequestDto dto,
   ) async {
     final response = await dio.post<Map<String, Object?>>(
       _ApiParams.createCabinet,
       data: dto.toJson(),
     );
-    return response.data;
+    return response.requireData;
   }
 
   @override
-  Future<Map<String, Object?>?> updateCabinet(
+  Future<Map<String, Object?>> updateCabinet(
     String cabinetId,
     UpdateCabinetRequestDto dto,
   ) async {
@@ -81,7 +82,7 @@ final class _CabinetsApiImpl extends CabinetsApi {
       _ApiParams.updateCabinet(cabinetId),
       data: dto.toJson(),
     );
-    return response.data;
+    return response.requireData;
   }
 
   @override

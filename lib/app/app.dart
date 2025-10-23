@@ -54,6 +54,6 @@ class App extends StatelessWidget {
   ) => switch (state) {
     AuthUnknown() => AppRouter.router.go('/splash'),
     AuthUnauthenticated() => AppRouter.router.go('/login'),
-    AuthAuthenticated() => AppRouter.router.go('/home'),
+    AuthAuthenticated() => AppRouter.router.go('/cabinets'),
   };
 }

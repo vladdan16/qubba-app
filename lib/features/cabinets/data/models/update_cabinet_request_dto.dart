@@ -5,6 +5,7 @@ part 'update_cabinet_request_dto.g.dart';
 
 @freezed
 abstract class UpdateCabinetRequestDto with _$UpdateCabinetRequestDto {
+  @JsonSerializable(includeIfNull: false)
   const factory UpdateCabinetRequestDto({
     String? name,
     @JsonKey(name: 'organization_name') String? organizationName,

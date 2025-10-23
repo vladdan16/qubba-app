@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Cabinet {
 
- String get id; String get name; String? get organizationName; String? get organizationInn; int? get legalType; int? get taxType; int? get taxRate; int? get ndsRate; int? get taxType2024; int? get taxRate2024; int? get unitMaintenanceCost; bool? get isActive; String? get wbApiKey; bool? get wbApiActive; String? get ozonClientId; String? get ozonApiKey; String? get ozonPerformanceClientId; String? get ozonPerformanceClientSecret; bool? get ozonApiActive; DateTime? get createdAt; DateTime? get updatedAt;
+ String? get id; String get name; String? get organizationName; String? get organizationInn; int? get legalType; int? get taxType; int? get taxRate; int? get ndsRate; int? get taxType2024; int? get taxRate2024; int? get unitMaintenanceCost; bool? get isActive; String? get wbApiKey; bool? get wbApiActive; String? get ozonClientId; String? get ozonApiKey; String? get ozonPerformanceClientId; String? get ozonPerformanceClientSecret; bool? get ozonApiActive; DateTime? get createdAt; DateTime? get updatedAt;
 /// Create a copy of Cabinet
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,7 +45,7 @@ abstract mixin class $CabinetCopyWith<$Res>  {
   factory $CabinetCopyWith(Cabinet value, $Res Function(Cabinet) _then) = _$CabinetCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String? organizationName, String? organizationInn, int? legalType, int? taxType, int? taxRate, int? ndsRate, int? taxType2024, int? taxRate2024, int? unitMaintenanceCost, bool? isActive, String? wbApiKey, bool? wbApiActive, String? ozonClientId, String? ozonApiKey, String? ozonPerformanceClientId, String? ozonPerformanceClientSecret, bool? ozonApiActive, DateTime? createdAt, DateTime? updatedAt
+ String? id, String name, String? organizationName, String? organizationInn, int? legalType, int? taxType, int? taxRate, int? ndsRate, int? taxType2024, int? taxRate2024, int? unitMaintenanceCost, bool? isActive, String? wbApiKey, bool? wbApiActive, String? ozonClientId, String? ozonApiKey, String? ozonPerformanceClientId, String? ozonPerformanceClientSecret, bool? ozonApiActive, DateTime? createdAt, DateTime? updatedAt
 });
 
 
@@ -62,10 +62,10 @@ class _$CabinetCopyWithImpl<$Res>
 
 /// Create a copy of Cabinet
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? organizationName = freezed,Object? organizationInn = freezed,Object? legalType = freezed,Object? taxType = freezed,Object? taxRate = freezed,Object? ndsRate = freezed,Object? taxType2024 = freezed,Object? taxRate2024 = freezed,Object? unitMaintenanceCost = freezed,Object? isActive = freezed,Object? wbApiKey = freezed,Object? wbApiActive = freezed,Object? ozonClientId = freezed,Object? ozonApiKey = freezed,Object? ozonPerformanceClientId = freezed,Object? ozonPerformanceClientSecret = freezed,Object? ozonApiActive = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = null,Object? organizationName = freezed,Object? organizationInn = freezed,Object? legalType = freezed,Object? taxType = freezed,Object? taxRate = freezed,Object? ndsRate = freezed,Object? taxType2024 = freezed,Object? taxRate2024 = freezed,Object? unitMaintenanceCost = freezed,Object? isActive = freezed,Object? wbApiKey = freezed,Object? wbApiActive = freezed,Object? ozonClientId = freezed,Object? ozonApiKey = freezed,Object? ozonPerformanceClientId = freezed,Object? ozonPerformanceClientSecret = freezed,Object? ozonApiActive = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,organizationName: freezed == organizationName ? _self.organizationName : organizationName // ignore: cast_nullable_to_non_nullable
 as String?,organizationInn: freezed == organizationInn ? _self.organizationInn : organizationInn // ignore: cast_nullable_to_non_nullable
 as String?,legalType: freezed == legalType ? _self.legalType : legalType // ignore: cast_nullable_to_non_nullable
@@ -170,7 +170,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String? organizationName,  String? organizationInn,  int? legalType,  int? taxType,  int? taxRate,  int? ndsRate,  int? taxType2024,  int? taxRate2024,  int? unitMaintenanceCost,  bool? isActive,  String? wbApiKey,  bool? wbApiActive,  String? ozonClientId,  String? ozonApiKey,  String? ozonPerformanceClientId,  String? ozonPerformanceClientSecret,  bool? ozonApiActive,  DateTime? createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String name,  String? organizationName,  String? organizationInn,  int? legalType,  int? taxType,  int? taxRate,  int? ndsRate,  int? taxType2024,  int? taxRate2024,  int? unitMaintenanceCost,  bool? isActive,  String? wbApiKey,  bool? wbApiActive,  String? ozonClientId,  String? ozonApiKey,  String? ozonPerformanceClientId,  String? ozonPerformanceClientSecret,  bool? ozonApiActive,  DateTime? createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Cabinet() when $default != null:
 return $default(_that.id,_that.name,_that.organizationName,_that.organizationInn,_that.legalType,_that.taxType,_that.taxRate,_that.ndsRate,_that.taxType2024,_that.taxRate2024,_that.unitMaintenanceCost,_that.isActive,_that.wbApiKey,_that.wbApiActive,_that.ozonClientId,_that.ozonApiKey,_that.ozonPerformanceClientId,_that.ozonPerformanceClientSecret,_that.ozonApiActive,_that.createdAt,_that.updatedAt);case _:
@@ -191,7 +191,7 @@ return $default(_that.id,_that.name,_that.organizationName,_that.organizationInn
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String? organizationName,  String? organizationInn,  int? legalType,  int? taxType,  int? taxRate,  int? ndsRate,  int? taxType2024,  int? taxRate2024,  int? unitMaintenanceCost,  bool? isActive,  String? wbApiKey,  bool? wbApiActive,  String? ozonClientId,  String? ozonApiKey,  String? ozonPerformanceClientId,  String? ozonPerformanceClientSecret,  bool? ozonApiActive,  DateTime? createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String name,  String? organizationName,  String? organizationInn,  int? legalType,  int? taxType,  int? taxRate,  int? ndsRate,  int? taxType2024,  int? taxRate2024,  int? unitMaintenanceCost,  bool? isActive,  String? wbApiKey,  bool? wbApiActive,  String? ozonClientId,  String? ozonApiKey,  String? ozonPerformanceClientId,  String? ozonPerformanceClientSecret,  bool? ozonApiActive,  DateTime? createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Cabinet():
 return $default(_that.id,_that.name,_that.organizationName,_that.organizationInn,_that.legalType,_that.taxType,_that.taxRate,_that.ndsRate,_that.taxType2024,_that.taxRate2024,_that.unitMaintenanceCost,_that.isActive,_that.wbApiKey,_that.wbApiActive,_that.ozonClientId,_that.ozonApiKey,_that.ozonPerformanceClientId,_that.ozonPerformanceClientSecret,_that.ozonApiActive,_that.createdAt,_that.updatedAt);case _:
@@ -211,7 +211,7 @@ return $default(_that.id,_that.name,_that.organizationName,_that.organizationInn
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String? organizationName,  String? organizationInn,  int? legalType,  int? taxType,  int? taxRate,  int? ndsRate,  int? taxType2024,  int? taxRate2024,  int? unitMaintenanceCost,  bool? isActive,  String? wbApiKey,  bool? wbApiActive,  String? ozonClientId,  String? ozonApiKey,  String? ozonPerformanceClientId,  String? ozonPerformanceClientSecret,  bool? ozonApiActive,  DateTime? createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String name,  String? organizationName,  String? organizationInn,  int? legalType,  int? taxType,  int? taxRate,  int? ndsRate,  int? taxType2024,  int? taxRate2024,  int? unitMaintenanceCost,  bool? isActive,  String? wbApiKey,  bool? wbApiActive,  String? ozonClientId,  String? ozonApiKey,  String? ozonPerformanceClientId,  String? ozonPerformanceClientSecret,  bool? ozonApiActive,  DateTime? createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Cabinet() when $default != null:
 return $default(_that.id,_that.name,_that.organizationName,_that.organizationInn,_that.legalType,_that.taxType,_that.taxRate,_that.ndsRate,_that.taxType2024,_that.taxRate2024,_that.unitMaintenanceCost,_that.isActive,_that.wbApiKey,_that.wbApiActive,_that.ozonClientId,_that.ozonApiKey,_that.ozonPerformanceClientId,_that.ozonPerformanceClientSecret,_that.ozonApiActive,_that.createdAt,_that.updatedAt);case _:
@@ -229,7 +229,7 @@ class _Cabinet implements Cabinet {
   const _Cabinet({required this.id, required this.name, this.organizationName, this.organizationInn, this.legalType, this.taxType, this.taxRate, this.ndsRate, this.taxType2024, this.taxRate2024, this.unitMaintenanceCost, this.isActive, this.wbApiKey, this.wbApiActive, this.ozonClientId, this.ozonApiKey, this.ozonPerformanceClientId, this.ozonPerformanceClientSecret, this.ozonApiActive, this.createdAt, this.updatedAt});
   
 
-@override final  String id;
+@override final  String? id;
 @override final  String name;
 @override final  String? organizationName;
 @override final  String? organizationInn;
@@ -281,7 +281,7 @@ abstract mixin class _$CabinetCopyWith<$Res> implements $CabinetCopyWith<$Res> {
   factory _$CabinetCopyWith(_Cabinet value, $Res Function(_Cabinet) _then) = __$CabinetCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String? organizationName, String? organizationInn, int? legalType, int? taxType, int? taxRate, int? ndsRate, int? taxType2024, int? taxRate2024, int? unitMaintenanceCost, bool? isActive, String? wbApiKey, bool? wbApiActive, String? ozonClientId, String? ozonApiKey, String? ozonPerformanceClientId, String? ozonPerformanceClientSecret, bool? ozonApiActive, DateTime? createdAt, DateTime? updatedAt
+ String? id, String name, String? organizationName, String? organizationInn, int? legalType, int? taxType, int? taxRate, int? ndsRate, int? taxType2024, int? taxRate2024, int? unitMaintenanceCost, bool? isActive, String? wbApiKey, bool? wbApiActive, String? ozonClientId, String? ozonApiKey, String? ozonPerformanceClientId, String? ozonPerformanceClientSecret, bool? ozonApiActive, DateTime? createdAt, DateTime? updatedAt
 });
 
 
@@ -298,10 +298,10 @@ class __$CabinetCopyWithImpl<$Res>
 
 /// Create a copy of Cabinet
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? organizationName = freezed,Object? organizationInn = freezed,Object? legalType = freezed,Object? taxType = freezed,Object? taxRate = freezed,Object? ndsRate = freezed,Object? taxType2024 = freezed,Object? taxRate2024 = freezed,Object? unitMaintenanceCost = freezed,Object? isActive = freezed,Object? wbApiKey = freezed,Object? wbApiActive = freezed,Object? ozonClientId = freezed,Object? ozonApiKey = freezed,Object? ozonPerformanceClientId = freezed,Object? ozonPerformanceClientSecret = freezed,Object? ozonApiActive = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = null,Object? organizationName = freezed,Object? organizationInn = freezed,Object? legalType = freezed,Object? taxType = freezed,Object? taxRate = freezed,Object? ndsRate = freezed,Object? taxType2024 = freezed,Object? taxRate2024 = freezed,Object? unitMaintenanceCost = freezed,Object? isActive = freezed,Object? wbApiKey = freezed,Object? wbApiActive = freezed,Object? ozonClientId = freezed,Object? ozonApiKey = freezed,Object? ozonPerformanceClientId = freezed,Object? ozonPerformanceClientSecret = freezed,Object? ozonApiActive = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_Cabinet(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,organizationName: freezed == organizationName ? _self.organizationName : organizationName // ignore: cast_nullable_to_non_nullable
 as String?,organizationInn: freezed == organizationInn ? _self.organizationInn : organizationInn // ignore: cast_nullable_to_non_nullable
 as String?,legalType: freezed == legalType ? _self.legalType : legalType // ignore: cast_nullable_to_non_nullable

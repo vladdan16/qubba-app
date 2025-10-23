@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../l10n/l10n.dart';
 import '../domain/bloc/cabinets_bloc.dart';
 import '../domain/models/cabinet.dart';
 import 'bloc/cabinet_form_bloc.dart';
@@ -31,22 +32,25 @@ class _CabinetFormView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isEditing = cabinet != null;
+    final l10n = Strings.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEditing ? 'Редактировать кабинет' : 'Новый кабинет'),
+        title: Text(
+          isEditing ? l10n.cabinetFormEditTitle : l10n.cabinetFormNewTitle,
+        ),
       ),
       body: BlocConsumer<CabinetFormBloc, CabinetFormState>(
         listener: (context, state) {
           if (state.saveSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Кабинет сохранен')),
+              SnackBar(content: Text(l10n.cabinetFormSaved)),
             );
             context.pop();
           }
-          if (state.error != null) {
+          if (state.error case final error?) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Ошибка: ${state.error}')),
+              SnackBar(content: Text(l10n.cabinetFormError(error))),
             );
           }
         },
@@ -56,10 +60,10 @@ class _CabinetFormView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _buildSection(
-                title: 'Основная информация',
+                title: l10n.cabinetFormBasicInfo,
                 children: [
                   _buildTextField(
-                    label: 'Название *',
+                    label: l10n.cabinetFormNameLabel,
                     value: state.name,
                     onChanged: (value) =>
                         context.read<CabinetFormBloc>().add(NameChanged(value)),
@@ -67,7 +71,7 @@ class _CabinetFormView extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   _buildTextField(
-                    label: 'Название организации',
+                    label: l10n.cabinetFormOrganizationNameLabel,
                     value: state.organizationName,
                     onChanged: (value) => context.read<CabinetFormBloc>().add(
                       OrganizationNameChanged(value),
@@ -75,7 +79,7 @@ class _CabinetFormView extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   _buildTextField(
-                    label: 'ИНН организации',
+                    label: l10n.cabinetFormOrganizationInnLabel,
                     value: state.organizationInn,
                     onChanged: (value) => context.read<CabinetFormBloc>().add(
                       OrganizationInnChanged(value),
@@ -86,13 +90,13 @@ class _CabinetFormView extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               _buildSection(
-                title: 'Налоги и сборы',
+                title: l10n.cabinetFormTaxesSection,
                 children: [
                   Row(
                     children: [
                       Expanded(
                         child: _buildNumberField(
-                          label: 'Тип налога *',
+                          label: l10n.cabinetFormTaxTypeLabel,
                           value: state.taxType?.toString(),
                           onChanged: (value) => context
                               .read<CabinetFormBloc>()
@@ -102,7 +106,7 @@ class _CabinetFormView extends StatelessWidget {
                       const SizedBox(width: 16),
                       Expanded(
                         child: _buildNumberField(
-                          label: 'Ставка налога *',
+                          label: l10n.cabinetFormTaxRateLabel,
                           value: state.taxRate?.toString(),
                           onChanged: (value) => context
                               .read<CabinetFormBloc>()
@@ -113,7 +117,7 @@ class _CabinetFormView extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   _buildNumberField(
-                    label: 'Ставка НДС *',
+                    label: l10n.cabinetFormNdsRateLabel,
                     value: state.ndsRate?.toString(),
                     onChanged: (value) => context.read<CabinetFormBloc>().add(
                       NdsRateChanged(int.tryParse(value)),
@@ -123,10 +127,10 @@ class _CabinetFormView extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               _buildSection(
-                title: 'Wildberries API',
+                title: l10n.cabinetFormWbApiSection,
                 children: [
                   SwitchListTile(
-                    title: const Text('Активировать API'),
+                    title: Text(l10n.cabinetFormActivateApi),
                     value: state.wbApiActive,
                     onChanged: (value) => context.read<CabinetFormBloc>().add(
                       WbApiActiveChanged(value),
@@ -136,7 +140,7 @@ class _CabinetFormView extends StatelessWidget {
                   if (state.wbApiActive) ...[
                     const SizedBox(height: 16),
                     _buildTextField(
-                      label: 'API ключ',
+                      label: l10n.cabinetFormApiKeyLabel,
                       value: state.wbApiKey,
                       onChanged: (value) => context.read<CabinetFormBloc>().add(
                         WbApiKeyChanged(value),
@@ -148,10 +152,10 @@ class _CabinetFormView extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               _buildSection(
-                title: 'Ozon API',
+                title: l10n.cabinetFormOzonApiSection,
                 children: [
                   SwitchListTile(
-                    title: const Text('Активировать API'),
+                    title: Text(l10n.cabinetFormActivateApi),
                     value: state.ozonApiActive,
                     onChanged: (value) => context.read<CabinetFormBloc>().add(
                       OzonApiActiveChanged(value),
@@ -161,7 +165,7 @@ class _CabinetFormView extends StatelessWidget {
                   if (state.ozonApiActive) ...[
                     const SizedBox(height: 16),
                     _buildTextField(
-                      label: 'Client ID',
+                      label: l10n.cabinetFormOzonClientIdLabel,
                       value: state.ozonClientId,
                       onChanged: (value) => context.read<CabinetFormBloc>().add(
                         OzonClientIdChanged(value),
@@ -169,7 +173,7 @@ class _CabinetFormView extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     _buildTextField(
-                      label: 'API ключ',
+                      label: l10n.cabinetFormApiKeyLabel,
                       value: state.ozonApiKey,
                       onChanged: (value) => context.read<CabinetFormBloc>().add(
                         OzonApiKeyChanged(value),
@@ -181,8 +185,8 @@ class _CabinetFormView extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               SwitchListTile(
-                title: const Text('Активен'),
-                subtitle: const Text('Кабинет доступен для работы'),
+                title: Text(l10n.cabinetFormIsActiveLabel),
+                subtitle: Text(l10n.cabinetFormIsActiveSubtitle),
                 value: state.isActive,
                 onChanged: (value) =>
                     context.read<CabinetFormBloc>().add(IsActiveChanged(value)),
@@ -191,7 +195,7 @@ class _CabinetFormView extends StatelessWidget {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: state.isValid && !state.isSaving
-                    ? () => _saveCabinet(context, state)
+                    ? () => _saveCabinet(context, state, isEditing: isEditing)
                     : null,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -209,8 +213,37 @@ class _CabinetFormView extends StatelessWidget {
                           ),
                         ),
                       )
-                    : Text(isEditing ? 'Сохранить' : 'Создать'),
+                    : Text(
+                        isEditing
+                            ? l10n.cabinetFormSaveButton
+                            : l10n.cabinetFormCreateButton,
+                      ),
               ),
+              const SizedBox(height: 16),
+              if (isEditing) ...[
+                ElevatedButton(
+                  onPressed: !state.isSaving && state.id != null
+                      ? () => _deleteCabinet(context, state.id!)
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.tertiaryContainer,
+                    foregroundColor: Theme.of(
+                      context,
+                    ).colorScheme.onTertiaryContainer,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.delete_forever),
+                      Text(l10n.cabinetFormDelete),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
             ],
           ),
         ),
@@ -271,13 +304,25 @@ class _CabinetFormView extends StatelessWidget {
     onChanged: onChanged,
   );
 
-  void _saveCabinet(BuildContext context, CabinetFormState state) {
+  void _saveCabinet(
+    BuildContext context,
+    CabinetFormState state, {
+    bool isEditing = true,
+  }) {
+    final cabinetsBloc = context.read<CabinetsBloc>();
     context.read<CabinetFormBloc>().add(
       SaveCabinet(
-        onSuccess: (cabinet) {
-          context.read<CabinetsBloc>().add(UpdateCabinet(cabinet: cabinet));
-        },
+        onSuccess: (cabinet) => cabinetsBloc.add(
+          isEditing
+              ? UpdateCabinet(cabinet: cabinet)
+              : CreateCabinet(cabinet: cabinet),
+        ),
       ),
     );
+  }
+
+  void _deleteCabinet(BuildContext context, String cabinetId) {
+    context.read<CabinetsBloc>().add(DeleteCabinet(cabinetId: cabinetId));
+    Navigator.pop(context);
   }
 }
