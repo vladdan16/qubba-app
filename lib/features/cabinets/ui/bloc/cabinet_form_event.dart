@@ -22,19 +22,39 @@ final class OrganizationInnChanged extends CabinetFormEvent {
   const OrganizationInnChanged(this.value);
 }
 
+final class LegalTypeChanged extends CabinetFormEvent {
+  final String value;
+  const LegalTypeChanged(this.value);
+}
+
+final class UnitMaintenanceCostChanged extends CabinetFormEvent {
+  final String value;
+  const UnitMaintenanceCostChanged(this.value);
+}
+
 final class TaxTypeChanged extends CabinetFormEvent {
-  final int? value;
+  final String value;
   const TaxTypeChanged(this.value);
 }
 
 final class TaxRateChanged extends CabinetFormEvent {
-  final int? value;
+  final String value;
   const TaxRateChanged(this.value);
 }
 
 final class NdsRateChanged extends CabinetFormEvent {
-  final int? value;
+  final String value;
   const NdsRateChanged(this.value);
+}
+
+final class TaxType2024Changed extends CabinetFormEvent {
+  final String value;
+  const TaxType2024Changed(this.value);
+}
+
+final class TaxRate2024Changed extends CabinetFormEvent {
+  final String value;
+  const TaxRate2024Changed(this.value);
 }
 
 final class WbApiActiveChanged extends CabinetFormEvent {
@@ -60,6 +80,16 @@ final class OzonClientIdChanged extends CabinetFormEvent {
 final class OzonApiKeyChanged extends CabinetFormEvent {
   final String value;
   const OzonApiKeyChanged(this.value);
+}
+
+final class OzonPerformanceClientIdChanged extends CabinetFormEvent {
+  final String value;
+  const OzonPerformanceClientIdChanged(this.value);
+}
+
+final class OzonPerformanceClientSecretChanged extends CabinetFormEvent {
+  final String value;
+  const OzonPerformanceClientSecretChanged(this.value);
 }
 
 final class IsActiveChanged extends CabinetFormEvent {
