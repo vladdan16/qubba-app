@@ -29,7 +29,7 @@ final class CabinetFormState {
   final bool isSaving;
   final bool saveSuccess;
   final String? error;
-  
+
   // Validation statuses
   final NameInvalidStatus? nameStatus;
   final IntFieldInvalidStatus? legalTypeStatus;
@@ -132,8 +132,10 @@ final class CabinetFormState {
     ozonApiActive: ozonApiActive ?? this.ozonApiActive,
     ozonClientId: ozonClientId ?? this.ozonClientId,
     ozonApiKey: ozonApiKey ?? this.ozonApiKey,
-    ozonPerformanceClientId: ozonPerformanceClientId ?? this.ozonPerformanceClientId,
-    ozonPerformanceClientSecret: ozonPerformanceClientSecret ?? this.ozonPerformanceClientSecret,
+    ozonPerformanceClientId:
+        ozonPerformanceClientId ?? this.ozonPerformanceClientId,
+    ozonPerformanceClientSecret:
+        ozonPerformanceClientSecret ?? this.ozonPerformanceClientSecret,
     isActive: isActive ?? this.isActive,
     isSaving: isSaving ?? this.isSaving,
     saveSuccess: saveSuccess ?? this.saveSuccess,

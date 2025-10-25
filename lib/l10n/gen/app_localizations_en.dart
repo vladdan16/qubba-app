@@ -117,6 +117,12 @@ class StringsEn extends Strings {
   String get cabinetFormOrganizationInnLabel => 'Organization INN';
 
   @override
+  String get cabinetFormLegalTypeLabel => 'Legal type *';
+
+  @override
+  String get cabinetFormUnitMaintenanceCostLabel => 'Unit maintenance cost';
+
+  @override
   String get cabinetFormTaxesSection => 'Taxes and fees';
 
   @override
@@ -127,6 +133,15 @@ class StringsEn extends Strings {
 
   @override
   String get cabinetFormNdsRateLabel => 'VAT rate *';
+
+  @override
+  String get cabinetFormTaxesSection2024 => 'Taxes and fees (2024)';
+
+  @override
+  String get cabinetFormTaxTypeLabel2024 => 'Tax type (2024) *';
+
+  @override
+  String get cabinetFormTaxRateLabel2024 => 'Tax rate (2024) *';
 
   @override
   String get cabinetFormWbApiSection => 'Wildberries API';
@@ -144,6 +159,13 @@ class StringsEn extends Strings {
   String get cabinetFormOzonClientIdLabel => 'Client ID';
 
   @override
+  String get cabinetFormOzonPerformanceClientIdLabel => 'Performance Client ID';
+
+  @override
+  String get cabinetFormOzonPerformanceClientSecretLabel =>
+      'Performance Client Secret';
+
+  @override
   String get cabinetFormIsActiveLabel => 'Active';
 
   @override
@@ -157,4 +179,49 @@ class StringsEn extends Strings {
 
   @override
   String get cabinetFormDelete => 'Delete';
+
+  @override
+  String get cabinetFormNameEmpty => 'Name is required';
+
+  @override
+  String get cabinetFormLegalTypeEmpty => 'Legal type is required';
+
+  @override
+  String get cabinetFormLegalTypeInvalid => 'Legal type must be a number';
+
+  @override
+  String get cabinetFormTaxTypeEmpty => 'Tax type is required';
+
+  @override
+  String get cabinetFormTaxTypeInvalid => 'Tax type must be a number';
+
+  @override
+  String get cabinetFormTaxRateEmpty => 'Tax rate is required';
+
+  @override
+  String get cabinetFormTaxRateInvalid => 'Tax rate must be a number';
+
+  @override
+  String get cabinetFormNdsRateEmpty => 'VAT rate is required';
+
+  @override
+  String get cabinetFormNdsRateInvalid => 'VAT rate must be a number';
+
+  @override
+  String get cabinetFormTaxType2024Empty => 'Tax type (2024) is required';
+
+  @override
+  String get cabinetFormTaxType2024Invalid =>
+      'Tax type (2024) must be a number';
+
+  @override
+  String get cabinetFormTaxRate2024Empty => 'Tax rate (2024) is required';
+
+  @override
+  String get cabinetFormTaxRate2024Invalid =>
+      'Tax rate (2024) must be a number';
+
+  @override
+  String get cabinetFormUnitMaintenanceCostInvalid =>
+      'Unit maintenance cost must be a number';
 }

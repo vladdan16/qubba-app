@@ -301,6 +301,18 @@ abstract class Strings {
   /// **'Organization INN'**
   String get cabinetFormOrganizationInnLabel;
 
+  /// No description provided for @cabinetFormLegalTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal type *'**
+  String get cabinetFormLegalTypeLabel;
+
+  /// No description provided for @cabinetFormUnitMaintenanceCostLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit maintenance cost'**
+  String get cabinetFormUnitMaintenanceCostLabel;
+
   /// No description provided for @cabinetFormTaxesSection.
   ///
   /// In en, this message translates to:
@@ -324,6 +336,24 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'VAT rate *'**
   String get cabinetFormNdsRateLabel;
+
+  /// No description provided for @cabinetFormTaxesSection2024.
+  ///
+  /// In en, this message translates to:
+  /// **'Taxes and fees (2024)'**
+  String get cabinetFormTaxesSection2024;
+
+  /// No description provided for @cabinetFormTaxTypeLabel2024.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax type (2024) *'**
+  String get cabinetFormTaxTypeLabel2024;
+
+  /// No description provided for @cabinetFormTaxRateLabel2024.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax rate (2024) *'**
+  String get cabinetFormTaxRateLabel2024;
 
   /// No description provided for @cabinetFormWbApiSection.
   ///
@@ -355,6 +385,18 @@ abstract class Strings {
   /// **'Client ID'**
   String get cabinetFormOzonClientIdLabel;
 
+  /// No description provided for @cabinetFormOzonPerformanceClientIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance Client ID'**
+  String get cabinetFormOzonPerformanceClientIdLabel;
+
+  /// No description provided for @cabinetFormOzonPerformanceClientSecretLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance Client Secret'**
+  String get cabinetFormOzonPerformanceClientSecretLabel;
+
   /// No description provided for @cabinetFormIsActiveLabel.
   ///
   /// In en, this message translates to:
@@ -384,6 +426,90 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Delete'**
   String get cabinetFormDelete;
+
+  /// No description provided for @cabinetFormNameEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Name is required'**
+  String get cabinetFormNameEmpty;
+
+  /// No description provided for @cabinetFormLegalTypeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal type is required'**
+  String get cabinetFormLegalTypeEmpty;
+
+  /// No description provided for @cabinetFormLegalTypeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal type must be a number'**
+  String get cabinetFormLegalTypeInvalid;
+
+  /// No description provided for @cabinetFormTaxTypeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax type is required'**
+  String get cabinetFormTaxTypeEmpty;
+
+  /// No description provided for @cabinetFormTaxTypeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax type must be a number'**
+  String get cabinetFormTaxTypeInvalid;
+
+  /// No description provided for @cabinetFormTaxRateEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax rate is required'**
+  String get cabinetFormTaxRateEmpty;
+
+  /// No description provided for @cabinetFormTaxRateInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax rate must be a number'**
+  String get cabinetFormTaxRateInvalid;
+
+  /// No description provided for @cabinetFormNdsRateEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'VAT rate is required'**
+  String get cabinetFormNdsRateEmpty;
+
+  /// No description provided for @cabinetFormNdsRateInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'VAT rate must be a number'**
+  String get cabinetFormNdsRateInvalid;
+
+  /// No description provided for @cabinetFormTaxType2024Empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax type (2024) is required'**
+  String get cabinetFormTaxType2024Empty;
+
+  /// No description provided for @cabinetFormTaxType2024Invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax type (2024) must be a number'**
+  String get cabinetFormTaxType2024Invalid;
+
+  /// No description provided for @cabinetFormTaxRate2024Empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax rate (2024) is required'**
+  String get cabinetFormTaxRate2024Empty;
+
+  /// No description provided for @cabinetFormTaxRate2024Invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax rate (2024) must be a number'**
+  String get cabinetFormTaxRate2024Invalid;
+
+  /// No description provided for @cabinetFormUnitMaintenanceCostInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit maintenance cost must be a number'**
+  String get cabinetFormUnitMaintenanceCostInvalid;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {

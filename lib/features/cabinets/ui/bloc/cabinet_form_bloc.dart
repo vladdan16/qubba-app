@@ -25,14 +25,16 @@ final class CabinetFormBloc extends Bloc<CabinetFormEvent, CabinetFormState> {
            ndsRate: initialCabinet?.ndsRate?.toString() ?? '',
            taxType2024: initialCabinet?.taxType2024?.toString() ?? '',
            taxRate2024: initialCabinet?.taxRate2024?.toString() ?? '',
-           unitMaintenanceCost: initialCabinet?.unitMaintenanceCost?.toString() ?? '',
+           unitMaintenanceCost:
+               initialCabinet?.unitMaintenanceCost?.toString() ?? '',
            wbApiActive: initialCabinet?.wbApiActive ?? false,
            wbApiKey: initialCabinet?.wbApiKey,
            ozonApiActive: initialCabinet?.ozonApiActive ?? false,
            ozonClientId: initialCabinet?.ozonClientId,
            ozonApiKey: initialCabinet?.ozonApiKey,
            ozonPerformanceClientId: initialCabinet?.ozonPerformanceClientId,
-           ozonPerformanceClientSecret: initialCabinet?.ozonPerformanceClientSecret,
+           ozonPerformanceClientSecret:
+               initialCabinet?.ozonPerformanceClientSecret,
            isActive: initialCabinet?.isActive ?? true,
          ),
        ) {
@@ -52,7 +54,9 @@ final class CabinetFormBloc extends Bloc<CabinetFormEvent, CabinetFormState> {
     on<OzonClientIdChanged>(_onOzonClientIdChanged);
     on<OzonApiKeyChanged>(_onOzonApiKeyChanged);
     on<OzonPerformanceClientIdChanged>(_onOzonPerformanceClientIdChanged);
-    on<OzonPerformanceClientSecretChanged>(_onOzonPerformanceClientSecretChanged);
+    on<OzonPerformanceClientSecretChanged>(
+      _onOzonPerformanceClientSecretChanged,
+    );
     on<IsActiveChanged>(_onIsActiveChanged);
     on<SaveCabinet>(_onSaveCabinet);
   }
@@ -81,7 +85,9 @@ final class CabinetFormBloc extends Bloc<CabinetFormEvent, CabinetFormState> {
     Emitter<CabinetFormState> emit,
   ) {
     final legalTypeStatus = _validateRequiredInt(event.value);
-    emit(state.copyWith(legalType: event.value, legalTypeStatus: legalTypeStatus));
+    emit(
+      state.copyWith(legalType: event.value, legalTypeStatus: legalTypeStatus),
+    );
   }
 
   void _onTaxTypeChanged(
@@ -113,7 +119,12 @@ final class CabinetFormBloc extends Bloc<CabinetFormEvent, CabinetFormState> {
     Emitter<CabinetFormState> emit,
   ) {
     final taxType2024Status = _validateRequiredInt(event.value);
-    emit(state.copyWith(taxType2024: event.value, taxType2024Status: taxType2024Status));
+    emit(
+      state.copyWith(
+        taxType2024: event.value,
+        taxType2024Status: taxType2024Status,
+      ),
+    );
   }
 
   void _onTaxRate2024Changed(
@@ -121,7 +132,12 @@ final class CabinetFormBloc extends Bloc<CabinetFormEvent, CabinetFormState> {
     Emitter<CabinetFormState> emit,
   ) {
     final taxRate2024Status = _validateRequiredInt(event.value);
-    emit(state.copyWith(taxRate2024: event.value, taxRate2024Status: taxRate2024Status));
+    emit(
+      state.copyWith(
+        taxRate2024: event.value,
+        taxRate2024Status: taxRate2024Status,
+      ),
+    );
   }
 
   void _onUnitMaintenanceCostChanged(
@@ -129,7 +145,12 @@ final class CabinetFormBloc extends Bloc<CabinetFormEvent, CabinetFormState> {
     Emitter<CabinetFormState> emit,
   ) {
     final unitMaintenanceCostStatus = _validateOptionalInt(event.value);
-    emit(state.copyWith(unitMaintenanceCost: event.value, unitMaintenanceCostStatus: unitMaintenanceCostStatus));
+    emit(
+      state.copyWith(
+        unitMaintenanceCost: event.value,
+        unitMaintenanceCostStatus: unitMaintenanceCostStatus,
+      ),
+    );
   }
 
   void _onWbApiActiveChanged(
@@ -228,7 +249,8 @@ final class CabinetFormBloc extends Bloc<CabinetFormEvent, CabinetFormState> {
         ozonPerformanceClientId: state.ozonPerformanceClientId?.isEmpty ?? false
             ? null
             : state.ozonPerformanceClientId,
-        ozonPerformanceClientSecret: state.ozonPerformanceClientSecret?.isEmpty ?? false
+        ozonPerformanceClientSecret:
+            state.ozonPerformanceClientSecret?.isEmpty ?? false
             ? null
             : state.ozonPerformanceClientSecret,
         createdAt: _initialCabinet?.createdAt,

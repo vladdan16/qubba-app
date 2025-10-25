@@ -117,6 +117,13 @@ class StringsRu extends Strings {
   String get cabinetFormOrganizationInnLabel => 'ИНН организации';
 
   @override
+  String get cabinetFormLegalTypeLabel => 'Тип юр. лица *';
+
+  @override
+  String get cabinetFormUnitMaintenanceCostLabel =>
+      'Стоимость обслуживания единицы';
+
+  @override
   String get cabinetFormTaxesSection => 'Налоги и сборы';
 
   @override
@@ -127,6 +134,15 @@ class StringsRu extends Strings {
 
   @override
   String get cabinetFormNdsRateLabel => 'Ставка НДС *';
+
+  @override
+  String get cabinetFormTaxesSection2024 => 'Налоги и сборы (2024)';
+
+  @override
+  String get cabinetFormTaxTypeLabel2024 => 'Тип налога (2024) *';
+
+  @override
+  String get cabinetFormTaxRateLabel2024 => 'Ставка налога (2024) *';
 
   @override
   String get cabinetFormWbApiSection => 'Wildberries API';
@@ -144,6 +160,13 @@ class StringsRu extends Strings {
   String get cabinetFormOzonClientIdLabel => 'Client ID';
 
   @override
+  String get cabinetFormOzonPerformanceClientIdLabel => 'Performance Client ID';
+
+  @override
+  String get cabinetFormOzonPerformanceClientSecretLabel =>
+      'Performance Client Secret';
+
+  @override
   String get cabinetFormIsActiveLabel => 'Активен';
 
   @override
@@ -157,4 +180,49 @@ class StringsRu extends Strings {
 
   @override
   String get cabinetFormDelete => 'Удалить';
+
+  @override
+  String get cabinetFormNameEmpty => 'Название обязательно';
+
+  @override
+  String get cabinetFormLegalTypeEmpty => 'Тип юр. лица обязателен';
+
+  @override
+  String get cabinetFormLegalTypeInvalid => 'Тип юр. лица должен быть числом';
+
+  @override
+  String get cabinetFormTaxTypeEmpty => 'Тип налога обязателен';
+
+  @override
+  String get cabinetFormTaxTypeInvalid => 'Тип налога должен быть числом';
+
+  @override
+  String get cabinetFormTaxRateEmpty => 'Ставка налога обязательна';
+
+  @override
+  String get cabinetFormTaxRateInvalid => 'Ставка налога должна быть числом';
+
+  @override
+  String get cabinetFormNdsRateEmpty => 'Ставка НДС обязательна';
+
+  @override
+  String get cabinetFormNdsRateInvalid => 'Ставка НДС должна быть числом';
+
+  @override
+  String get cabinetFormTaxType2024Empty => 'Тип налога (2024) обязателен';
+
+  @override
+  String get cabinetFormTaxType2024Invalid =>
+      'Тип налога (2024) должен быть числом';
+
+  @override
+  String get cabinetFormTaxRate2024Empty => 'Ставка налога (2024) обязательна';
+
+  @override
+  String get cabinetFormTaxRate2024Invalid =>
+      'Ставка налога (2024) должна быть числом';
+
+  @override
+  String get cabinetFormUnitMaintenanceCostInvalid =>
+      'Стоимость обслуживания должна быть числом';
 }
