@@ -119,6 +119,7 @@ class _CabinetFormView extends StatelessWidget {
                 title: l10n.cabinetFormTaxesSection,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: _NumberInput(
@@ -171,6 +172,7 @@ class _CabinetFormView extends StatelessWidget {
                 title: l10n.cabinetFormTaxesSection2024,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: _NumberInput(
