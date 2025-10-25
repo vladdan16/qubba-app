@@ -160,7 +160,7 @@ class _SubmitButton extends StatelessWidget {
     final strings = Strings.of(context);
     return BlocBuilder<LoginFormBloc, LoginFormState>(
       builder: (context, state) => FilledButton(
-        onPressed: state.isValid
+        onPressed: state.isValid && state is! LoginFormLoading
             ? () =>
                   context.read<LoginFormBloc>().add(const SubmitPressedEvent())
             : null,
