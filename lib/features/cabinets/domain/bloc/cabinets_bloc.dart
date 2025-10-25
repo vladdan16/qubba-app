@@ -72,10 +72,15 @@ final class CabinetsBloc extends Bloc<CabinetsEvent, CabinetsState> {
           .map((c) => c.id == updatedCabinet.id ? updatedCabinet : c)
           .toList();
 
-      // Add the cabinet if it's new (shouldn't happen with update,
-      // but safety check)
+      // If the updated cabinet is not found, this indicates a bug.
       if (!cabinets.any((c) => c.id == updatedCabinet.id)) {
-        cabinets.add(updatedCabinet);
+        emit(CabinetsError(
+          error: StateError(
+            'Updated cabinet with id ${updatedCabinet.id} not found in current state. This should not happen.',
+          ),
+          stackTrace: StackTrace.current,
+        ));
+        return;
       }
 
       emit(CabinetsLoaded(cabinets: cabinets));
