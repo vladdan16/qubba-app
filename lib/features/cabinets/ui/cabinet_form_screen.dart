@@ -62,25 +62,25 @@ class _CabinetFormView extends StatelessWidget {
               _buildSection(
                 title: l10n.cabinetFormBasicInfo,
                 children: [
-                  _buildTextField(
+                  _TextInput(
                     label: l10n.cabinetFormNameLabel,
-                    value: state.name,
+                    initialValue: state.name,
                     onChanged: (value) =>
                         context.read<CabinetFormBloc>().add(NameChanged(value)),
                     errorText: state.nameError,
                   ),
                   const SizedBox(height: 16),
-                  _buildTextField(
+                  _TextInput(
                     label: l10n.cabinetFormOrganizationNameLabel,
-                    value: state.organizationName,
+                    initialValue: state.organizationName,
                     onChanged: (value) => context.read<CabinetFormBloc>().add(
                       OrganizationNameChanged(value),
                     ),
                   ),
                   const SizedBox(height: 16),
-                  _buildTextField(
+                  _TextInput(
                     label: l10n.cabinetFormOrganizationInnLabel,
-                    value: state.organizationInn,
+                    initialValue: state.organizationInn,
                     onChanged: (value) => context.read<CabinetFormBloc>().add(
                       OrganizationInnChanged(value),
                     ),
@@ -95,9 +95,9 @@ class _CabinetFormView extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: _buildNumberField(
+                        child: _NumberInput(
                           label: l10n.cabinetFormTaxTypeLabel,
-                          value: state.taxType?.toString(),
+                          initialValue: state.taxType?.toString(),
                           onChanged: (value) => context
                               .read<CabinetFormBloc>()
                               .add(TaxTypeChanged(int.tryParse(value))),
@@ -105,9 +105,9 @@ class _CabinetFormView extends StatelessWidget {
                       ),
                       const SizedBox(width: 16),
                       Expanded(
-                        child: _buildNumberField(
+                        child: _NumberInput(
                           label: l10n.cabinetFormTaxRateLabel,
-                          value: state.taxRate?.toString(),
+                          initialValue: state.taxRate?.toString(),
                           onChanged: (value) => context
                               .read<CabinetFormBloc>()
                               .add(TaxRateChanged(int.tryParse(value))),
@@ -116,9 +116,9 @@ class _CabinetFormView extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  _buildNumberField(
+                  _NumberInput(
                     label: l10n.cabinetFormNdsRateLabel,
-                    value: state.ndsRate?.toString(),
+                    initialValue: state.ndsRate?.toString(),
                     onChanged: (value) => context.read<CabinetFormBloc>().add(
                       NdsRateChanged(int.tryParse(value)),
                     ),
@@ -139,9 +139,9 @@ class _CabinetFormView extends StatelessWidget {
                   ),
                   if (state.wbApiActive) ...[
                     const SizedBox(height: 16),
-                    _buildTextField(
+                    _TextInput(
                       label: l10n.cabinetFormApiKeyLabel,
-                      value: state.wbApiKey,
+                      initialValue: state.wbApiKey,
                       onChanged: (value) => context.read<CabinetFormBloc>().add(
                         WbApiKeyChanged(value),
                       ),
@@ -164,17 +164,17 @@ class _CabinetFormView extends StatelessWidget {
                   ),
                   if (state.ozonApiActive) ...[
                     const SizedBox(height: 16),
-                    _buildTextField(
+                    _TextInput(
                       label: l10n.cabinetFormOzonClientIdLabel,
-                      value: state.ozonClientId,
+                      initialValue: state.ozonClientId,
                       onChanged: (value) => context.read<CabinetFormBloc>().add(
                         OzonClientIdChanged(value),
                       ),
                     ),
                     const SizedBox(height: 16),
-                    _buildTextField(
+                    _TextInput(
                       label: l10n.cabinetFormApiKeyLabel,
-                      value: state.ozonApiKey,
+                      initialValue: state.ozonApiKey,
                       onChanged: (value) => context.read<CabinetFormBloc>().add(
                         OzonApiKeyChanged(value),
                       ),
@@ -269,37 +269,6 @@ class _CabinetFormView extends StatelessWidget {
     ],
   );
 
-  Widget _buildTextField({
-    required String label,
-    required String? value,
-    required ValueChanged<String> onChanged,
-    String? errorText,
-    TextInputType? keyboardType,
-    bool obscureText = false,
-  }) => TextField(
-    decoration: InputDecoration(
-      labelText: label,
-      border: const OutlineInputBorder(),
-      errorText: errorText,
-    ),
-    keyboardType: keyboardType,
-    obscureText: obscureText,
-    onChanged: onChanged,
-  );
-
-  Widget _buildNumberField({
-    required String label,
-    required String? value,
-    required ValueChanged<String> onChanged,
-  }) => TextField(
-    decoration: InputDecoration(
-      labelText: label,
-      border: const OutlineInputBorder(),
-    ),
-    keyboardType: TextInputType.number,
-    onChanged: onChanged,
-  );
-
   void _saveCabinet(
     BuildContext context,
     CabinetFormState state, {
@@ -321,4 +290,86 @@ class _CabinetFormView extends StatelessWidget {
     context.read<CabinetsBloc>().add(DeleteCabinet(cabinetId: cabinetId));
     Navigator.pop(context);
   }
+}
+
+class _TextInput extends StatefulWidget {
+  const _TextInput({
+    required this.label,
+    this.initialValue,
+    this.onChanged,
+    this.errorText,
+    this.keyboardType,
+    this.obscureText = false,
+  });
+
+  final String label;
+  final String? initialValue;
+  final ValueChanged<String>? onChanged;
+  final String? errorText;
+  final TextInputType? keyboardType;
+  final bool obscureText;
+
+  @override
+  State<_TextInput> createState() => _TextInputState();
+}
+
+class _TextInputState extends State<_TextInput> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = TextEditingController(text: widget.initialValue);
+  }
+
+  @override
+  Widget build(BuildContext context) => TextField(
+    decoration: InputDecoration(
+      labelText: widget.label,
+      border: const OutlineInputBorder(),
+      errorText: widget.errorText,
+    ),
+    keyboardType: widget.keyboardType,
+    obscureText: widget.obscureText,
+    controller: _controller,
+    onChanged: widget.onChanged,
+  );
+}
+
+class _NumberInput extends StatefulWidget {
+  const _NumberInput({
+    required this.label,
+    this.initialValue,
+    this.onChanged,
+  });
+
+  final String label;
+  final String? initialValue;
+  final ValueChanged<String>? onChanged;
+
+  @override
+  State<_NumberInput> createState() => _NumberInputState();
+}
+
+class _NumberInputState extends State<_NumberInput> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = TextEditingController(text: widget.initialValue);
+  }
+
+  @override
+  Widget build(BuildContext context) => TextField(
+    decoration: InputDecoration(
+      labelText: widget.label,
+      border: const OutlineInputBorder(),
+    ),
+    keyboardType: TextInputType.number,
+    controller: _controller,
+    onChanged: widget.onChanged,
+  );
 }
