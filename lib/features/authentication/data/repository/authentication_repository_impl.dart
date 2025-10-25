@@ -35,6 +35,8 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
     final savedUser = await _loadUser();
     if (savedUser != null) {
       yield savedUser;
+    } else {
+      yield User.empty;
     }
 
     yield* _controller.stream;
@@ -139,12 +141,16 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   // TODO(vladdan16): make user saving and retrieving correct
-  Future<void> _saveUser(User user) =>
-      _secureStorage.write(key: _userIdKey, value: user.id);
+  FutureOr<void> _saveUser(User user) async {
+    if (user.id.isEmpty) {
+      return;
+    }
+    return _secureStorage.write(key: _userIdKey, value: user.id);
+  }
 
   Future<User?> _loadUser() async {
     final userId = await _secureStorage.read(key: _userIdKey);
-    if (userId != null) {
+    if (userId != null && userId.isNotEmpty) {
       return User(id: userId);
     }
     return null;

@@ -22,5 +22,48 @@
   "loginAction": "Войти",
   "forgotPasswordAction": "Забыли пароль?",
   "formValidSnack": "Форма валидна!",
-  "loginFailure": "Что-то пошло не так. Попробуйте позже."
+  "loginFailure": "Что-то пошло не так. Попробуйте позже.",
+  "logOut": "Выйти из аккаунта",
+
+  "cabinetsTitle": "Кабинеты",
+  "cabinetsNew": "Новый",
+  "cabinetsError": "Ошибка: {error}",
+  "@cabinetsError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "cabinetsRetry": "Повторить",
+  "cabinetsEmpty": "Нет кабинетов",
+  "cabinetsAddCabinet": "Добавить кабинет",
+  "cabinetsActive": "Активен",
+  "cabinetsInactive": "Неактивен",
+
+  "cabinetFormEditTitle": "Редактировать кабинет",
+  "cabinetFormNewTitle": "Новый кабинет",
+  "cabinetFormSaved": "Кабинет сохранен",
+  "cabinetFormError": "Ошибка: {error}",
+  "@cabinetFormError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "cabinetFormBasicInfo": "Основная информация",
+  "cabinetFormNameLabel": "Название *",
+  "cabinetFormOrganizationNameLabel": "Название организации",
+  "cabinetFormOrganizationInnLabel": "ИНН организации",
+  "cabinetFormTaxesSection": "Налоги и сборы",
+  "cabinetFormTaxTypeLabel": "Тип налога *",
+  "cabinetFormTaxRateLabel": "Ставка налога *",
+  "cabinetFormNdsRateLabel": "Ставка НДС *",
+  "cabinetFormWbApiSection": "Wildberries API",
+  "cabinetFormActivateApi": "Активировать API",
+  "cabinetFormApiKeyLabel": "API ключ",
+  "cabinetFormOzonApiSection": "Ozon API",
+  "cabinetFormOzonClientIdLabel": "Client ID",
+  "cabinetFormIsActiveLabel": "Активен",
+  "cabinetFormIsActiveSubtitle": "Кабинет доступен для работы",
+  "cabinetFormSaveButton": "Сохранить",
+  "cabinetFormCreateButton": "Создать",
+  "cabinetFormDelete": "Удалить"
 }

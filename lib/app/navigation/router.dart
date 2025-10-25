@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../common/ui/splash_screen.dart';
 import '../../core/di/app/app_scope.dart';
 import '../../core/di/user/user_dependencies_impl.dart';
 import '../../core/di/user/user_scope.dart';
-
 import '../../features/authentication/ui/login_page.dart';
-import '../../features/cabinets/ui/cabinets_page.dart';
+import '../../features/cabinets/domain/bloc/cabinets_bloc.dart';
+import '../../features/cabinets/domain/models/cabinet.dart';
+import '../../features/cabinets/ui/cabinet_form_screen.dart';
+import '../../features/cabinets/ui/cabinets_list_screen.dart';
+import '../../features/home/ui/home_page.dart';
 
 abstract final class AppRouter {
   static final router = GoRouter(
@@ -43,13 +47,40 @@ abstract final class AppRouter {
         routes: [
           GoRoute(
             path: '/home',
-            builder: (context, state) => const CabinetsPage(),
+            builder: (context, state) => const HomePage(),
           ),
           GoRoute(
             path: '/profile',
             builder: (context, state) =>
                 // TODO(vladdan16): implement ProfileScreen
                 const _StubPage(title: 'Profile (stub)'),
+          ),
+          ShellRoute(
+            builder: (context, state, child) => BlocProvider(
+              create: (context) => CabinetsBloc(
+                repository: UserScope.of(context).cabinetsRepository,
+              ),
+              child: child,
+            ),
+            routes: [
+              GoRoute(
+                path: '/cabinets',
+                builder: (context, state) => const CabinetsListScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'add',
+                    builder: (context, state) => const CabinetFormScreen(),
+                  ),
+                  GoRoute(
+                    path: 'edit/:id',
+                    builder: (context, state) {
+                      final cabinet = state.extra as Cabinet?;
+                      return CabinetFormScreen(cabinet: cabinet);
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),

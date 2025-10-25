@@ -198,6 +198,192 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Something went wrong. Try again later.'**
   String get loginFailure;
+
+  /// No description provided for @logOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logOut;
+
+  /// No description provided for @cabinetsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cabinets'**
+  String get cabinetsTitle;
+
+  /// No description provided for @cabinetsNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get cabinetsNew;
+
+  /// No description provided for @cabinetsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String cabinetsError(String error);
+
+  /// No description provided for @cabinetsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get cabinetsRetry;
+
+  /// No description provided for @cabinetsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No cabinets'**
+  String get cabinetsEmpty;
+
+  /// No description provided for @cabinetsAddCabinet.
+  ///
+  /// In en, this message translates to:
+  /// **'Add cabinet'**
+  String get cabinetsAddCabinet;
+
+  /// No description provided for @cabinetsActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get cabinetsActive;
+
+  /// No description provided for @cabinetsInactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get cabinetsInactive;
+
+  /// No description provided for @cabinetFormEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit cabinet'**
+  String get cabinetFormEditTitle;
+
+  /// No description provided for @cabinetFormNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New cabinet'**
+  String get cabinetFormNewTitle;
+
+  /// No description provided for @cabinetFormSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Cabinet saved'**
+  String get cabinetFormSaved;
+
+  /// No description provided for @cabinetFormError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String cabinetFormError(String error);
+
+  /// No description provided for @cabinetFormBasicInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic information'**
+  String get cabinetFormBasicInfo;
+
+  /// No description provided for @cabinetFormNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name *'**
+  String get cabinetFormNameLabel;
+
+  /// No description provided for @cabinetFormOrganizationNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization name'**
+  String get cabinetFormOrganizationNameLabel;
+
+  /// No description provided for @cabinetFormOrganizationInnLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization INN'**
+  String get cabinetFormOrganizationInnLabel;
+
+  /// No description provided for @cabinetFormTaxesSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Taxes and fees'**
+  String get cabinetFormTaxesSection;
+
+  /// No description provided for @cabinetFormTaxTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax type *'**
+  String get cabinetFormTaxTypeLabel;
+
+  /// No description provided for @cabinetFormTaxRateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax rate *'**
+  String get cabinetFormTaxRateLabel;
+
+  /// No description provided for @cabinetFormNdsRateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'VAT rate *'**
+  String get cabinetFormNdsRateLabel;
+
+  /// No description provided for @cabinetFormWbApiSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Wildberries API'**
+  String get cabinetFormWbApiSection;
+
+  /// No description provided for @cabinetFormActivateApi.
+  ///
+  /// In en, this message translates to:
+  /// **'Activate API'**
+  String get cabinetFormActivateApi;
+
+  /// No description provided for @cabinetFormApiKeyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'API key'**
+  String get cabinetFormApiKeyLabel;
+
+  /// No description provided for @cabinetFormOzonApiSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Ozon API'**
+  String get cabinetFormOzonApiSection;
+
+  /// No description provided for @cabinetFormOzonClientIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Client ID'**
+  String get cabinetFormOzonClientIdLabel;
+
+  /// No description provided for @cabinetFormIsActiveLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get cabinetFormIsActiveLabel;
+
+  /// No description provided for @cabinetFormIsActiveSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cabinet available for work'**
+  String get cabinetFormIsActiveSubtitle;
+
+  /// No description provided for @cabinetFormSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get cabinetFormSaveButton;
+
+  /// No description provided for @cabinetFormCreateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get cabinetFormCreateButton;
+
+  /// No description provided for @cabinetFormDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get cabinetFormDelete;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {
