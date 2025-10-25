@@ -74,12 +74,15 @@ final class CabinetsBloc extends Bloc<CabinetsEvent, CabinetsState> {
 
       // If the updated cabinet is not found, this indicates a bug.
       if (!cabinets.any((c) => c.id == updatedCabinet.id)) {
-        emit(CabinetsError(
-          error: StateError(
-            'Updated cabinet with id ${updatedCabinet.id} not found in current state. This should not happen.',
+        emit(
+          CabinetsError(
+            error: StateError(
+              'Updated cabinet with id ${updatedCabinet.id} not found in '
+              'current state. This should not happen.',
+            ),
+            stackTrace: StackTrace.current,
           ),
-          stackTrace: StackTrace.current,
-        ));
+        );
         return;
       }
 

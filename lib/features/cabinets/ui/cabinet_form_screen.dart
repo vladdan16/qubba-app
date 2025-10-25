@@ -284,8 +284,6 @@ class _CabinetFormView extends StatelessWidget {
     ),
     keyboardType: keyboardType,
     obscureText: obscureText,
-    controller: TextEditingController(text: value)
-      ..selection = TextSelection.collapsed(offset: value?.length ?? 0),
     onChanged: onChanged,
   );
 
@@ -299,8 +297,6 @@ class _CabinetFormView extends StatelessWidget {
       border: const OutlineInputBorder(),
     ),
     keyboardType: TextInputType.number,
-    controller: TextEditingController(text: value ?? '')
-      ..selection = TextSelection.collapsed(offset: value?.length ?? 0),
     onChanged: onChanged,
   );
 
