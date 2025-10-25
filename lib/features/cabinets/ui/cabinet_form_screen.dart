@@ -67,7 +67,7 @@ class _CabinetFormView extends StatelessWidget {
                     initialValue: state.name,
                     onChanged: (value) =>
                         context.read<CabinetFormBloc>().add(NameChanged(value)),
-                    errorText: state.nameError,
+                    errorText: _nameErrorText(state.nameStatus, l10n),
                   ),
                   const SizedBox(height: 16),
                   _TextInput(
@@ -86,6 +86,32 @@ class _CabinetFormView extends StatelessWidget {
                     ),
                     keyboardType: TextInputType.number,
                   ),
+                  const SizedBox(height: 16),
+                  _NumberInput(
+                    label: l10n.cabinetFormLegalTypeLabel,
+                    initialValue: state.legalType,
+                    onChanged: (value) => context.read<CabinetFormBloc>().add(
+                      LegalTypeChanged(value),
+                    ),
+                    errorText: _intFieldErrorText(
+                      state.legalTypeStatus,
+                      l10n.cabinetFormLegalTypeEmpty,
+                      l10n.cabinetFormLegalTypeInvalid,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _NumberInput(
+                    label: l10n.cabinetFormUnitMaintenanceCostLabel,
+                    initialValue: state.unitMaintenanceCost,
+                    onChanged: (value) => context.read<CabinetFormBloc>().add(
+                      UnitMaintenanceCostChanged(value),
+                    ),
+                    errorText: _intFieldErrorText(
+                      state.unitMaintenanceCostStatus,
+                      null,
+                      l10n.cabinetFormUnitMaintenanceCostInvalid,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 24),
@@ -93,24 +119,35 @@ class _CabinetFormView extends StatelessWidget {
                 title: l10n.cabinetFormTaxesSection,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: _NumberInput(
                           label: l10n.cabinetFormTaxTypeLabel,
-                          initialValue: state.taxType?.toString(),
+                          initialValue: state.taxType,
                           onChanged: (value) => context
                               .read<CabinetFormBloc>()
-                              .add(TaxTypeChanged(int.tryParse(value))),
+                              .add(TaxTypeChanged(value)),
+                          errorText: _intFieldErrorText(
+                            state.taxTypeStatus,
+                            l10n.cabinetFormTaxTypeEmpty,
+                            l10n.cabinetFormTaxTypeInvalid,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
                         child: _NumberInput(
                           label: l10n.cabinetFormTaxRateLabel,
-                          initialValue: state.taxRate?.toString(),
+                          initialValue: state.taxRate,
                           onChanged: (value) => context
                               .read<CabinetFormBloc>()
-                              .add(TaxRateChanged(int.tryParse(value))),
+                              .add(TaxRateChanged(value)),
+                          errorText: _intFieldErrorText(
+                            state.taxRateStatus,
+                            l10n.cabinetFormTaxRateEmpty,
+                            l10n.cabinetFormTaxRateInvalid,
+                          ),
                         ),
                       ),
                     ],
@@ -118,10 +155,55 @@ class _CabinetFormView extends StatelessWidget {
                   const SizedBox(height: 16),
                   _NumberInput(
                     label: l10n.cabinetFormNdsRateLabel,
-                    initialValue: state.ndsRate?.toString(),
+                    initialValue: state.ndsRate,
                     onChanged: (value) => context.read<CabinetFormBloc>().add(
-                      NdsRateChanged(int.tryParse(value)),
+                      NdsRateChanged(value),
                     ),
+                    errorText: _intFieldErrorText(
+                      state.ndsRateStatus,
+                      l10n.cabinetFormNdsRateEmpty,
+                      l10n.cabinetFormNdsRateInvalid,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              _buildSection(
+                title: l10n.cabinetFormTaxesSection2024,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: _NumberInput(
+                          label: l10n.cabinetFormTaxTypeLabel2024,
+                          initialValue: state.taxType2024,
+                          onChanged: (value) => context
+                              .read<CabinetFormBloc>()
+                              .add(TaxType2024Changed(value)),
+                          errorText: _intFieldErrorText(
+                            state.taxType2024Status,
+                            l10n.cabinetFormTaxType2024Empty,
+                            l10n.cabinetFormTaxType2024Invalid,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: _NumberInput(
+                          label: l10n.cabinetFormTaxRateLabel2024,
+                          initialValue: state.taxRate2024,
+                          onChanged: (value) => context
+                              .read<CabinetFormBloc>()
+                              .add(TaxRate2024Changed(value)),
+                          errorText: _intFieldErrorText(
+                            state.taxRate2024Status,
+                            l10n.cabinetFormTaxRate2024Empty,
+                            l10n.cabinetFormTaxRate2024Invalid,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -177,6 +259,23 @@ class _CabinetFormView extends StatelessWidget {
                       initialValue: state.ozonApiKey,
                       onChanged: (value) => context.read<CabinetFormBloc>().add(
                         OzonApiKeyChanged(value),
+                      ),
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 16),
+                    _TextInput(
+                      label: l10n.cabinetFormOzonPerformanceClientIdLabel,
+                      initialValue: state.ozonPerformanceClientId,
+                      onChanged: (value) => context.read<CabinetFormBloc>().add(
+                        OzonPerformanceClientIdChanged(value),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    _TextInput(
+                      label: l10n.cabinetFormOzonPerformanceClientSecretLabel,
+                      initialValue: state.ozonPerformanceClientSecret,
+                      onChanged: (value) => context.read<CabinetFormBloc>().add(
+                        OzonPerformanceClientSecretChanged(value),
                       ),
                       obscureText: true,
                     ),
@@ -292,6 +391,31 @@ class _CabinetFormView extends StatelessWidget {
   }
 }
 
+// Helper functions for error texts
+String? _nameErrorText(NameInvalidStatus? status, Strings s) {
+  switch (status) {
+    case NameInvalidStatus.empty:
+      return s.cabinetFormNameEmpty;
+    case null:
+      return null;
+  }
+}
+
+String? _intFieldErrorText(
+  IntFieldInvalidStatus? status,
+  String? emptyMessage,
+  String? invalidMessage,
+) {
+  switch (status) {
+    case IntFieldInvalidStatus.empty:
+      return emptyMessage;
+    case IntFieldInvalidStatus.invalid:
+      return invalidMessage;
+    case null:
+      return null;
+  }
+}
+
 class _TextInput extends StatefulWidget {
   const _TextInput({
     required this.label,
@@ -342,11 +466,13 @@ class _NumberInput extends StatefulWidget {
     required this.label,
     this.initialValue,
     this.onChanged,
+    this.errorText,
   });
 
   final String label;
   final String? initialValue;
   final ValueChanged<String>? onChanged;
+  final String? errorText;
 
   @override
   State<_NumberInput> createState() => _NumberInputState();
@@ -367,6 +493,7 @@ class _NumberInputState extends State<_NumberInput> {
     decoration: InputDecoration(
       labelText: widget.label,
       border: const OutlineInputBorder(),
+      errorText: widget.errorText,
     ),
     keyboardType: TextInputType.number,
     controller: _controller,
