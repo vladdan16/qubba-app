@@ -12,9 +12,9 @@ extension NavigationExt on BuildContext {
 
   void goToProfile() => go('/profile');
 
-  void openCabinetAdd() => push('/cabinets/add');
+  void openCabinetAdd() => go('/cabinets/add');
 
-  void openCabinetEdit(Cabinet cabinet) => push(
+  void openCabinetEdit(Cabinet cabinet) => go(
     '/cabinets/edit/${cabinet.id}',
     extra: cabinet,
   );
