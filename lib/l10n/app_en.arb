@@ -13,6 +13,7 @@
   "passwordNeedDigit": "Add at least one digit",
 
   "loginTitle": "Sign in",
+  "profileTitle": "Profile",
   "welcomeTitle": "Welcome!",
   "emailLabel": "Email",
   "emailHint": "name@example.com",

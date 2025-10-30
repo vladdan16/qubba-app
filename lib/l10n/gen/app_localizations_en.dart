@@ -32,6 +32,9 @@ class StringsEn extends Strings {
   String get loginTitle => 'Sign in';
 
   @override
+  String get profileTitle => 'Profile';
+
+  @override
   String get welcomeTitle => 'Welcome!';
 
   @override

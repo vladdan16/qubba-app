@@ -139,6 +139,12 @@ abstract class Strings {
   /// **'Sign in'**
   String get loginTitle;
 
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
   /// No description provided for @welcomeTitle.
   ///
   /// In en, this message translates to:

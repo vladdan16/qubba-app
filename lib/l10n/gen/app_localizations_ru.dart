@@ -32,6 +32,9 @@ class StringsRu extends Strings {
   String get loginTitle => 'Вход';
 
   @override
+  String get profileTitle => 'Профиль';
+
+  @override
   String get welcomeTitle => 'Добро пожаловать!';
 
   @override
