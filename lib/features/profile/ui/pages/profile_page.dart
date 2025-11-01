@@ -24,7 +24,7 @@ class ProfilePage extends StatelessWidget {
     create: (_) => ProfileFormBloc(
       // Заглушка PATCH
       ({required firstName, required lastName, required phone}) async {
-        await Future.delayed(const Duration(milliseconds: 600));
+        await Future<void>.delayed(const Duration(milliseconds: 600));
       },
       onSaved: ({required firstName, required lastName, required phone}) {},
       email: email,
@@ -84,7 +84,7 @@ class _ScrollableContent extends StatelessWidget {
   Widget build(BuildContext context) => RefreshIndicator(
     onRefresh: () async {
       // Оповестить ProfileBloc, чтобы обновить данные
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future<void>.delayed(const Duration(milliseconds: 500));
     },
     child: const SingleChildScrollView(
       physics: AlwaysScrollableScrollPhysics(),
