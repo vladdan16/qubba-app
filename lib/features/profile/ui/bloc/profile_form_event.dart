@@ -1,3 +1,5 @@
+part of 'profile_form_bloc.dart';
+
 sealed class ProfileFormEvent {
   const ProfileFormEvent();
 }

@@ -68,6 +68,57 @@ class StringsRu extends Strings {
   String get logOut => 'Выйти из аккаунта';
 
   @override
+  String get firstNameLabel => 'Имя';
+
+  @override
+  String get lastNameLabel => 'Фамилия';
+
+  @override
+  String get phoneLabel => 'Телефон';
+
+  @override
+  String get phoneHint => 'Например: 79875431234';
+
+  @override
+  String get editAction => 'Изменить';
+
+  @override
+  String get saveAction => 'Сохранить';
+
+  @override
+  String get profileSaved => 'Сохранено';
+
+  @override
+  String profileError(String error) {
+    return 'Ошибка: $error';
+  }
+
+  @override
+  String get firstNameEmpty => 'Заполните имя';
+
+  @override
+  String get firstNameTooLong => 'Слишком длинное имя';
+
+  @override
+  String get firstNameForbiddenChars =>
+      'Допустимы только буквы, пробел и дефис';
+
+  @override
+  String get lastNameEmpty => 'Заполните фамилию';
+
+  @override
+  String get lastNameTooLong => 'Слишком длинная фамилия';
+
+  @override
+  String get lastNameForbiddenChars => 'Допустимы только буквы, пробел и дефис';
+
+  @override
+  String get phoneEmpty => 'Укажите номер телефона';
+
+  @override
+  String get phoneInvalid => 'Только цифры, длина 7–20';
+
+  @override
   String get cabinetsTitle => 'Кабинеты';
 
   @override

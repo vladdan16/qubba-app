@@ -1,3 +1,5 @@
+part of 'profile_form_bloc.dart';
+
 enum FirstNameInvalidStatus { empty, tooLong, forbiddenChars }
 
 enum LastNameInvalidStatus { empty, tooLong, forbiddenChars }
@@ -77,13 +79,13 @@ final class ProfileFormEditingState extends ProfileFormState {
     firstName: firstName ?? this.firstName,
     lastName: lastName ?? this.lastName,
     phone: phone ?? this.phone,
-    firstNameStatus: identical(firstNameStatus, _nothingPassed)
+    firstNameStatus: firstNameStatus == _nothingPassed
         ? this.firstNameStatus
         : firstNameStatus as FirstNameInvalidStatus?,
-    lastNameStatus: identical(lastNameStatus, _nothingPassed)
+    lastNameStatus: lastNameStatus == _nothingPassed
         ? this.lastNameStatus
         : lastNameStatus as LastNameInvalidStatus?,
-    phoneStatus: identical(phoneStatus, _nothingPassed)
+    phoneStatus: phoneStatus == _nothingPassed
         ? this.phoneStatus
         : phoneStatus as PhoneInvalidStatus?,
   );

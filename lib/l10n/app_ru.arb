@@ -26,6 +26,33 @@
   "loginFailure": "Что-то пошло не так. Попробуйте позже.",
   "logOut": "Выйти из аккаунта",
 
+  "firstNameLabel": "Имя",
+  "lastNameLabel": "Фамилия",
+  "phoneLabel": "Телефон",
+  "phoneHint": "Например: 79875431234",
+
+  "editAction": "Изменить",
+  "saveAction": "Сохранить",
+
+  "profileSaved": "Сохранено",
+  "profileError": "Ошибка: {error}",
+  "@profileError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+
+  "firstNameEmpty": "Заполните имя",
+  "firstNameTooLong": "Слишком длинное имя",
+  "firstNameForbiddenChars": "Допустимы только буквы, пробел и дефис",
+
+  "lastNameEmpty": "Заполните фамилию",
+  "lastNameTooLong": "Слишком длинная фамилия",
+  "lastNameForbiddenChars": "Допустимы только буквы, пробел и дефис",
+
+  "phoneEmpty": "Укажите номер телефона",
+  "phoneInvalid": "Только цифры, длина 7–20",
+
   "cabinetsTitle": "Кабинеты",
   "cabinetsNew": "Новый",
   "cabinetsError": "Ошибка: {error}",

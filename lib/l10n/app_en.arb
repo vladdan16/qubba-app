@@ -26,6 +26,33 @@
   "loginFailure": "Something went wrong. Try again later.",
   "logOut": "Log out",
 
+  "firstNameLabel": "First name",
+  "lastNameLabel": "Last name",
+  "phoneLabel": "Phone",
+  "phoneHint": "Example: 79875431234",
+
+  "editAction": "Edit",
+  "saveAction": "Save",
+
+  "profileSaved": "Saved",
+  "profileError": "Error: {error}",
+  "@profileError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+
+  "firstNameEmpty": "Enter first name",
+  "firstNameTooLong": "First name is too long",
+  "firstNameForbiddenChars": "Letters, space and hyphen only",
+
+  "lastNameEmpty": "Enter last name",
+  "lastNameTooLong": "Last name is too long",
+  "lastNameForbiddenChars": "Letters, space and hyphen only",
+
+  "phoneEmpty": "Enter phone number",
+  "phoneInvalid": "Digits only, length 7–20",
+
   "cabinetsTitle": "Cabinets",
   "cabinetsNew": "New",
   "cabinetsError": "Error: {error}",
