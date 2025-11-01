@@ -26,6 +26,7 @@
   "loginFailure": "Something went wrong. Try again later.",
   "logOut": "Log out",
 
+  "profileTooltip": "Open profile",
   "firstNameLabel": "First name",
   "lastNameLabel": "Last name",
   "phoneLabel": "Phone",

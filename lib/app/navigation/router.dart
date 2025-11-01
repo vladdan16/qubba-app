@@ -6,12 +6,14 @@ import '../../common/ui/splash_screen.dart';
 import '../../core/di/app/app_scope.dart';
 import '../../core/di/user/user_dependencies_impl.dart';
 import '../../core/di/user/user_scope.dart';
+import '../../features/authentication/domain/bloc/auth_bloc.dart';
 import '../../features/authentication/ui/login_page.dart';
 import '../../features/cabinets/domain/bloc/cabinets_bloc.dart';
 import '../../features/cabinets/domain/models/cabinet.dart';
 import '../../features/cabinets/ui/cabinet_form_screen.dart';
 import '../../features/cabinets/ui/cabinets_list_screen.dart';
 import '../../features/home/ui/home_page.dart';
+import '../../features/profile/ui/pages/profile_page.dart';
 
 abstract final class AppRouter {
   static final router = GoRouter(
@@ -51,9 +53,16 @@ abstract final class AppRouter {
           ),
           GoRoute(
             path: '/profile',
-            builder: (context, state) =>
-                // TODO(vladdan16): implement ProfileScreen
-                const _StubPage(title: 'Profile (stub)'),
+            builder: (context, state) {
+              final authState = context.watch<AuthBloc>().state;
+              final email = switch (authState) {
+                AuthAuthenticated(:final user) => user.id,
+                _ => '',
+              };
+              return ProfilePage(
+                email: email,
+              );
+            },
           ),
           ShellRoute(
             builder: (context, state, child) => BlocProvider(

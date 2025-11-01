@@ -26,6 +26,7 @@
   "loginFailure": "Что-то пошло не так. Попробуйте позже.",
   "logOut": "Выйти из аккаунта",
 
+  "profileTooltip": "Открыть профиль",
   "firstNameLabel": "Имя",
   "lastNameLabel": "Фамилия",
   "phoneLabel": "Телефон",

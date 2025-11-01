@@ -86,9 +86,6 @@ final class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
           firstName: firstName,
           lastName: lastName,
           phone: normalizedPhone,
-          firstNameStatus: _validateFirstName(firstName),
-          lastNameStatus: _validateLastName(lastName),
-          phoneStatus: _validatePhone(normalizedPhone),
         ),
       );
     }

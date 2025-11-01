@@ -211,6 +211,12 @@ abstract class Strings {
   /// **'Log out'**
   String get logOut;
 
+  /// No description provided for @profileTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Open profile'**
+  String get profileTooltip;
+
   /// No description provided for @firstNameLabel.
   ///
   /// In en, this message translates to:

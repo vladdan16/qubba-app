@@ -68,6 +68,9 @@ class StringsEn extends Strings {
   String get logOut => 'Log out';
 
   @override
+  String get profileTooltip => 'Open profile';
+
+  @override
   String get firstNameLabel => 'First name';
 
   @override

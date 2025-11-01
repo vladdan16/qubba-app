@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../common/ui/profile_app_bar_action.dart';
 import '../../../../l10n/l10n.dart';
 import '../bloc/profile_form_bloc.dart';
 
@@ -60,6 +61,7 @@ class _ProfileView extends StatelessWidget {
         appBar: AppBar(
           title: Text(strings.profileTitle),
           centerTitle: true,
+          actions: const [ProfileAppBarAction()],
         ),
         body: Center(
           child: ConstrainedBox(
@@ -115,8 +117,8 @@ class _EmailField extends StatelessWidget {
     final strings = Strings.of(context);
     return BlocBuilder<ProfileFormBloc, ProfileFormState>(
       buildWhen: (prev, curr) => prev.email != curr.email,
-      builder: (context, state) => TextField(
-        controller: TextEditingController(text: state.email),
+      builder: (context, state) => TextFormField(
+        initialValue: state.email,
         readOnly: true,
         enabled: false,
         decoration: InputDecoration(
@@ -146,9 +148,9 @@ class _FirstNameField extends StatelessWidget {
             state is ProfileFormEditingState || state is ProfileFormSavingState;
         final errorText = _firstNameErrorText(strings, state.firstNameStatus);
 
-        return TextField(
+        return TextFormField(
+          initialValue: state.firstName,
           enabled: isEditing && state is! ProfileFormSavingState,
-          controller: TextEditingController(text: state.firstName),
           onChanged: isEditing
               ? (v) => context.read<ProfileFormBloc>().add(
                   FirstNameChangedEvent(value: v),
@@ -184,9 +186,9 @@ class _LastNameField extends StatelessWidget {
             state is ProfileFormEditingState || state is ProfileFormSavingState;
         final errorText = _lastNameErrorText(strings, state.lastNameStatus);
 
-        return TextField(
+        return TextFormField(
+          initialValue: state.lastName,
           enabled: isEditing && state is! ProfileFormSavingState,
-          controller: TextEditingController(text: state.lastName),
           onChanged: isEditing
               ? (v) => context.read<ProfileFormBloc>().add(
                   LastNameChangedEvent(value: v),
@@ -222,9 +224,9 @@ class _PhoneField extends StatelessWidget {
             state is ProfileFormEditingState || state is ProfileFormSavingState;
         final errorText = _phoneErrorText(strings, state.phoneStatus);
 
-        return TextField(
+        return TextFormField(
+          initialValue: state.phone,
           enabled: isEditing && state is! ProfileFormSavingState,
-          controller: TextEditingController(text: state.phone),
           onChanged: isEditing
               ? (v) => context.read<ProfileFormBloc>().add(
                   PhoneChangedEvent(value: v),

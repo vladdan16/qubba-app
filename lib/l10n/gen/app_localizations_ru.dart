@@ -68,6 +68,9 @@ class StringsRu extends Strings {
   String get logOut => 'Выйти из аккаунта';
 
   @override
+  String get profileTooltip => 'Открыть профиль';
+
+  @override
   String get firstNameLabel => 'Имя';
 
   @override

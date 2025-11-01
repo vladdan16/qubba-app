@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/navigation/navigation_ext.dart';
+import '../../../common/ui/profile_app_bar_action.dart';
 import '../../../l10n/l10n.dart';
 import '../domain/bloc/cabinets_bloc.dart';
 import '../domain/models/cabinet.dart';
@@ -43,6 +44,7 @@ class _CabinetsListScreenState extends State<CabinetsListScreen> {
             icon: const Icon(Icons.add),
             tooltip: l10n.cabinetsNew,
           ),
+          const ProfileAppBarAction(),
         ],
       ),
       body: BlocBuilder<CabinetsBloc, CabinetsState>(
