@@ -14,24 +14,16 @@ typedef OnSaveProfile =
       required String phone,
     });
 
-typedef OnSavedProfile =
-    void Function({
-      required String firstName,
-      required String lastName,
-      required String phone,
-    });
-
 final class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
-  ProfileFormBloc(
-    this._onSave, {
+  ProfileFormBloc({
+    required OnSaveProfile onSave,
     required String email,
     String firstName = '',
     String lastName = '',
     String phone = '',
-    OnSavedProfile? onSaved,
     Duration debounce = const Duration(milliseconds: 300),
-  }) : _debounce = debounce,
-       _onSaved = onSaved,
+  }) : _onSave = onSave,
+       _debounce = debounce,
        super(
          ProfileFormInitialState(
            email: email,
@@ -53,14 +45,10 @@ final class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
       transformer: _debounced<PhoneChangedEvent>(),
     );
     on<EditPressedEvent>(_onEditPressed);
-    on<SavePressedEvent>(
-      _onSavePressed,
-      transformer: droppable(),
-    );
+    on<SavePressedEvent>(_onSavePressed, transformer: droppable());
   }
 
   final OnSaveProfile _onSave;
-  final OnSavedProfile? _onSaved;
   final Duration _debounce;
 
   static final RegExp _nameChars = RegExp(r'^[\p{L}\- ]+$', unicode: true);
@@ -179,12 +167,6 @@ final class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
       await _onSave(
         firstName: validated.firstName.trim(),
         lastName: validated.lastName.trim(),
-        phone: validated.phone,
-      );
-
-      _onSaved?.call(
-        firstName: validated.firstName,
-        lastName: validated.lastName,
         phone: validated.phone,
       );
 

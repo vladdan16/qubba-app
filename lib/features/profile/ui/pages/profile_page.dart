@@ -23,10 +23,9 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) => BlocProvider<ProfileFormBloc>(
     create: (_) => ProfileFormBloc(
       // Заглушка PATCH
-      ({required firstName, required lastName, required phone}) async {
+      onSave: ({required firstName, required lastName, required phone}) async {
         await Future<void>.delayed(const Duration(milliseconds: 600));
       },
-      onSaved: ({required firstName, required lastName, required phone}) {},
       email: email,
       firstName: initialFirstName,
       lastName: initialLastName,

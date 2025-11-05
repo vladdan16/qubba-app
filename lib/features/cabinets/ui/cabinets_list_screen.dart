@@ -38,14 +38,14 @@ class _CabinetsListScreenState extends State<CabinetsListScreen> {
             Text(l10n.cabinetsTitle),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () => context.push('/cabinets/add'),
-            icon: const Icon(Icons.add),
-            tooltip: l10n.cabinetsNew,
-          ),
-          const ProfileAppBarAction(),
+        actions: const [
+          ProfileAppBarAction(),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.openCabinetAdd(),
+        tooltip: l10n.cabinetsNew,
+        child: const Icon(Icons.add),
       ),
       body: BlocBuilder<CabinetsBloc, CabinetsState>(
         builder: (context, state) => switch (state) {
