@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../app/navigation/navigation_ext.dart';
 import '../../../common/ui/profile_app_bar_action.dart';
