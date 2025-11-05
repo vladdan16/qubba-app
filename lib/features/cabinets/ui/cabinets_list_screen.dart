@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../app/navigation/navigation_ext.dart';
+import '../../../common/ui/profile_app_bar_action.dart';
 import '../../../l10n/l10n.dart';
 import '../domain/bloc/cabinets_bloc.dart';
 import '../domain/models/cabinet.dart';
@@ -37,13 +37,14 @@ class _CabinetsListScreenState extends State<CabinetsListScreen> {
             Text(l10n.cabinetsTitle),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () => context.push('/cabinets/add'),
-            icon: const Icon(Icons.add),
-            tooltip: l10n.cabinetsNew,
-          ),
+        actions: const [
+          ProfileAppBarAction(),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.openCabinetAdd(),
+        tooltip: l10n.cabinetsNew,
+        child: const Icon(Icons.add),
       ),
       body: BlocBuilder<CabinetsBloc, CabinetsState>(
         builder: (context, state) => switch (state) {

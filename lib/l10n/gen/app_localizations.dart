@@ -139,6 +139,12 @@ abstract class Strings {
   /// **'Sign in'**
   String get loginTitle;
 
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
   /// No description provided for @welcomeTitle.
   ///
   /// In en, this message translates to:
@@ -204,6 +210,108 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Log out'**
   String get logOut;
+
+  /// No description provided for @profileTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Open profile'**
+  String get profileTooltip;
+
+  /// No description provided for @firstNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'First name'**
+  String get firstNameLabel;
+
+  /// No description provided for @lastNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Last name'**
+  String get lastNameLabel;
+
+  /// No description provided for @phoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get phoneLabel;
+
+  /// No description provided for @phoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: 79875431234'**
+  String get phoneHint;
+
+  /// No description provided for @editAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get editAction;
+
+  /// No description provided for @saveAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveAction;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get profileSaved;
+
+  /// No description provided for @profileError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String profileError(String error);
+
+  /// No description provided for @firstNameEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter first name'**
+  String get firstNameEmpty;
+
+  /// No description provided for @firstNameTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'First name is too long'**
+  String get firstNameTooLong;
+
+  /// No description provided for @firstNameForbiddenChars.
+  ///
+  /// In en, this message translates to:
+  /// **'Letters, space and hyphen only'**
+  String get firstNameForbiddenChars;
+
+  /// No description provided for @lastNameEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter last name'**
+  String get lastNameEmpty;
+
+  /// No description provided for @lastNameTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Last name is too long'**
+  String get lastNameTooLong;
+
+  /// No description provided for @lastNameForbiddenChars.
+  ///
+  /// In en, this message translates to:
+  /// **'Letters, space and hyphen only'**
+  String get lastNameForbiddenChars;
+
+  /// No description provided for @phoneEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter phone number'**
+  String get phoneEmpty;
+
+  /// No description provided for @phoneInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Digits only, length 7–20'**
+  String get phoneInvalid;
 
   /// No description provided for @cabinetsTitle.
   ///

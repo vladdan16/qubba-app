@@ -32,6 +32,9 @@ class StringsEn extends Strings {
   String get loginTitle => 'Sign in';
 
   @override
+  String get profileTitle => 'Profile';
+
+  @override
   String get welcomeTitle => 'Welcome!';
 
   @override
@@ -63,6 +66,59 @@ class StringsEn extends Strings {
 
   @override
   String get logOut => 'Log out';
+
+  @override
+  String get profileTooltip => 'Open profile';
+
+  @override
+  String get firstNameLabel => 'First name';
+
+  @override
+  String get lastNameLabel => 'Last name';
+
+  @override
+  String get phoneLabel => 'Phone';
+
+  @override
+  String get phoneHint => 'Example: 79875431234';
+
+  @override
+  String get editAction => 'Edit';
+
+  @override
+  String get saveAction => 'Save';
+
+  @override
+  String get profileSaved => 'Saved';
+
+  @override
+  String profileError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get firstNameEmpty => 'Enter first name';
+
+  @override
+  String get firstNameTooLong => 'First name is too long';
+
+  @override
+  String get firstNameForbiddenChars => 'Letters, space and hyphen only';
+
+  @override
+  String get lastNameEmpty => 'Enter last name';
+
+  @override
+  String get lastNameTooLong => 'Last name is too long';
+
+  @override
+  String get lastNameForbiddenChars => 'Letters, space and hyphen only';
+
+  @override
+  String get phoneEmpty => 'Enter phone number';
+
+  @override
+  String get phoneInvalid => 'Digits only, length 7–20';
 
   @override
   String get cabinetsTitle => 'Cabinets';

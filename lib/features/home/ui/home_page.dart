@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/ui/profile_app_bar_action.dart';
 import '../../../l10n/l10n.dart';
 import '../../authentication/domain/bloc/auth_bloc.dart';
 
@@ -14,6 +15,8 @@ class HomePage extends StatelessWidget {
         'Qubba App',
         style: Theme.of(context).textTheme.headlineMedium,
       ),
+      centerTitle: true,
+      actions: const [ProfileAppBarAction()],
     ),
     body: Center(
       child: TextButton(
