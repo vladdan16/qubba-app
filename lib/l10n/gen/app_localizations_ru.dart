@@ -294,4 +294,62 @@ class StringsRu extends Strings {
   @override
   String get cabinetFormUnitMaintenanceCostInvalid =>
       'Стоимость обслуживания должна быть числом';
+
+  @override
+  String get cabinetEmployeesTitle => 'Доступ к кабинету';
+
+  @override
+  String cabinetEmployeesError(String error) {
+    return 'Ошибка: $error';
+  }
+
+  @override
+  String get cabinetEmployeesRetry => 'Повторить';
+
+  @override
+  String get cabinetEmployeesEmpty => 'Не добавлено сотрудников';
+
+  @override
+  String get cabinetEmployeesAddButton => 'Добавить сотрудника';
+
+  @override
+  String get cabinetEmployeesEmailLabel => 'Email сотрудника';
+
+  @override
+  String get cabinetEmployeesEmailHint => 'name@example.com';
+
+  @override
+  String get cabinetEmployeesAddTitle => 'Добавить сотрудника';
+
+  @override
+  String get cabinetEmployeesAddAction => 'Добавить';
+
+  @override
+  String get cabinetEmployeesCancelAction => 'Отмена';
+
+  @override
+  String get cabinetEmployeesDeleteConfirmTitle => 'Удалить сотрудника';
+
+  @override
+  String cabinetEmployeesDeleteConfirmMessage(String name) {
+    return 'Вы уверены, что хотите удалить $name из этого кабинета?';
+  }
+
+  @override
+  String get cabinetEmployeesDeleteAction => 'Удалить';
+
+  @override
+  String get cabinetEmployeesAdded => 'Сотрудник добавлен';
+
+  @override
+  String get cabinetEmployeesRemoved => 'Сотрудник удален';
+
+  @override
+  String get cabinetEmployeesManageTooltip => 'Управление доступом';
+
+  @override
+  String get cabinetEmployeesEmailEmpty => 'Введите email';
+
+  @override
+  String get cabinetEmployeesEmailInvalid => 'Некорректный email';
 }

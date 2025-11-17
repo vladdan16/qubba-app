@@ -6,7 +6,7 @@ abstract final class _ApiParams {
   static String getCabinetById(String id) => '/v1/cabinet/$id';
   static String updateCabinet(String id) => '/v1/cabinet/$id';
   static String deleteCabinet(String id) => '/v1/cabinet/$id';
-  
+
   // Employee management endpoints
   static String getCabinetEmployees(String cabinetId) =>
       '/v1/cabinet/$cabinetId/employee';

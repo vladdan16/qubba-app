@@ -100,7 +100,7 @@ abstract final class AppRouter {
                   GoRoute(
                     path: ':id/employees',
                     builder: (context, state) {
-                      final extra = state.extra as Map<String, String>;
+                      final extra = state.extra! as Map<String, String>;
                       final cabinetId = extra['cabinetId']!;
                       final cabinetName = extra['cabinetName']!;
                       return BlocProvider(

@@ -7,14 +7,14 @@ part of 'employee_dto.dart';
 // **************************************************************************
 
 EmployeeDto _$EmployeeDtoFromJson(Map<String, dynamic> json) => EmployeeDto(
-      id: json['id'] as String,
-      email: json['email'] as String,
-      firstName: json['first_name'] as String?,
-      lastName: json['last_name'] as String?,
-      createdAt: json['created_at'] == null
-          ? null
-          : DateTime.parse(json['created_at'] as String),
-    );
+  id: json['id'] as String,
+  email: json['email'] as String,
+  firstName: json['first_name'] as String?,
+  lastName: json['last_name'] as String?,
+  createdAt: json['created_at'] == null
+      ? null
+      : DateTime.parse(json['created_at'] as String),
+);
 
 Map<String, dynamic> _$EmployeeDtoToJson(EmployeeDto instance) =>
     <String, dynamic>{

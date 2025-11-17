@@ -7,13 +7,9 @@ part of 'add_employee_request_dto.dart';
 // **************************************************************************
 
 AddEmployeeRequestDto _$AddEmployeeRequestDtoFromJson(
-        Map<String, dynamic> json) =>
-    AddEmployeeRequestDto(
-      email: json['email'] as String,
-    );
+  Map<String, dynamic> json,
+) => AddEmployeeRequestDto(email: json['email'] as String);
 
 Map<String, dynamic> _$AddEmployeeRequestDtoToJson(
-        AddEmployeeRequestDto instance) =>
-    <String, dynamic>{
-      'email': instance.email,
-    };
+  AddEmployeeRequestDto instance,
+) => <String, dynamic>{'email': instance.email};

@@ -642,6 +642,114 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Unit maintenance cost must be a number'**
   String get cabinetFormUnitMaintenanceCostInvalid;
+
+  /// No description provided for @cabinetEmployeesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cabinet Access'**
+  String get cabinetEmployeesTitle;
+
+  /// No description provided for @cabinetEmployeesError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String cabinetEmployeesError(String error);
+
+  /// No description provided for @cabinetEmployeesRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get cabinetEmployeesRetry;
+
+  /// No description provided for @cabinetEmployeesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No employees added'**
+  String get cabinetEmployeesEmpty;
+
+  /// No description provided for @cabinetEmployeesAddButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add employee'**
+  String get cabinetEmployeesAddButton;
+
+  /// No description provided for @cabinetEmployeesEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Employee email'**
+  String get cabinetEmployeesEmailLabel;
+
+  /// No description provided for @cabinetEmployeesEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'name@example.com'**
+  String get cabinetEmployeesEmailHint;
+
+  /// No description provided for @cabinetEmployeesAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add employee'**
+  String get cabinetEmployeesAddTitle;
+
+  /// No description provided for @cabinetEmployeesAddAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get cabinetEmployeesAddAction;
+
+  /// No description provided for @cabinetEmployeesCancelAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cabinetEmployeesCancelAction;
+
+  /// No description provided for @cabinetEmployeesDeleteConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove employee'**
+  String get cabinetEmployeesDeleteConfirmTitle;
+
+  /// No description provided for @cabinetEmployeesDeleteConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove {name} from this cabinet?'**
+  String cabinetEmployeesDeleteConfirmMessage(String name);
+
+  /// No description provided for @cabinetEmployeesDeleteAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get cabinetEmployeesDeleteAction;
+
+  /// No description provided for @cabinetEmployeesAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Employee added'**
+  String get cabinetEmployeesAdded;
+
+  /// No description provided for @cabinetEmployeesRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Employee removed'**
+  String get cabinetEmployeesRemoved;
+
+  /// No description provided for @cabinetEmployeesManageTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage access'**
+  String get cabinetEmployeesManageTooltip;
+
+  /// No description provided for @cabinetEmployeesEmailEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter email'**
+  String get cabinetEmployeesEmailEmpty;
+
+  /// No description provided for @cabinetEmployeesEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email'**
+  String get cabinetEmployeesEmailInvalid;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {
