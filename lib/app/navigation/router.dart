@@ -100,18 +100,27 @@ abstract final class AppRouter {
                   GoRoute(
                     path: ':id/employees',
                     builder: (context, state) {
-                      final extra = state.extra! as Map<String, String>;
-                      final cabinetId = extra['cabinetId']!;
-                      final cabinetName = extra['cabinetName']!;
-                      return BlocProvider(
-                        create: (context) => CabinetEmployeesBloc(
-                          repository: UserScope.of(context).cabinetsRepository,
-                        ),
-                        child: CabinetEmployeesScreen(
-                          cabinetId: cabinetId,
-                          cabinetName: cabinetName,
-                        ),
-                      );
+                      final extra = state.extra;
+                      if (extra is Map<String, String> &&
+                          extra['cabinetId'] != null &&
+                          extra['cabinetName'] != null) {
+                        final cabinetId = extra['cabinetId']!;
+                        final cabinetName = extra['cabinetName']!;
+                        return BlocProvider(
+                          create: (context) => CabinetEmployeesBloc(
+                            repository: UserScope.of(context).cabinetsRepository,
+                          ),
+                          child: CabinetEmployeesScreen(
+                            cabinetId: cabinetId,
+                            cabinetName: cabinetName,
+                          ),
+                        );
+                      } else {
+                        // Show an error page if extra is missing or invalid
+                        return const _StubPage(
+                          title: 'Invalid cabinet data',
+                        );
+                      }
                     },
                   ),
                 ],

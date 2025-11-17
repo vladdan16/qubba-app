@@ -22,6 +22,9 @@ class CabinetEmployeesScreen extends StatefulWidget {
 }
 
 class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
+  // Track the last successful operation for showing success messages
+  String? _lastSuccessOperation;
+
   @override
   void initState() {
     super.initState();
@@ -99,6 +102,19 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
                       backgroundColor: Colors.red,
                     ),
                   );
+                } else if (state is CabinetEmployeesLoaded &&
+                    _lastSuccessOperation != null) {
+                  // Show success message based on the last operation
+                  final message = _lastSuccessOperation == 'add'
+                      ? l10n.cabinetEmployeesAdded
+                      : l10n.cabinetEmployeesRemoved;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(message),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  _lastSuccessOperation = null; // Reset after showing
                 }
               },
               builder: (context, state) => switch (state) {
@@ -205,7 +221,11 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
               if (value == null || value.isEmpty) {
                 return l10n.cabinetEmployeesEmailEmpty;
               }
-              if (!value.contains('@') || !value.contains('.')) {
+              // Use a regular expression for email validation
+              final emailRegex = RegExp(
+                r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z]{2,})+$",
+              );
+              if (!emailRegex.hasMatch(value)) {
                 return l10n.cabinetEmployeesEmailInvalid;
               }
               return null;
@@ -220,6 +240,9 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
           ElevatedButton(
             onPressed: () {
               if (formKey.currentState!.validate()) {
+                setState(() {
+                  _lastSuccessOperation = 'add';
+                });
                 context.read<CabinetEmployeesBloc>().add(
                   AddCabinetEmployee(
                     cabinetId: widget.cabinetId,
@@ -227,12 +250,6 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
                   ),
                 );
                 Navigator.of(dialogContext).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(l10n.cabinetEmployeesAdded),
-                    backgroundColor: Colors.green,
-                  ),
-                );
               }
             },
             child: Text(l10n.cabinetEmployeesAddAction),
@@ -262,6 +279,9 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
           ),
           ElevatedButton(
             onPressed: () {
+              setState(() {
+                _lastSuccessOperation = 'delete';
+              });
               context.read<CabinetEmployeesBloc>().add(
                 DeleteCabinetEmployee(
                   cabinetId: widget.cabinetId,
@@ -269,12 +289,6 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
                 ),
               );
               Navigator.of(dialogContext).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(l10n.cabinetEmployeesRemoved),
-                  backgroundColor: Colors.green,
-                ),
-              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,

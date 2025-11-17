@@ -42,7 +42,15 @@ final class CabinetEmployeesBloc
     Emitter<CabinetEmployeesState> emit,
   ) async {
     final currentState = state;
-    if (currentState is! CabinetEmployeesLoaded) return;
+    if (currentState is! CabinetEmployeesLoaded) {
+      emit(
+        CabinetEmployeesError(
+          error: StateError('Cannot add employee: employees not loaded'),
+          stackTrace: StackTrace.current,
+        ),
+      );
+      return;
+    }
 
     emit(const CabinetEmployeesLoading());
     try {
@@ -63,7 +71,15 @@ final class CabinetEmployeesBloc
     Emitter<CabinetEmployeesState> emit,
   ) async {
     final currentState = state;
-    if (currentState is! CabinetEmployeesLoaded) return;
+    if (currentState is! CabinetEmployeesLoaded) {
+      emit(
+        CabinetEmployeesError(
+          error: StateError('Cannot delete employee: employees not loaded'),
+          stackTrace: StackTrace.current,
+        ),
+      );
+      return;
+    }
 
     emit(const CabinetEmployeesLoading());
     try {
