@@ -182,12 +182,12 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
     );
   }
 
-  void _showAddEmployeeDialog(BuildContext context) {
+  Future<void> _showAddEmployeeDialog(BuildContext context) async {
     final l10n = Strings.of(context);
     final formKey = GlobalKey<FormState>();
     final emailController = TextEditingController();
 
-    showDialog<void>(
+    await showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: Text(l10n.cabinetEmployeesAddTitle),
@@ -242,10 +242,13 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
     );
   }
 
-  void _showDeleteConfirmDialog(BuildContext context, Employee employee) {
+  Future<void> _showDeleteConfirmDialog(
+    BuildContext context,
+    Employee employee,
+  ) async {
     final l10n = Strings.of(context);
 
-    showDialog<void>(
+    await showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: Text(l10n.cabinetEmployeesDeleteConfirmTitle),
@@ -303,7 +306,7 @@ class _EmployeeCard extends StatelessWidget {
     ),
     child: ListTile(
       leading: CircleAvatar(
-        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+        backgroundColor: Theme.of(context).primaryColor.withAlpha(25),
         child: Icon(
           Icons.person,
           color: Theme.of(context).primaryColor,
