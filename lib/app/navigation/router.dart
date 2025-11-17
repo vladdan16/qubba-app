@@ -108,7 +108,9 @@ abstract final class AppRouter {
                         final cabinetName = extra['cabinetName']!;
                         return BlocProvider(
                           create: (context) => CabinetEmployeesBloc(
-                            repository: UserScope.of(context).cabinetsRepository,
+                            repository: UserScope.of(
+                              context,
+                            ).cabinetsRepository,
                           ),
                           child: CabinetEmployeesScreen(
                             cabinetId: cabinetId,
