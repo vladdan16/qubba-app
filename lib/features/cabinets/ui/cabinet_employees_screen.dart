@@ -49,7 +49,7 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
             Expanded(
               child: Text(
                 l10n.cabinetEmployeesTitle,
-                overflow: TextOverflow.ellipsis,
+                overflow: .ellipsis,
               ),
             ),
           ],
@@ -64,17 +64,17 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
         child: const Icon(Icons.person_add),
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               children: [
                 Text(
                   widget.cabinetName,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: .bold,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -91,30 +91,33 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
           Expanded(
             child: BlocConsumer<CabinetEmployeesBloc, CabinetEmployeesState>(
               listener: (context, state) {
-                if (state is CabinetEmployeesError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        l10n.cabinetEmployeesError(
-                          state.error.toString(),
+                switch (state) {
+                  case CabinetEmployeesError(:final error):
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          l10n.cabinetEmployeesError(error.toString()),
                         ),
+                        backgroundColor: Colors.red,
                       ),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                } else if (state is CabinetEmployeesLoaded &&
-                    _lastSuccessOperation != null) {
-                  // Show success message based on the last operation
-                  final message = _lastSuccessOperation == 'add'
-                      ? l10n.cabinetEmployeesAdded
-                      : l10n.cabinetEmployeesRemoved;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(message),
-                      backgroundColor: Colors.green,
-                    ),
-                  );
-                  _lastSuccessOperation = null; // Reset after showing
+                    );
+                  case CabinetEmployeesLoaded()
+                      when _lastSuccessOperation != null:
+                    // Show success message based on the last operation
+                    final message = _lastSuccessOperation == 'add'
+                        ? l10n.cabinetEmployeesAdded
+                        : l10n.cabinetEmployeesRemoved;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(message),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                    _lastSuccessOperation = null; // Reset after showing
+                  case CabinetEmployeesLoaded():
+                  case CabinetEmployeesInitial():
+                  case CabinetEmployeesLoading():
+                  // no-op
                 }
               },
               builder: (context, state) => switch (state) {
@@ -126,7 +129,7 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: .center,
                       children: [
                         const Icon(
                           Icons.error_outline,
@@ -136,7 +139,7 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
                         const SizedBox(height: 16),
                         Text(
                           l10n.cabinetEmployeesError(error.toString()),
-                          textAlign: TextAlign.center,
+                          textAlign: .center,
                         ),
                         const SizedBox(height: 16),
                         ElevatedButton.icon(
@@ -157,7 +160,7 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
                   employees.isEmpty
                       ? Center(
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: .center,
                             children: [
                               const Icon(
                                 Icons.people_outline,
@@ -216,7 +219,7 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
               hintText: l10n.cabinetEmployeesEmailHint,
               border: const OutlineInputBorder(),
             ),
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: .emailAddress,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return l10n.cabinetEmployeesEmailEmpty;
@@ -330,7 +333,7 @@ class _EmployeeCard extends StatelessWidget {
         employee.displayName,
         style: const TextStyle(
           fontSize: 16,
-          fontWeight: FontWeight.w600,
+          fontWeight: .w600,
         ),
       ),
       subtitle: Text(employee.email),

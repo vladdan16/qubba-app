@@ -46,7 +46,7 @@ final class CabinetEmployeesBloc
       emit(
         CabinetEmployeesError(
           error: StateError('Cannot add employee: employees not loaded'),
-          stackTrace: StackTrace.current,
+          stackTrace: .current,
         ),
       );
       return;
@@ -75,7 +75,7 @@ final class CabinetEmployeesBloc
       emit(
         CabinetEmployeesError(
           error: StateError('Cannot delete employee: employees not loaded'),
-          stackTrace: StackTrace.current,
+          stackTrace: .current,
         ),
       );
       return;
