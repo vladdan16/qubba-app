@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart'; // ← добавлено
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../../common/ui/profile_avatar_button.dart';
 import '../../../../l10n/l10n.dart';
 import '../../domain/bloc/profile_bloc.dart';
 import '../bloc/profile_form_bloc.dart';
@@ -126,6 +127,8 @@ class _ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
+/// An app bar action that displays the user's avatar and shows
+/// avatar management options (change/delete) in a bottom sheet.
 class ProfileAvatarAction extends StatelessWidget {
   const ProfileAvatarAction({super.key});
 
@@ -177,49 +180,8 @@ class ProfileAvatarAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final strings = Strings.of(context);
-
-    return BlocBuilder<ProfileBloc, ProfileState>(
-      buildWhen: (previous, current) {
-        Uri? avatarOf(ProfileState s) =>
-            s is ProfileReadyState ? s.profile.avatarUrl : null;
-        return avatarOf(previous) != avatarOf(current) ||
-            previous.runtimeType != current.runtimeType;
-      },
-      builder: (context, state) {
-        final ready = state is ProfileReadyState ? state : null;
-        final isBusy =
-            state is ProfileAvatarUploadingState ||
-            state is ProfileAvatarDeletingState;
-
-        final avatarUrl = ready?.profile.avatarUrl?.toString();
-
-        final icon = CircleAvatar(
-          radius: 16,
-          backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl) : null,
-          child: avatarUrl == null ? const Icon(Icons.person_outline) : null,
-        );
-
-        return Padding(
-          padding: const EdgeInsets.only(right: 8),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              IconButton(
-                tooltip: strings.profileTooltip,
-                onPressed: isBusy ? null : () => _showAvatarActions(context),
-                icon: icon,
-              ),
-              if (isBusy)
-                const SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                ),
-            ],
-          ),
-        );
-      },
+    return ProfileAvatarButton(
+      onPressed: () => _showAvatarActions(context),
     );
   }
 }
