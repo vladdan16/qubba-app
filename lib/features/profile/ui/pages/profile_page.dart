@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart'; // ← добавлено
 import 'package:image_picker/image_picker.dart';
 import '../../../../l10n/l10n.dart';
 import '../../domain/bloc/profile_bloc.dart';
@@ -26,23 +27,15 @@ class ProfilePage extends StatelessWidget {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         if (state is ProfileLoadingState || state is ProfileInitialState) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(strings.profileTitle),
-              centerTitle: true,
-              actions: const [ProfileAvatarAction()],
-            ),
-            body: const Center(child: CircularProgressIndicator()),
+          return const Scaffold(
+            appBar: _ProfileAppBar(),
+            body: Center(child: CircularProgressIndicator()),
           );
         }
 
         if (state is ProfileFailureState) {
           return Scaffold(
-            appBar: AppBar(
-              title: Text(strings.profileTitle),
-              centerTitle: true,
-              actions: const [ProfileAvatarAction()],
-            ),
+            appBar: const _ProfileAppBar(),
             body: Center(
               child: Padding(
                 padding: const EdgeInsets.all(24),
@@ -68,24 +61,13 @@ class ProfilePage extends StatelessWidget {
         final profile = (state is ProfileReadyState) ? state.profile : null;
 
         if (profile == null) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(strings.profileTitle),
-              centerTitle: true,
-              actions: const [ProfileAvatarAction()],
-            ),
-            body: const Center(child: CircularProgressIndicator()),
+          return const Scaffold(
+            appBar: _ProfileAppBar(),
+            body: Center(child: CircularProgressIndicator()),
           );
         }
 
-        final formKey = ValueKey<String>(
-          [
-            profile.email,
-            profile.firstName,
-            profile.lastName,
-            profile.phone,
-          ].join('|'),
-        );
+        final formKey = ObjectKey(profile);
 
         return BlocProvider<ProfileFormBloc>(
           key: formKey,
@@ -116,8 +98,82 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
+class _ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _ProfileAppBar();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    final strings = Strings.of(context);
+    return AppBar(
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          final router = GoRouter.of(context);
+          if (router.canPop()) {
+            context.pop();
+          } else {
+            context.go('/cabinets');
+          }
+        },
+      ),
+      title: Text(strings.profileTitle),
+      centerTitle: true,
+      actions: const [ProfileAvatarAction()],
+    );
+  }
+}
+
 class ProfileAvatarAction extends StatelessWidget {
   const ProfileAvatarAction({super.key});
+
+  Future<void> _showAvatarActions(BuildContext context) async {
+    final strings = Strings.of(context);
+    final bloc = context.read<ProfileBloc>();
+
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetCtx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_library_outlined),
+              title: Text(strings.changePhotoAction),
+              onTap: () async {
+                Navigator.of(sheetCtx).pop();
+                final picker = ImagePicker();
+                final xfile = await picker.pickImage(
+                  source: ImageSource.gallery,
+                  maxWidth: 1024,
+                  imageQuality: 90,
+                );
+                if (xfile == null) return;
+                await bloc.uploadAvatar(xfile.path);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.delete_outline),
+              title: Text(strings.removePhotoAction),
+              onTap: () async {
+                Navigator.of(sheetCtx).pop();
+                await bloc.deleteAvatar();
+              },
+            ),
+            const Divider(height: 0),
+            ListTile(
+              leading: const Icon(Icons.close),
+              title: Text(strings.cancelAction),
+              onTap: () => Navigator.of(sheetCtx).pop(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +207,7 @@ class ProfileAvatarAction extends StatelessWidget {
             children: [
               IconButton(
                 tooltip: strings.profileTooltip,
-                onPressed: isBusy ? null : () {},
+                onPressed: isBusy ? null : () => _showAvatarActions(context),
                 icon: icon,
               ),
               if (isBusy)
@@ -304,11 +360,7 @@ class _ProfileView extends StatelessWidget {
         ),
       ],
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(strings.profileTitle),
-          centerTitle: true,
-          actions: const [ProfileAvatarAction()],
-        ),
+        appBar: const _ProfileAppBar(),
         body: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 420),
