@@ -92,6 +92,9 @@ class StringsRu extends Strings {
   String get profileSaved => 'Сохранено';
 
   @override
+  String get profileRetry => 'Повторить';
+
+  @override
   String profileError(String error) {
     return 'Ошибка: $error';
   }

@@ -92,6 +92,9 @@ class StringsEn extends Strings {
   String get profileSaved => 'Saved';
 
   @override
+  String get profileRetry => 'Retry';
+
+  @override
   String profileError(String error) {
     return 'Error: $error';
   }

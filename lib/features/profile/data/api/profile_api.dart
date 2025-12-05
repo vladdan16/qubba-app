@@ -14,7 +14,7 @@ sealed class ProfileApi {
   Future<Map<String, Object?>> getUser();
 
   UserProfileDto parseUser(Map<String, Object?> json) =>
-      UserProfileDto.fromJson(json);
+      UserProfileDto.fromJson(_extractData(json));
 
   Future<Map<String, Object?>> updateUser(UpdateUserRequestDto dto);
 
@@ -33,9 +33,7 @@ final class _ProfileApiImpl extends ProfileApi {
 
   @override
   Future<Map<String, Object?>> getUser() async {
-    final response = await dio.get<Map<String, Object?>>(
-      _ApiParams.getUser,
-    );
+    final response = await dio.get<Map<String, Object?>>(_ApiParams.getUser);
     return response.requireData;
   }
 
@@ -54,10 +52,7 @@ final class _ProfileApiImpl extends ProfileApi {
     String? fileName,
   }) async {
     final form = FormData.fromMap({
-      'file': await MultipartFile.fromFile(
-        filePath,
-        filename: fileName,
-      ),
+      'file': await MultipartFile.fromFile(filePath, filename: fileName),
     });
 
     final response = await dio.post<Map<String, Object?>>(
@@ -72,4 +67,12 @@ final class _ProfileApiImpl extends ProfileApi {
   Future<void> deleteAvatar() async {
     await dio.delete<void>(_ApiParams.deleteAvatar);
   }
+}
+
+Map<String, dynamic> _extractData(Map<String, Object?> json) {
+  final data = json['data'];
+  if (data is Map) {
+    return Map<String, dynamic>.from(data);
+  }
+  return Map<String, dynamic>.from(json);
 }

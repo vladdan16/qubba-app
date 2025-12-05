@@ -36,6 +36,7 @@
   "saveAction": "Сохранить",
 
   "profileSaved": "Сохранено",
+  "profileRetry": "Повторить",
   "profileError": "Ошибка: {error}",
   "@profileError": {
     "placeholders": {

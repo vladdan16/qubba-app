@@ -36,6 +36,7 @@
   "saveAction": "Save",
 
   "profileSaved": "Saved",
+  "profileRetry": "Retry",
   "profileError": "Error: {error}",
   "@profileError": {
     "placeholders": {

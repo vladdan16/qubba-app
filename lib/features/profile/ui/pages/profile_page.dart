@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/ui/profile_app_bar_action.dart';
 import '../../../../l10n/l10n.dart';
+import '../../domain/bloc/profile_bloc.dart';
 import '../bloc/profile_form_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -20,19 +21,100 @@ class ProfilePage extends StatelessWidget {
   final String initialPhone;
 
   @override
-  Widget build(BuildContext context) => BlocProvider<ProfileFormBloc>(
-    create: (_) => ProfileFormBloc(
-      // Заглушка PATCH
-      onSave: ({required firstName, required lastName, required phone}) async {
-        await Future<void>.delayed(const Duration(milliseconds: 600));
+  Widget build(BuildContext context) {
+    final strings = Strings.of(context);
+
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        if (state is ProfileLoadingState || state is ProfileInitialState) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(strings.profileTitle),
+              centerTitle: true,
+              actions: const [ProfileAppBarAction()],
+            ),
+            body: const Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        if (state is ProfileFailureState) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(strings.profileTitle),
+              centerTitle: true,
+              actions: const [ProfileAppBarAction()],
+            ),
+            body: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      strings.profileError(state.message),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    FilledButton(
+                      onPressed: () => context.read<ProfileBloc>().load(),
+                      child: Text(strings.profileRetry),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+
+        final profile = state is ProfileReadyState ? state.profile : null;
+
+        if (profile == null) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(strings.profileTitle),
+              centerTitle: true,
+              actions: const [ProfileAppBarAction()],
+            ),
+            body: const Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        final formKey = ValueKey<String>(
+          [
+            profile.email,
+            profile.firstName,
+            profile.lastName,
+            profile.phone,
+          ].join('|'),
+        );
+
+        return BlocProvider<ProfileFormBloc>(
+          key: formKey,
+          create: (context) => ProfileFormBloc(
+            onSave:
+                ({
+                  required String firstName,
+                  required String lastName,
+                  required String phone,
+                }) => context.read<ProfileBloc>().updateProfile(
+                  firstName: firstName,
+                  lastName: lastName,
+                  phone: phone,
+                ),
+            email: profile.email.isNotEmpty ? profile.email : email,
+            firstName: profile.firstName.isNotEmpty
+                ? profile.firstName
+                : initialFirstName,
+            lastName: profile.lastName.isNotEmpty
+                ? profile.lastName
+                : initialLastName,
+            phone: profile.phone.isNotEmpty ? profile.phone : initialPhone,
+          ),
+          child: const _ProfileView(),
+        );
       },
-      email: email,
-      firstName: initialFirstName,
-      lastName: initialLastName,
-      phone: initialPhone,
-    ),
-    child: const _ProfileView(),
-  );
+    );
+  }
 }
 
 class _ProfileView extends StatelessWidget {
@@ -41,21 +123,39 @@ class _ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = Strings.of(context);
-    return BlocListener<ProfileFormBloc, ProfileFormState>(
-      listenWhen: (prev, curr) =>
-          curr is ProfileFormSavedState || curr is ProfileFormFailureState,
-      listener: (context, state) {
-        final messenger = ScaffoldMessenger.of(context);
-        if (state is ProfileFormSavedState) {
-          messenger.showSnackBar(
-            SnackBar(content: Text(strings.profileSaved)),
-          );
-        } else if (state is ProfileFormFailureState) {
-          messenger.showSnackBar(
-            SnackBar(content: Text(strings.profileError(state.message))),
-          );
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ProfileFormBloc, ProfileFormState>(
+          listenWhen: (prev, curr) =>
+              curr is ProfileFormSavedState || curr is ProfileFormFailureState,
+          listener: (context, state) {
+            final messenger = ScaffoldMessenger.of(context);
+            if (state is ProfileFormSavedState) {
+              messenger.showSnackBar(
+                SnackBar(content: Text(strings.profileSaved)),
+              );
+            } else if (state is ProfileFormFailureState) {
+              messenger.showSnackBar(
+                SnackBar(
+                  content: Text(
+                    strings.profileError(state.message),
+                  ),
+                ),
+              );
+            }
+          },
+        ),
+        BlocListener<ProfileBloc, ProfileState>(
+          listenWhen: (prev, curr) => curr is ProfileFailureState,
+          listener: (context, state) {
+            if (state is ProfileFailureState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(strings.profileError(state.message))),
+              );
+            }
+          },
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(
           title: Text(strings.profileTitle),
@@ -81,10 +181,7 @@ class _ScrollableContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => RefreshIndicator(
-    onRefresh: () async {
-      // Оповестить ProfileBloc, чтобы обновить данные
-      await Future<void>.delayed(const Duration(milliseconds: 500));
-    },
+    onRefresh: () => context.read<ProfileBloc>().refresh(),
     child: const SingleChildScrollView(
       physics: AlwaysScrollableScrollPhysics(),
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,

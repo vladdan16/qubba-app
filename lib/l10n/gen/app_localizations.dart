@@ -259,6 +259,12 @@ abstract class Strings {
   /// **'Saved'**
   String get profileSaved;
 
+  /// No description provided for @profileRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get profileRetry;
+
   /// No description provided for @profileError.
   ///
   /// In en, this message translates to:
