@@ -124,6 +124,15 @@ class StringsEn extends Strings {
   String get phoneInvalid => 'Digits only, length 7–20';
 
   @override
+  String get changePhotoAction => 'Change photo';
+
+  @override
+  String get removePhotoAction => 'Remove photo';
+
+  @override
+  String get cancelAction => 'Cancel';
+
+  @override
   String get cabinetsTitle => 'Cabinets';
 
   @override

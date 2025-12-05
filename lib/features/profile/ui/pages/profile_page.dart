@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../common/ui/profile_app_bar_action.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../l10n/l10n.dart';
 import '../../domain/bloc/profile_bloc.dart';
 import '../bloc/profile_form_bloc.dart';
@@ -31,7 +30,7 @@ class ProfilePage extends StatelessWidget {
             appBar: AppBar(
               title: Text(strings.profileTitle),
               centerTitle: true,
-              actions: const [ProfileAppBarAction()],
+              actions: const [ProfileAvatarAction()],
             ),
             body: const Center(child: CircularProgressIndicator()),
           );
@@ -42,7 +41,7 @@ class ProfilePage extends StatelessWidget {
             appBar: AppBar(
               title: Text(strings.profileTitle),
               centerTitle: true,
-              actions: const [ProfileAppBarAction()],
+              actions: const [ProfileAvatarAction()],
             ),
             body: Center(
               child: Padding(
@@ -66,14 +65,14 @@ class ProfilePage extends StatelessWidget {
           );
         }
 
-        final profile = state is ProfileReadyState ? state.profile : null;
+        final profile = (state is ProfileReadyState) ? state.profile : null;
 
         if (profile == null) {
           return Scaffold(
             appBar: AppBar(
               title: Text(strings.profileTitle),
               centerTitle: true,
-              actions: const [ProfileAppBarAction()],
+              actions: const [ProfileAvatarAction()],
             ),
             body: const Center(child: CircularProgressIndicator()),
           );
@@ -117,6 +116,158 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
+class ProfileAvatarAction extends StatelessWidget {
+  const ProfileAvatarAction({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final strings = Strings.of(context);
+
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      buildWhen: (previous, current) {
+        Uri? avatarOf(ProfileState s) =>
+            s is ProfileReadyState ? s.profile.avatarUrl : null;
+        return avatarOf(previous) != avatarOf(current) ||
+            previous.runtimeType != current.runtimeType;
+      },
+      builder: (context, state) {
+        final ready = state is ProfileReadyState ? state : null;
+        final isBusy =
+            state is ProfileAvatarUploadingState ||
+            state is ProfileAvatarDeletingState;
+
+        final avatarUrl = ready?.profile.avatarUrl?.toString();
+
+        final icon = CircleAvatar(
+          radius: 16,
+          backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl) : null,
+          child: avatarUrl == null ? const Icon(Icons.person_outline) : null,
+        );
+
+        return Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              IconButton(
+                tooltip: strings.profileTooltip,
+                onPressed: isBusy ? null : () {},
+                icon: icon,
+              ),
+              if (isBusy)
+                const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class ProfileAvatarHeader extends StatelessWidget {
+  const ProfileAvatarHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final strings = Strings.of(context);
+
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      buildWhen: (previous, current) {
+        Uri? avatarOf(ProfileState s) =>
+            s is ProfileReadyState ? s.profile.avatarUrl : null;
+        final busyPrev =
+            previous is ProfileAvatarUploadingState ||
+            previous is ProfileAvatarDeletingState;
+        final busyCurr =
+            current is ProfileAvatarUploadingState ||
+            current is ProfileAvatarDeletingState;
+        return avatarOf(previous) != avatarOf(current) || busyPrev != busyCurr;
+      },
+      builder: (context, state) {
+        final ready = state is ProfileReadyState ? state : null;
+        final isBusy =
+            state is ProfileAvatarUploadingState ||
+            state is ProfileAvatarDeletingState;
+
+        final avatarUrl = ready?.profile.avatarUrl?.toString();
+
+        return Column(
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 50,
+                  backgroundImage: avatarUrl != null
+                      ? NetworkImage(avatarUrl)
+                      : null,
+                  child: avatarUrl == null
+                      ? const Icon(Icons.person_outline, size: 40)
+                      : null,
+                ),
+                if (isBusy)
+                  const Positioned.fill(
+                    child: ColoredBox(
+                      color: Colors.black26,
+                      child: Center(
+                        child: SizedBox(
+                          height: 25,
+                          width: 25,
+                          child: CircularProgressIndicator(strokeWidth: 2.5),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: isBusy
+                        ? null
+                        : () async {
+                            final bloc = context.read<ProfileBloc>();
+                            final picker = ImagePicker();
+                            final xfile = await picker.pickImage(
+                              source: ImageSource.gallery,
+                              maxWidth: 1024,
+                              imageQuality: 90,
+                            );
+                            if (xfile == null) return;
+                            await bloc.uploadAvatar(xfile.path);
+                          },
+                    icon: const Icon(Icons.edit),
+                    label: Text(strings.changePhotoAction),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: FilledButton.icon(
+                    onPressed: isBusy
+                        ? null
+                        : () async {
+                            final bloc = context.read<ProfileBloc>();
+                            await bloc.deleteAvatar();
+                          },
+                    icon: const Icon(Icons.delete_outline),
+                    label: Text(strings.removePhotoAction),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
 class _ProfileView extends StatelessWidget {
   const _ProfileView();
 
@@ -136,11 +287,7 @@ class _ProfileView extends StatelessWidget {
               );
             } else if (state is ProfileFormFailureState) {
               messenger.showSnackBar(
-                SnackBar(
-                  content: Text(
-                    strings.profileError(state.message),
-                  ),
-                ),
+                SnackBar(content: Text(strings.profileError(state.message))),
               );
             }
           },
@@ -160,7 +307,7 @@ class _ProfileView extends StatelessWidget {
         appBar: AppBar(
           title: Text(strings.profileTitle),
           centerTitle: true,
-          actions: const [ProfileAppBarAction()],
+          actions: const [ProfileAvatarAction()],
         ),
         body: Center(
           child: ConstrainedBox(
@@ -181,7 +328,10 @@ class _ScrollableContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => RefreshIndicator(
-    onRefresh: () => context.read<ProfileBloc>().refresh(),
+    onRefresh: () async {
+      final bloc = context.read<ProfileBloc>();
+      await bloc.refresh();
+    },
     child: const SingleChildScrollView(
       physics: AlwaysScrollableScrollPhysics(),
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -189,6 +339,8 @@ class _ScrollableContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(height: 12),
+          ProfileAvatarHeader(),
+          SizedBox(height: 16),
           _EmailField(),
           SizedBox(height: 16),
           _FirstNameField(),

@@ -19,8 +19,7 @@ final class ProfileRepositoryImpl implements ProfileRepository {
     if (cached != null) return cached;
 
     try {
-      final json = await _api.getUser();
-      final dto = _api.parseUser(json);
+      final dto = await _api.getUser();
       final profile = ProfileMapper.toDomain(dto);
       _cached = profile;
       return profile;
@@ -44,20 +43,12 @@ final class ProfileRepositoryImpl implements ProfileRepository {
         phone: phone,
       );
 
-      final json = await _api.updateUser(body);
+      await _api.updateUser(body);
 
-      try {
-        final dto = _api.parseUser(json);
-        final profile = ProfileMapper.toDomain(dto);
-        _cached = profile;
-        return profile;
-      } on Object catch (_) {
-        final fresh = await _api.getUser();
-        final dto = _api.parseUser(fresh);
-        final profile = ProfileMapper.toDomain(dto);
-        _cached = profile;
-        return profile;
-      }
+      final dto = await _api.getUser();
+      final updated = ProfileMapper.toDomain(dto);
+      _cached = updated;
+      return updated;
     } on DioException {
       rethrow;
     } on Object catch (error, _) {
@@ -68,40 +59,13 @@ final class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Uri?> uploadAvatar({required String filePath}) async {
     try {
-      final json = await _api.uploadAvatar(filePath: filePath);
-
-      try {
-        final dto = _api.parseUser(json);
-        final profile = ProfileMapper.toDomain(dto);
-        _cached = profile;
-        return profile.avatarUrl;
-      } on Object catch (_) {
-        final icon = _pickString(json, const [
-          'icon',
-          'avatar_url',
-          'avatarUrl',
-          'photo',
-        ]);
-
-        if (icon != null && icon.isNotEmpty) {
-          final url = Uri.tryParse(icon);
-          try {
-            final fresh = await _api.getUser();
-            final dto = _api.parseUser(fresh);
-            _cached = ProfileMapper.toDomain(dto);
-          } on Object catch (_) {}
-          return url;
-        }
-
-        final cached = _cached;
-        if (cached != null) return cached.avatarUrl;
-
-        final fresh = await _api.getUser();
-        final dto = _api.parseUser(fresh);
-        final profile = ProfileMapper.toDomain(dto);
-        _cached = profile;
-        return profile.avatarUrl;
-      }
+      await _api.uploadAvatar(filePath: filePath);
+      final refreshed = await _refreshFromBackend();
+      final busted = refreshed.copyWith(
+        avatarUrl: _withBust(refreshed.avatarUrl),
+      );
+      _cached = busted;
+      return busted.avatarUrl;
     } on DioException {
       rethrow;
     } on Object catch (error, _) {
@@ -113,11 +77,7 @@ final class ProfileRepositoryImpl implements ProfileRepository {
   Future<void> deleteAvatar() async {
     try {
       await _api.deleteAvatar();
-      try {
-        final fresh = await _api.getUser();
-        final dto = _api.parseUser(fresh);
-        _cached = ProfileMapper.toDomain(dto);
-      } on Object catch (_) {}
+      _cached = await _refreshFromBackend();
     } on DioException {
       rethrow;
     } on Object catch (error, _) {
@@ -130,11 +90,16 @@ final class ProfileRepositoryImpl implements ProfileRepository {
     _cached = null;
   }
 
-  String? _pickString(Map<String, Object?> json, List<String> keys) {
-    for (final key in keys) {
-      final value = json[key];
-      if (value is String && value.isNotEmpty) return value;
-    }
-    return null;
+  Future<UserProfile> _refreshFromBackend() async {
+    final dto = await _api.getUser();
+    return ProfileMapper.toDomain(dto);
+  }
+
+  Uri? _withBust(Uri? url) {
+    if (url == null) return null;
+    final sep = url.query.isEmpty ? '?' : '&';
+    return Uri.parse(
+      '$url${sep}v=${DateTime.now().millisecondsSinceEpoch}',
+    );
   }
 }

@@ -11,14 +11,11 @@ sealed class ProfileApi {
 
   const ProfileApi._();
 
-  Future<Map<String, Object?>> getUser();
+  Future<UserProfileDto> getUser();
 
-  UserProfileDto parseUser(Map<String, Object?> json) =>
-      UserProfileDto.fromJson(_extractData(json));
+  Future<void> updateUser(UpdateUserRequestDto dto);
 
-  Future<Map<String, Object?>> updateUser(UpdateUserRequestDto dto);
-
-  Future<Map<String, Object?>> uploadAvatar({
+  Future<void> uploadAvatar({
     required String filePath,
     String? fileName,
   });
@@ -32,22 +29,21 @@ final class _ProfileApiImpl extends ProfileApi {
   _ProfileApiImpl(this.dio) : super._();
 
   @override
-  Future<Map<String, Object?>> getUser() async {
+  Future<UserProfileDto> getUser() async {
     final response = await dio.get<Map<String, Object?>>(_ApiParams.getUser);
-    return response.requireData;
+    return UserProfileDto.fromJson(_extractData(response.requireData));
   }
 
   @override
-  Future<Map<String, Object?>> updateUser(UpdateUserRequestDto dto) async {
-    final response = await dio.patch<Map<String, Object?>>(
+  Future<void> updateUser(UpdateUserRequestDto dto) async {
+    await dio.patch<void>(
       _ApiParams.updateUser,
       data: dto.toJson(),
     );
-    return response.requireData;
   }
 
   @override
-  Future<Map<String, Object?>> uploadAvatar({
+  Future<void> uploadAvatar({
     required String filePath,
     String? fileName,
   }) async {
@@ -55,12 +51,11 @@ final class _ProfileApiImpl extends ProfileApi {
       'file': await MultipartFile.fromFile(filePath, filename: fileName),
     });
 
-    final response = await dio.post<Map<String, Object?>>(
+    await dio.post<void>(
       _ApiParams.uploadAvatar,
       data: form,
       options: Options(contentType: 'multipart/form-data'),
     );
-    return response.requireData;
   }
 
   @override
@@ -71,8 +66,6 @@ final class _ProfileApiImpl extends ProfileApi {
 
 Map<String, dynamic> _extractData(Map<String, Object?> json) {
   final data = json['data'];
-  if (data is Map) {
-    return Map<String, dynamic>.from(data);
-  }
+  if (data is Map) return Map<String, dynamic>.from(data);
   return Map<String, dynamic>.from(json);
 }

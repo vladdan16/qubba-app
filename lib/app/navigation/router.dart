@@ -48,7 +48,17 @@ abstract final class AppRouter {
           init: () => UserDependenciesImpl.init(
             appDeps: AppScope.of(context),
           ),
-          authorized: (context) => child,
+          authorized: (context) => BlocProvider<ProfileBloc>(
+            lazy: false,
+            create: (context) {
+              final profileRepository = UserScope.of(context).profileRepository;
+              final bloc = ProfileBloc(repository: profileRepository);
+              final loadCompleter = Completer<UserProfile>();
+              bloc.add(ProfileLoadRequested(completer: loadCompleter));
+              return bloc;
+            },
+            child: child,
+          ),
         ),
         routes: [
           GoRoute(
@@ -63,20 +73,11 @@ abstract final class AppRouter {
                 AuthAuthenticated(:final user) => user.id,
                 _ => '',
               };
-
-              final repo = UserScope.of(context).profileRepository;
-
-              return BlocProvider(
-                create: (_) => ProfileBloc(repository: repo)
-                  ..add(
-                    ProfileLoadRequested(completer: Completer<UserProfile>()),
-                  ),
-                child: ProfilePage(email: email),
-              );
+              return ProfilePage(email: email);
             },
           ),
           ShellRoute(
-            builder: (context, state, child) => BlocProvider(
+            builder: (context, state, child) => BlocProvider<CabinetsBloc>(
               create: (context) => CabinetsBloc(
                 repository: UserScope.of(context).cabinetsRepository,
               ),

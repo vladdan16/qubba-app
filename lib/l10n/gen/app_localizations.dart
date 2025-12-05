@@ -319,6 +319,24 @@ abstract class Strings {
   /// **'Digits only, length 7–20'**
   String get phoneInvalid;
 
+  /// No description provided for @changePhotoAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get changePhotoAction;
+
+  /// No description provided for @removePhotoAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get removePhotoAction;
+
+  /// No description provided for @cancelAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelAction;
+
   /// No description provided for @cabinetsTitle.
   ///
   /// In en, this message translates to:

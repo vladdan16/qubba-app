@@ -55,6 +55,10 @@
   "phoneEmpty": "Укажите номер телефона",
   "phoneInvalid": "Только цифры, длина 7–20",
 
+  "changePhotoAction": "Сменить фото",
+  "removePhotoAction": "Удалить фото",
+  "cancelAction": "Отмена",
+
   "cabinetsTitle": "Кабинеты",
   "cabinetsNew": "Новый",
   "cabinetsError": "Ошибка: {error}",
