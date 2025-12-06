@@ -148,14 +148,9 @@ class ProfileAvatarAction extends StatelessWidget {
               title: Text(strings.changePhotoAction),
               onTap: () async {
                 Navigator.of(sheetCtx).pop();
-                final picker = ImagePicker();
-                final xfile = await picker.pickImage(
-                  source: ImageSource.gallery,
-                  maxWidth: 1024,
-                  imageQuality: 90,
-                );
-                if (xfile == null) return;
-                await bloc.uploadAvatar(xfile.path);
+                final path = await _pickAvatarImage();
+                if (path == null) return;
+                await bloc.uploadAvatar(path);
               },
             ),
             ListTile(
@@ -251,14 +246,9 @@ class ProfileAvatarHeader extends StatelessWidget {
                         ? null
                         : () async {
                             final bloc = context.read<ProfileBloc>();
-                            final picker = ImagePicker();
-                            final xfile = await picker.pickImage(
-                              source: ImageSource.gallery,
-                              maxWidth: 1024,
-                              imageQuality: 90,
-                            );
-                            if (xfile == null) return;
-                            await bloc.uploadAvatar(xfile.path);
+                            final path = await _pickAvatarImage();
+                            if (path == null) return;
+                            await bloc.uploadAvatar(path);
                           },
                     icon: const Icon(Icons.edit),
                     label: Text(strings.changePhotoAction),
@@ -583,3 +573,15 @@ String? _phoneErrorText(Strings strings, PhoneInvalidStatus? s) => switch (s) {
   PhoneInvalidStatus.invalid => strings.phoneInvalid,
   null => null,
 };
+
+/// Picks an image from gallery with consistent parameters.
+/// Returns the file path if an image was selected, null otherwise.
+Future<String?> _pickAvatarImage() async {
+  final picker = ImagePicker();
+  final xfile = await picker.pickImage(
+    source: ImageSource.gallery,
+    maxWidth: 1024,
+    imageQuality: 90,
+  );
+  return xfile?.path;
+}
