@@ -1,14 +1,15 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+class UserProfile {
+  const UserProfile({
+    required this.email,
+    required this.firstName,
+    required this.lastName,
+    required this.phone,
+    this.avatarUrl,
+  });
 
-part 'user_profile.freezed.dart';
-
-@freezed
-abstract class UserProfile with _$UserProfile {
-  const factory UserProfile({
-    required String email,
-    required String firstName,
-    required String lastName,
-    required String phone,
-    Uri? avatarUrl,
-  }) = _UserProfile;
+  final String email;
+  final String firstName;
+  final String lastName;
+  final String phone;
+  final Uri? avatarUrl;
 }

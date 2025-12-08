@@ -1,3 +1,4 @@
+import 'dart:io' as io;
 import 'package:dio/dio.dart';
 
 import '../../../../utils/require_data.dart';
@@ -47,9 +48,23 @@ final class _ProfileApiImpl extends ProfileApi {
     required String filePath,
     String? fileName,
   }) async {
-    final form = FormData.fromMap({
-      'file': await MultipartFile.fromFile(filePath, filename: fileName),
-    });
+    MultipartFile filePart;
+    try {
+      final file = io.File(filePath);
+      if (!file.existsSync()) {
+        throw io.FileSystemException('Avatar file not found', filePath);
+      }
+      filePart = await MultipartFile.fromFile(filePath, filename: fileName);
+    } on Object catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: RequestOptions(path: _ApiParams.uploadAvatar),
+        error: error,
+        message: 'Failed to attach avatar file: $filePath',
+        stackTrace: stackTrace,
+      );
+    }
+
+    final form = FormData.fromMap({'file': filePart});
 
     await dio.post<void>(
       _ApiParams.uploadAvatar,

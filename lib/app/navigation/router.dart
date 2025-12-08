@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -16,7 +14,6 @@ import '../../features/cabinets/ui/cabinet_form_screen.dart';
 import '../../features/cabinets/ui/cabinets_list_screen.dart';
 import '../../features/home/ui/home_page.dart';
 import '../../features/profile/domain/bloc/profile_bloc.dart';
-import '../../features/profile/domain/models/user_profile.dart';
 import '../../features/profile/ui/pages/profile_page.dart';
 
 abstract final class AppRouter {
@@ -52,9 +49,8 @@ abstract final class AppRouter {
             lazy: false,
             create: (context) {
               final profileRepository = UserScope.of(context).profileRepository;
-              final bloc = ProfileBloc(repository: profileRepository);
-              final loadCompleter = Completer<UserProfile>();
-              bloc.add(ProfileLoadRequested(completer: loadCompleter));
+              final bloc = ProfileBloc(repository: profileRepository)
+                ..add(const ProfileLoadRequested());
               return bloc;
             },
             child: child,

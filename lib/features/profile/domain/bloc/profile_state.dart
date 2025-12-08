@@ -2,6 +2,8 @@ part of 'profile_bloc.dart';
 
 sealed class ProfileState {
   const ProfileState();
+
+  bool get isBusy => false;
 }
 
 final class ProfileInitialState extends ProfileState {
@@ -12,10 +14,14 @@ final class ProfileLoadingState extends ProfileState {
   const ProfileLoadingState();
 }
 
-class ProfileReadyState extends ProfileState {
+sealed class ProfileReadyState extends ProfileState {
   const ProfileReadyState({required this.profile});
 
   final UserProfile profile;
+}
+
+final class ProfileReadyIdleState extends ProfileReadyState {
+  const ProfileReadyIdleState({required super.profile});
 }
 
 final class ProfileRefreshingState extends ProfileReadyState {
@@ -28,10 +34,16 @@ final class ProfileUpdatingState extends ProfileReadyState {
 
 final class ProfileAvatarUploadingState extends ProfileReadyState {
   const ProfileAvatarUploadingState({required super.profile});
+
+  @override
+  bool get isBusy => true;
 }
 
 final class ProfileAvatarDeletingState extends ProfileReadyState {
   const ProfileAvatarDeletingState({required super.profile});
+
+  @override
+  bool get isBusy => true;
 }
 
 final class ProfileFailureState extends ProfileState {

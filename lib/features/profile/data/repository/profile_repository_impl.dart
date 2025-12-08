@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../../domain/exceptions/profile_exceptions.dart';
 import '../../domain/models/user_profile.dart';
 import '../../domain/repository/profile_repository.dart';
 import '../api/profile_api.dart';
@@ -7,26 +8,34 @@ import '../mappers/user_profile_mapper.dart';
 import '../models/update_user_request_dto.dart';
 
 final class ProfileRepositoryImpl implements ProfileRepository {
-  ProfileRepositoryImpl(this._api);
+  ProfileRepositoryImpl(this._profileApi);
 
-  final ProfileApi _api;
+  final ProfileApi _profileApi;
 
-  UserProfile? _cached;
+  UserProfile? _cachedUserProfile;
 
   @override
   Future<UserProfile> getProfile() async {
-    final cached = _cached;
-    if (cached != null) return cached;
-
+    final cachedUserProfile = _cachedUserProfile;
+    if (cachedUserProfile != null) return cachedUserProfile;
     try {
-      final dto = await _api.getUser();
-      final profile = ProfileMapper.toDomain(dto);
-      _cached = profile;
-      return profile;
-    } on DioException {
-      rethrow;
-    } on Object catch (error, _) {
-      throw Exception('Failed to load profile: $error');
+      final userProfileDto = await _profileApi.getUser();
+      final userProfile = ProfileMapper.toDomain(userProfileDto);
+      _cachedUserProfile = userProfile;
+      return userProfile;
+    } on DioException catch (dioError, stackTrace) {
+      throw ProfileLoadException(
+        message: _buildErrorMessage('Failed to load profile', dioError),
+        statusCode: dioError.response?.statusCode,
+        cause: dioError,
+        stackTrace: stackTrace,
+      );
+    } catch (error, stackTrace) {
+      throw ProfileLoadException(
+        message: 'Failed to load profile',
+        cause: error,
+        stackTrace: stackTrace,
+      );
     }
   }
 
@@ -37,69 +46,98 @@ final class ProfileRepositoryImpl implements ProfileRepository {
     required String phone,
   }) async {
     try {
-      final body = UpdateUserRequestDto(
+      final requestDto = UpdateUserRequestDto(
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         phone: phone,
       );
-
-      await _api.updateUser(body);
-
-      final dto = await _api.getUser();
-      final updated = ProfileMapper.toDomain(dto);
-      _cached = updated;
-      return updated;
-    } on DioException {
-      rethrow;
-    } on Object catch (error, _) {
-      throw Exception('Failed to update profile: $error');
+      await _profileApi.updateUser(requestDto);
+      final userProfileDto = await _profileApi.getUser();
+      final updatedUserProfile = ProfileMapper.toDomain(userProfileDto);
+      _cachedUserProfile = updatedUserProfile;
+      return updatedUserProfile;
+    } on DioException catch (dioError, stackTrace) {
+      throw ProfileUpdateException(
+        message: _buildErrorMessage('Failed to update profile', dioError),
+        statusCode: dioError.response?.statusCode,
+        cause: dioError,
+        stackTrace: stackTrace,
+      );
+    } catch (error, stackTrace) {
+      throw ProfileUpdateException(
+        message: 'Failed to update profile',
+        cause: error,
+        stackTrace: stackTrace,
+      );
     }
   }
 
   @override
   Future<Uri?> uploadAvatar({required String filePath}) async {
     try {
-      await _api.uploadAvatar(filePath: filePath);
-      final refreshed = await _refreshFromBackend();
-      final busted = refreshed.copyWith(
-        avatarUrl: _withBust(refreshed.avatarUrl),
+      await _profileApi.uploadAvatar(filePath: filePath);
+      final refreshedUserProfile = await _fetchUserProfileFromBackend();
+      _cachedUserProfile = refreshedUserProfile;
+      return refreshedUserProfile.avatarUrl;
+    } on DioException catch (dioError, stackTrace) {
+      throw ProfileAvatarUploadException(
+        message: _buildErrorMessage('Failed to upload avatar', dioError),
+        statusCode: dioError.response?.statusCode,
+        cause: dioError,
+        stackTrace: stackTrace,
       );
-      _cached = busted;
-      return busted.avatarUrl;
-    } on DioException {
-      rethrow;
-    } on Object catch (error, _) {
-      throw Exception('Failed to upload avatar: $error');
+    } catch (error, stackTrace) {
+      throw ProfileAvatarUploadException(
+        message: 'Failed to upload avatar',
+        cause: error,
+        stackTrace: stackTrace,
+      );
     }
   }
 
   @override
   Future<void> deleteAvatar() async {
     try {
-      await _api.deleteAvatar();
-      _cached = await _refreshFromBackend();
-    } on DioException {
-      rethrow;
-    } on Object catch (error, _) {
-      throw Exception('Failed to delete avatar: $error');
+      await _profileApi.deleteAvatar();
+      _cachedUserProfile = await _fetchUserProfileFromBackend();
+    } on DioException catch (dioError, stackTrace) {
+      throw ProfileAvatarDeleteException(
+        message: _buildErrorMessage('Failed to delete avatar', dioError),
+        statusCode: dioError.response?.statusCode,
+        cause: dioError,
+        stackTrace: stackTrace,
+      );
+    } catch (error, stackTrace) {
+      throw ProfileAvatarDeleteException(
+        message: 'Failed to delete avatar',
+        cause: error,
+        stackTrace: stackTrace,
+      );
     }
   }
 
   @override
   Future<void> dispose() async {
-    _cached = null;
+    _cachedUserProfile = null;
   }
 
-  Future<UserProfile> _refreshFromBackend() async {
-    final dto = await _api.getUser();
-    return ProfileMapper.toDomain(dto);
+  Future<UserProfile> _fetchUserProfileFromBackend() async {
+    final userProfileDto = await _profileApi.getUser();
+    return ProfileMapper.toDomain(userProfileDto);
   }
 
-  Uri? _withBust(Uri? url) {
-    if (url == null) return null;
-    final sep = url.query.isEmpty ? '?' : '&';
-    return Uri.parse(
-      '$url${sep}v=${DateTime.now().millisecondsSinceEpoch}',
-    );
+  String _buildErrorMessage(String baseMessage, DioException dioError) {
+    final statusCode = dioError.response?.statusCode;
+    if (statusCode != null) return '$baseMessage (HTTP $statusCode)';
+    return switch (dioError.type) {
+      DioExceptionType.connectionTimeout => '$baseMessage (connection timeout)',
+      DioExceptionType.sendTimeout => '$baseMessage (send timeout)',
+      DioExceptionType.receiveTimeout => '$baseMessage (receive timeout)',
+      DioExceptionType.badCertificate => '$baseMessage (bad certificate)',
+      DioExceptionType.badResponse => '$baseMessage (bad response)',
+      DioExceptionType.cancel => '$baseMessage (cancelled)',
+      DioExceptionType.connectionError => '$baseMessage (connection error)',
+      DioExceptionType.unknown => baseMessage,
+    };
   }
 }

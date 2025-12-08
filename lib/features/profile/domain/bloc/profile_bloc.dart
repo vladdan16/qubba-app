@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 
@@ -22,47 +21,6 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   final ProfileRepository _repository;
 
-  Future<UserProfile> load() {
-    final comp = Completer<UserProfile>();
-    add(ProfileLoadRequested(completer: comp));
-    return comp.future;
-  }
-
-  Future<UserProfile> refresh() {
-    final comp = Completer<UserProfile>();
-    add(ProfileRefreshRequested(completer: comp));
-    return comp.future;
-  }
-
-  Future<UserProfile> updateProfile({
-    required String firstName,
-    required String lastName,
-    required String phone,
-  }) {
-    final comp = Completer<UserProfile>();
-    add(
-      ProfileUpdateRequested(
-        firstName: firstName,
-        lastName: lastName,
-        phone: phone,
-        completer: comp,
-      ),
-    );
-    return comp.future;
-  }
-
-  Future<Uri?> uploadAvatar(String filePath) {
-    final comp = Completer<Uri?>();
-    add(ProfileAvatarUploadRequested(filePath: filePath, completer: comp));
-    return comp.future;
-  }
-
-  Future<void> deleteAvatar() {
-    final comp = Completer<void>();
-    add(ProfileAvatarDeleteRequested(completer: comp));
-    return comp.future;
-  }
-
   Future<void> _onLoad(
     ProfileLoadRequested event,
     Emitter<ProfileState> emit,
@@ -70,11 +28,9 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(const ProfileLoadingState());
     try {
       final profile = await _repository.getProfile();
-      emit(ProfileReadyState(profile: profile));
-      event.completer.complete(profile);
+      emit(ProfileReadyIdleState(profile: profile));
     } on Object catch (error, _) {
       emit(ProfileFailureState(message: error.toString()));
-      event.completer.completeError(error);
     }
   }
 
@@ -90,8 +46,7 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
     try {
       final profile = await _repository.getProfile();
-      emit(ProfileReadyState(profile: profile));
-      event.completer.complete(profile);
+      emit(ProfileReadyIdleState(profile: profile));
     } on Object catch (error, _) {
       emit(
         ProfileFailureState(
@@ -99,7 +54,6 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           lastKnown: prev is ProfileReadyState ? prev.profile : null,
         ),
       );
-      event.completer.completeError(error);
     }
   }
 
@@ -117,8 +71,7 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         lastName: event.lastName,
         phone: event.phone,
       );
-      emit(ProfileReadyState(profile: updated));
-      event.completer.complete(updated);
+      emit(ProfileReadyIdleState(profile: updated));
     } on Object catch (error, _) {
       emit(
         ProfileFailureState(
@@ -126,7 +79,6 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           lastKnown: prev is ProfileReadyState ? prev.profile : null,
         ),
       );
-      event.completer.completeError(error);
     }
   }
 
@@ -139,10 +91,9 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(ProfileAvatarUploadingState(profile: prev.profile));
     }
     try {
-      final uri = await _repository.uploadAvatar(filePath: event.filePath);
+      await _repository.uploadAvatar(filePath: event.filePath);
       final fresh = await _repository.getProfile();
-      emit(ProfileReadyState(profile: fresh));
-      event.completer.complete(uri);
+      emit(ProfileReadyIdleState(profile: fresh));
     } on Object catch (error, _) {
       emit(
         ProfileFailureState(
@@ -150,7 +101,6 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           lastKnown: prev is ProfileReadyState ? prev.profile : null,
         ),
       );
-      event.completer.completeError(error);
     }
   }
 
@@ -165,8 +115,7 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       await _repository.deleteAvatar();
       final fresh = await _repository.getProfile();
-      emit(ProfileReadyState(profile: fresh));
-      event.completer.complete();
+      emit(ProfileReadyIdleState(profile: fresh));
     } on Object catch (error, _) {
       emit(
         ProfileFailureState(
@@ -174,7 +123,6 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           lastKnown: prev is ProfileReadyState ? prev.profile : null,
         ),
       );
-      event.completer.completeError(error);
     }
   }
 }

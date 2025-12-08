@@ -26,23 +26,32 @@ class ProfileAvatarButton extends StatelessWidget {
     return BlocBuilder<ProfileBloc, ProfileState>(
       buildWhen: (previous, current) {
         Uri? avatarOf(ProfileState s) => switch (s) {
-          ProfileReadyState(:final profile) => profile.avatarUrl,
-          _ => null,
+          ProfileReadyIdleState(:final profile) => profile.avatarUrl,
+          ProfileRefreshingState(:final profile) => profile.avatarUrl,
+          ProfileUpdatingState(:final profile) => profile.avatarUrl,
+          ProfileAvatarUploadingState(:final profile) => profile.avatarUrl,
+          ProfileAvatarDeletingState(:final profile) => profile.avatarUrl,
+          ProfileInitialState() => null,
+          ProfileLoadingState() => null,
+          ProfileFailureState() => null,
         };
 
         return avatarOf(previous) != avatarOf(current) ||
-            previous.runtimeType != current.runtimeType;
+            previous.isBusy != current.isBusy;
       },
       builder: (context, state) {
         final profile = switch (state) {
-          ProfileReadyState(:final profile) => profile,
-          _ => null,
+          ProfileReadyIdleState(:final profile) => profile,
+          ProfileRefreshingState(:final profile) => profile,
+          ProfileUpdatingState(:final profile) => profile,
+          ProfileAvatarUploadingState(:final profile) => profile,
+          ProfileAvatarDeletingState(:final profile) => profile,
+          ProfileInitialState() => null,
+          ProfileLoadingState() => null,
+          ProfileFailureState() => null,
         };
 
-        final isBusy =
-            state is ProfileAvatarUploadingState ||
-            state is ProfileAvatarDeletingState;
-
+        final isBusy = state.isBusy;
         final avatarUrlString = profile?.avatarUrl?.toString();
 
         final icon = CircleAvatar(

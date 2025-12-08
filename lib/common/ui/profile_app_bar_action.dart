@@ -9,9 +9,7 @@ class ProfileAppBarAction extends StatelessWidget {
   const ProfileAppBarAction({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ProfileAvatarButton(
-      onPressed: () => context.goToProfile(),
-    );
-  }
+  Widget build(BuildContext context) => ProfileAvatarButton(
+    onPressed: () => context.goToProfile(),
+  );
 }

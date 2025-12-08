@@ -42,15 +42,15 @@ final class UserDependenciesImpl implements UserDependencies {
       ),
     );
 
+    dio.interceptors.addAll([
+      LogInterceptor(requestBody: true),
+    ]);
+
     final cabinetsApi = CabinetsApi(dio);
     final cabinetsRepository = CabinetsRepositoryImpl(api: cabinetsApi);
 
     final profileApi = ProfileApi(dio);
     final profileRepository = ProfileRepositoryImpl(profileApi);
-
-    dio.interceptors.addAll([
-      LogInterceptor(requestBody: true, responseBody: true),
-    ]);
 
     return UserDependenciesImpl._(
       dio: dio,

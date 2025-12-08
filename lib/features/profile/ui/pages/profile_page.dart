@@ -49,7 +49,9 @@ class ProfilePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     FilledButton(
-                      onPressed: () => context.read<ProfileBloc>().load(),
+                      onPressed: () => context.read<ProfileBloc>().add(
+                        const ProfileLoadRequested(),
+                      ),
                       child: Text(strings.profileRetry),
                     ),
                   ],
@@ -68,7 +70,14 @@ class ProfilePage extends StatelessWidget {
           );
         }
 
-        final formKey = ObjectKey(profile);
+        final formKey = ValueKey<String>(
+          [
+            profile.email,
+            profile.firstName,
+            profile.lastName,
+            profile.phone,
+          ].join('|'),
+        );
 
         return BlocProvider<ProfileFormBloc>(
           key: formKey,
@@ -78,11 +87,21 @@ class ProfilePage extends StatelessWidget {
                   required String firstName,
                   required String lastName,
                   required String phone,
-                }) => context.read<ProfileBloc>().updateProfile(
-                  firstName: firstName,
-                  lastName: lastName,
-                  phone: phone,
-                ),
+                }) async {
+                  final bloc = context.read<ProfileBloc>();
+                  final finished = bloc.stream.firstWhere(
+                    (s) =>
+                        s is ProfileReadyIdleState || s is ProfileFailureState,
+                  );
+                  bloc.add(
+                    ProfileUpdateRequested(
+                      firstName: firstName,
+                      lastName: lastName,
+                      phone: phone,
+                    ),
+                  );
+                  await finished;
+                },
             email: profile.email.isNotEmpty ? profile.email : email,
             firstName: profile.firstName.isNotEmpty
                 ? profile.firstName
@@ -134,7 +153,6 @@ class ProfileAvatarAction extends StatelessWidget {
 
   Future<void> _showAvatarActions(BuildContext context) async {
     final strings = Strings.of(context);
-    final bloc = context.read<ProfileBloc>();
 
     await showModalBottomSheet<void>(
       context: context,
@@ -148,9 +166,12 @@ class ProfileAvatarAction extends StatelessWidget {
               title: Text(strings.changePhotoAction),
               onTap: () async {
                 Navigator.of(sheetCtx).pop();
+                final bloc = context.read<ProfileBloc>();
                 final path = await _pickAvatarImage();
                 if (path == null) return;
-                await bloc.uploadAvatar(path);
+                bloc.add(
+                  ProfileAvatarUploadRequested(filePath: path),
+                );
               },
             ),
             ListTile(
@@ -158,7 +179,9 @@ class ProfileAvatarAction extends StatelessWidget {
               title: Text(strings.removePhotoAction),
               onTap: () async {
                 Navigator.of(sheetCtx).pop();
-                await bloc.deleteAvatar();
+                context.read<ProfileBloc>().add(
+                  const ProfileAvatarDeleteRequested(),
+                );
               },
             ),
             const Divider(height: 0),
@@ -174,11 +197,8 @@ class ProfileAvatarAction extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return ProfileAvatarButton(
-      onPressed: () => _showAvatarActions(context),
-    );
-  }
+  Widget build(BuildContext context) =>
+      ProfileAvatarButton(onPressed: () => _showAvatarActions(context));
 }
 
 class ProfileAvatarHeader extends StatelessWidget {
@@ -202,9 +222,7 @@ class ProfileAvatarHeader extends StatelessWidget {
       },
       builder: (context, state) {
         final ready = state is ProfileReadyState ? state : null;
-        final isBusy =
-            state is ProfileAvatarUploadingState ||
-            state is ProfileAvatarDeletingState;
+        final isBusy = state.isBusy;
 
         final avatarUrl = ready?.profile.avatarUrl?.toString();
 
@@ -248,7 +266,9 @@ class ProfileAvatarHeader extends StatelessWidget {
                             final bloc = context.read<ProfileBloc>();
                             final path = await _pickAvatarImage();
                             if (path == null) return;
-                            await bloc.uploadAvatar(path);
+                            bloc.add(
+                              ProfileAvatarUploadRequested(filePath: path),
+                            );
                           },
                     icon: const Icon(Icons.edit),
                     label: Text(strings.changePhotoAction),
@@ -260,8 +280,9 @@ class ProfileAvatarHeader extends StatelessWidget {
                     onPressed: isBusy
                         ? null
                         : () async {
-                            final bloc = context.read<ProfileBloc>();
-                            await bloc.deleteAvatar();
+                            context.read<ProfileBloc>().add(
+                              const ProfileAvatarDeleteRequested(),
+                            );
                           },
                     icon: const Icon(Icons.delete_outline),
                     label: Text(strings.removePhotoAction),
@@ -334,7 +355,11 @@ class _ScrollableContent extends StatelessWidget {
   Widget build(BuildContext context) => RefreshIndicator(
     onRefresh: () async {
       final bloc = context.read<ProfileBloc>();
-      await bloc.refresh();
+      final finished = bloc.stream.firstWhere(
+        (s) => s is ProfileReadyIdleState || s is ProfileFailureState,
+      );
+      bloc.add(const ProfileRefreshRequested());
+      await finished;
     },
     child: const SingleChildScrollView(
       physics: AlwaysScrollableScrollPhysics(),
