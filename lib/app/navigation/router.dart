@@ -13,6 +13,7 @@ import '../../features/cabinets/domain/models/cabinet.dart';
 import '../../features/cabinets/ui/cabinet_form_screen.dart';
 import '../../features/cabinets/ui/cabinets_list_screen.dart';
 import '../../features/home/ui/home_page.dart';
+import '../../features/profile/domain/bloc/profile_bloc.dart';
 import '../../features/profile/ui/pages/profile_page.dart';
 
 abstract final class AppRouter {
@@ -44,7 +45,16 @@ abstract final class AppRouter {
           init: () => UserDependenciesImpl.init(
             appDeps: AppScope.of(context),
           ),
-          authorized: (context) => child,
+          authorized: (context) => BlocProvider<ProfileBloc>(
+            lazy: false,
+            create: (context) {
+              final profileRepository = UserScope.of(context).profileRepository;
+              final bloc = ProfileBloc(repository: profileRepository)
+                ..add(const ProfileLoadRequested());
+              return bloc;
+            },
+            child: child,
+          ),
         ),
         routes: [
           GoRoute(
@@ -59,13 +69,11 @@ abstract final class AppRouter {
                 AuthAuthenticated(:final user) => user.id,
                 _ => '',
               };
-              return ProfilePage(
-                email: email,
-              );
+              return ProfilePage(email: email);
             },
           ),
           ShellRoute(
-            builder: (context, state, child) => BlocProvider(
+            builder: (context, state, child) => BlocProvider<CabinetsBloc>(
               create: (context) => CabinetsBloc(
                 repository: UserScope.of(context).cabinetsRepository,
               ),

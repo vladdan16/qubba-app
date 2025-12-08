@@ -92,6 +92,9 @@ class StringsRu extends Strings {
   String get profileSaved => 'Сохранено';
 
   @override
+  String get profileRetry => 'Повторить';
+
+  @override
   String profileError(String error) {
     return 'Ошибка: $error';
   }
@@ -120,6 +123,15 @@ class StringsRu extends Strings {
 
   @override
   String get phoneInvalid => 'Только цифры, длина 7–20';
+
+  @override
+  String get changePhotoAction => 'Сменить фото';
+
+  @override
+  String get removePhotoAction => 'Удалить фото';
+
+  @override
+  String get cancelAction => 'Отмена';
 
   @override
   String get cabinetsTitle => 'Кабинеты';

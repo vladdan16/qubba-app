@@ -259,6 +259,12 @@ abstract class Strings {
   /// **'Saved'**
   String get profileSaved;
 
+  /// No description provided for @profileRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get profileRetry;
+
   /// No description provided for @profileError.
   ///
   /// In en, this message translates to:
@@ -312,6 +318,24 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Digits only, length 7–20'**
   String get phoneInvalid;
+
+  /// No description provided for @changePhotoAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get changePhotoAction;
+
+  /// No description provided for @removePhotoAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get removePhotoAction;
+
+  /// No description provided for @cancelAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelAction;
 
   /// No description provided for @cabinetsTitle.
   ///

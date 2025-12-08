@@ -36,6 +36,7 @@
   "saveAction": "Save",
 
   "profileSaved": "Saved",
+  "profileRetry": "Retry",
   "profileError": "Error: {error}",
   "@profileError": {
     "placeholders": {
@@ -53,6 +54,10 @@
 
   "phoneEmpty": "Enter phone number",
   "phoneInvalid": "Digits only, length 7–20",
+
+  "changePhotoAction": "Change photo",
+  "removePhotoAction": "Remove photo",
+  "cancelAction": "Cancel",
 
   "cabinetsTitle": "Cabinets",
   "cabinetsNew": "New",
