@@ -33,6 +33,37 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
     );
   }
 
+  void _handleStateChange(BuildContext context, CabinetEmployeesState state) {
+    final l10n = Strings.of(context);
+    switch (state) {
+      case CabinetEmployeesError(:final error):
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              l10n.cabinetEmployeesError(error.toString()),
+            ),
+            backgroundColor: Colors.red,
+          ),
+        );
+      case CabinetEmployeesLoaded() when _lastSuccessOperation != null:
+        // Show success message based on the last operation
+        final message = _lastSuccessOperation == 'add'
+            ? l10n.cabinetEmployeesAdded
+            : l10n.cabinetEmployeesRemoved;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            backgroundColor: Colors.green,
+          ),
+        );
+        _lastSuccessOperation = null; // Reset after showing
+      case CabinetEmployeesLoaded():
+      case CabinetEmployeesInitial():
+      case CabinetEmployeesLoading():
+      // no-op
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = Strings.of(context);
@@ -90,36 +121,7 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
           const Divider(),
           Expanded(
             child: BlocConsumer<CabinetEmployeesBloc, CabinetEmployeesState>(
-              listener: (context, state) {
-                switch (state) {
-                  case CabinetEmployeesError(:final error):
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          l10n.cabinetEmployeesError(error.toString()),
-                        ),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  case CabinetEmployeesLoaded()
-                      when _lastSuccessOperation != null:
-                    // Show success message based on the last operation
-                    final message = _lastSuccessOperation == 'add'
-                        ? l10n.cabinetEmployeesAdded
-                        : l10n.cabinetEmployeesRemoved;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(message),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
-                    _lastSuccessOperation = null; // Reset after showing
-                  case CabinetEmployeesLoaded():
-                  case CabinetEmployeesInitial():
-                  case CabinetEmployeesLoading():
-                  // no-op
-                }
-              },
+              listener: _handleStateChange,
               builder: (context, state) => switch (state) {
                 CabinetEmployeesInitial() ||
                 CabinetEmployeesLoading() => const Center(
