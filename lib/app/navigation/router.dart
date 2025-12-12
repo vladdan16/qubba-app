@@ -17,6 +17,7 @@ import '../../features/cabinets/ui/cabinets_list_screen.dart';
 import '../../features/home/ui/home_page.dart';
 import '../../features/profile/domain/bloc/profile_bloc.dart';
 import '../../features/profile/ui/pages/profile_page.dart';
+import '../../features/sales/ui/pages/sales_page.dart';
 
 abstract final class AppRouter {
   static final router = GoRouter(
@@ -62,6 +63,10 @@ abstract final class AppRouter {
           GoRoute(
             path: '/home',
             builder: (context, state) => const HomePage(),
+          ),
+          GoRoute(
+            path: '/sales',
+            builder: (context, state) => const SalesPage(),
           ),
           GoRoute(
             path: '/profile',

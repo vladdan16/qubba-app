@@ -151,4 +151,34 @@
   "cabinetEmployeesManageTooltip": "Manage access",
   "cabinetEmployeesEmailEmpty": "Enter email",
   "cabinetEmployeesEmailInvalid": "Invalid email"
+  "cabinetFormUnitMaintenanceCostInvalid": "Unit maintenance cost must be a number",
+
+  "salesTitle": "Sales",
+  "salesRetry": "Retry",
+
+  "salesMarketplaceWildberries": "Wildberries",
+  "salesMarketplaceOzon": "Ozon",
+
+  "salesPointsLabel": "Points: {count}",
+  "@salesPointsLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "salesEmptyMessage": "No data for selected period. Pull to refresh.",
+
+  "salesPreviewMessage": "Data loaded. Next step: chart.\nPoints count: {count}",
+  "@salesPreviewMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "salesLastLoadedPoints": "Last loaded points: {count}",
+  "@salesLastLoadedPoints": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

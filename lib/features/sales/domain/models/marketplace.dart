@@ -1,0 +1,4 @@
+enum Marketplace {
+  wildberries,
+  ozon,
+}

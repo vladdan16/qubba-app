@@ -750,6 +750,54 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Invalid email'**
   String get cabinetEmployeesEmailInvalid;
+
+  /// No description provided for @salesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales'**
+  String get salesTitle;
+
+  /// No description provided for @salesRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get salesRetry;
+
+  /// No description provided for @salesMarketplaceWildberries.
+  ///
+  /// In en, this message translates to:
+  /// **'Wildberries'**
+  String get salesMarketplaceWildberries;
+
+  /// No description provided for @salesMarketplaceOzon.
+  ///
+  /// In en, this message translates to:
+  /// **'Ozon'**
+  String get salesMarketplaceOzon;
+
+  /// No description provided for @salesPointsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Points: {count}'**
+  String salesPointsLabel(int count);
+
+  /// No description provided for @salesEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No data for selected period. Pull to refresh.'**
+  String get salesEmptyMessage;
+
+  /// No description provided for @salesPreviewMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Data loaded. Next step: chart.\nPoints count: {count}'**
+  String salesPreviewMessage(int count);
+
+  /// No description provided for @salesLastLoadedPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Last loaded points: {count}'**
+  String salesLastLoadedPoints(int count);
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {
