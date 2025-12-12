@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../common/ui/profile_avatar_button.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../authentication/domain/bloc/auth_bloc.dart';
 import '../../domain/bloc/profile_bloc.dart';
 import '../bloc/profile_form_bloc.dart';
 
@@ -141,7 +142,7 @@ class _ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Text(strings.profileTitle),
       centerTitle: true,
-      actions: const [ProfileAvatarAction()],
+      actions: const [_ProfileLogoutAction()],
     );
   }
 }
@@ -199,6 +200,16 @@ class ProfileAvatarAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       ProfileAvatarButton(onPressed: () => _showAvatarActions(context));
+}
+
+class _ProfileLogoutAction extends StatelessWidget {
+  const _ProfileLogoutAction();
+
+  @override
+  Widget build(BuildContext context) => IconButton(
+    icon: const Icon(Icons.logout),
+    onPressed: () => context.read<AuthBloc>().add(const AuthLogoutRequested()),
+  );
 }
 
 class ProfileAvatarHeader extends StatelessWidget {

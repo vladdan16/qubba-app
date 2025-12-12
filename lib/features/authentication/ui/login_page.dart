@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../common/ui/profile_app_bar_action.dart';
 import '../../../core/di/app/app_scope.dart';
 import '../../../l10n/l10n.dart';
 import 'bloc/login_form_bloc.dart';
@@ -39,7 +38,6 @@ class _LoginView extends StatelessWidget {
         appBar: AppBar(
           title: Text(strings.loginTitle),
           centerTitle: true,
-          actions: const [ProfileAppBarAction()],
         ),
         body: Center(
           child: ConstrainedBox(
