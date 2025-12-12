@@ -71,6 +71,6 @@ final class AuthInterceptor extends QueuedInterceptor {
       }
     }
 
-    handler.next(err);
+    handler.reject(err);
   }
 }

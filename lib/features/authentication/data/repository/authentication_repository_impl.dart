@@ -95,9 +95,8 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
   @override
   Future<void> logOut() async {
-    await _clearAll();
     _currentUser = User.empty;
-    await _saveUser(_currentUser);
+    await _clearAll();
     _controller.add(_currentUser);
   }
 
@@ -164,6 +163,7 @@ final class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<void> _clearAll() => [
     _secureStorage.delete(key: _tokenKey),
     _secureStorage.delete(key: _refreshTokenKey),
+    _secureStorage.delete(key: _userIdKey),
   ].wait;
 
   @override
