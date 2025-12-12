@@ -8,6 +8,7 @@ import '../models/employee.dart';
 import '../repository/cabinets_repository.dart';
 
 part 'cabinet_employees_event.dart';
+
 part 'cabinet_employees_state.dart';
 
 final class CabinetEmployeesBloc
@@ -29,8 +30,8 @@ final class CabinetEmployeesBloc
   ) async {
     emit(const CabinetEmployeesLoading());
     try {
-      final employees = await _repository.getCabinetEmployees(event.cabinetId);
-      emit(CabinetEmployeesLoaded(employees: employees));
+      final cabinet = await _repository.getCabinetById(event.cabinetId);
+      emit(CabinetEmployeesLoaded(employees: cabinet.employees));
     } on Object catch (error, stackTrace) {
       log('_onLoadCabinetEmployees', error: error, stackTrace: stackTrace);
       emit(CabinetEmployeesError(error: error, stackTrace: stackTrace));
@@ -54,11 +55,13 @@ final class CabinetEmployeesBloc
 
     emit(const CabinetEmployeesLoading());
     try {
-      final newEmployee = await _repository.addCabinetEmployee(
-        event.cabinetId,
+      final cabinetId = event.cabinetId;
+      await _repository.addCabinetEmployee(
+        cabinetId,
         event.email,
       );
-      final employees = [...currentState.employees, newEmployee];
+      final cabinet = await _repository.getCabinetById(cabinetId);
+      final employees = cabinet.employees;
       emit(CabinetEmployeesLoaded(employees: employees));
     } on Object catch (error, stackTrace) {
       log('_onAddCabinetEmployee', error: error, stackTrace: stackTrace);
@@ -85,10 +88,10 @@ final class CabinetEmployeesBloc
     try {
       await _repository.deleteCabinetEmployee(
         event.cabinetId,
-        event.employeeId,
+        event.email,
       );
       final employees = currentState.employees
-          .where((e) => e.id != event.employeeId)
+          .where((e) => e.email != event.email)
           .toList();
       emit(CabinetEmployeesLoaded(employees: employees));
     } on Object catch (error, stackTrace) {

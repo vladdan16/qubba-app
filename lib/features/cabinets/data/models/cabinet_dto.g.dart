@@ -33,6 +33,11 @@ _CabinetDto _$CabinetDtoFromJson(Map<String, dynamic> json) => _CabinetDto(
   updatedAt: json['updated_at'] == null
       ? null
       : DateTime.parse(json['updated_at'] as String),
+  employees:
+      (json['employees'] as List<dynamic>?)
+          ?.map((e) => EmployeeDto.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const <EmployeeDto>[],
 );
 
 Map<String, dynamic> _$CabinetDtoToJson(_CabinetDto instance) =>
@@ -58,4 +63,5 @@ Map<String, dynamic> _$CabinetDtoToJson(_CabinetDto instance) =>
       'ozon_api_active': instance.ozonApiActive,
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
+      'employees': instance.employees,
     };

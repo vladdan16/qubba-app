@@ -1,5 +1,4 @@
 import '../../domain/models/cabinet.dart';
-import '../../domain/models/employee.dart';
 import '../../domain/repository/cabinets_repository.dart';
 import '../api/cabinets_api.dart';
 import '../mappers/cabinet_mapper.dart';
@@ -62,21 +61,9 @@ final class CabinetsRepositoryImpl implements CabinetsRepository {
   }
 
   @override
-  Future<List<Employee>> getCabinetEmployees(String cabinetId) async {
-    final json = await _api.getCabinetEmployees(cabinetId);
-    final data = json['data']! as Map<String, Object?>;
-    final response = _api.parseEmployeesResponse(data);
-    return response.employees.map(EmployeeMapper.toDomain).toList();
-  }
-
-  @override
-  Future<Employee> addCabinetEmployee(String cabinetId, String email) async {
+  Future<void> addCabinetEmployee(String cabinetId, String email) async {
     final dto = EmployeeMapper.toAddRequest(email);
-    final json = await _api.addCabinetEmployee(cabinetId, dto);
-    final data = json['data']! as Map<String, Object?>;
-    final employeeResponse = data['employee']! as Map<String, Object?>;
-    final employeeDto = _api.parseEmployeeResponse(employeeResponse);
-    return EmployeeMapper.toDomain(employeeDto);
+    await _api.addCabinetEmployee(cabinetId, dto);
   }
 
   @override

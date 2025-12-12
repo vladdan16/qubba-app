@@ -35,9 +35,6 @@ sealed class CabinetsApi {
   CabinetDto parseCabinetResponse(Map<String, Object?> json) =>
       CabinetDto.fromJson(json);
 
-  // Employee management methods
-  Future<Map<String, Object?>> getCabinetEmployees(String cabinetId);
-
   Future<Map<String, Object?>> addCabinetEmployee(
     String cabinetId,
     AddEmployeeRequestDto dto,
@@ -109,14 +106,6 @@ final class _CabinetsApiImpl extends CabinetsApi {
     await dio.delete<void>(
       _ApiParams.deleteCabinet(cabinetId),
     );
-  }
-
-  @override
-  Future<Map<String, Object?>> getCabinetEmployees(String cabinetId) async {
-    final response = await dio.get<Map<String, Object?>>(
-      _ApiParams.getCabinetEmployees(cabinetId),
-    );
-    return response.requireData;
   }
 
   @override

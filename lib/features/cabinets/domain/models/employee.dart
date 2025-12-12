@@ -1,28 +1,25 @@
+import 'package:meta/meta.dart';
+
+@immutable
 class Employee {
-  final String id;
   final String email;
-  final String? firstName;
-  final String? lastName;
-  final DateTime? createdAt;
 
   const Employee({
-    required this.id,
     required this.email,
-    this.firstName,
-    this.lastName,
-    this.createdAt,
   });
 
-  String get displayName {
-    if (firstName != null && lastName != null) {
-      return '$firstName $lastName';
-    }
-    if (firstName != null) {
-      return firstName!;
-    }
-    if (lastName != null) {
-      return lastName!;
-    }
-    return email;
+  Employee copyWith({
+    String? email,
+  }) => Employee(
+    email: email ?? this.email,
+  );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Employee && email == other.email;
   }
+
+  @override
+  int get hashCode => email.hashCode;
 }

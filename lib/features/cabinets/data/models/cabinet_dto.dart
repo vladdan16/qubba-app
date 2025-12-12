@@ -1,6 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'employee_dto.dart';
+
 part 'cabinet_dto.freezed.dart';
+
 part 'cabinet_dto.g.dart';
 
 @freezed
@@ -29,6 +32,9 @@ abstract class CabinetDto with _$CabinetDto {
     @JsonKey(name: 'ozon_api_active') bool? ozonApiActive,
     @JsonKey(name: 'created_at') DateTime? createdAt,
     @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    @JsonKey(name: 'employees')
+    @Default(<EmployeeDto>[])
+    List<EmployeeDto> employees,
   }) = _CabinetDto;
 
   factory CabinetDto.fromJson(Map<String, Object?> json) =>

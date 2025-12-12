@@ -20,10 +20,10 @@ final class AddCabinetEmployee extends CabinetEmployeesEvent {
 }
 
 final class DeleteCabinetEmployee extends CabinetEmployeesEvent {
-  final String employeeId;
+  final String email;
 
   const DeleteCabinetEmployee({
     required super.cabinetId,
-    required this.employeeId,
+    required this.email,
   });
 }

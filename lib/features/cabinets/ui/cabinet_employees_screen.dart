@@ -275,7 +275,7 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
       builder: (dialogContext) => AlertDialog(
         title: Text(l10n.cabinetEmployeesDeleteConfirmTitle),
         content: Text(
-          l10n.cabinetEmployeesDeleteConfirmMessage(employee.displayName),
+          l10n.cabinetEmployeesDeleteConfirmMessage(employee.email),
         ),
         actions: [
           TextButton(
@@ -290,7 +290,7 @@ class _CabinetEmployeesScreenState extends State<CabinetEmployeesScreen> {
               context.read<CabinetEmployeesBloc>().add(
                 DeleteCabinetEmployee(
                   cabinetId: widget.cabinetId,
-                  employeeId: employee.id,
+                  email: employee.email,
                 ),
               );
               Navigator.of(dialogContext).pop();
@@ -332,7 +332,7 @@ class _EmployeeCard extends StatelessWidget {
         ),
       ),
       title: Text(
-        employee.displayName,
+        employee.email,
         style: const TextStyle(
           fontSize: 16,
           fontWeight: .w600,
