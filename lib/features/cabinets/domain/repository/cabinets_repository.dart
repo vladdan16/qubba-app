@@ -11,5 +11,9 @@ abstract interface class CabinetsRepository {
 
   Future<void> deleteCabinet(String cabinetId);
 
+  Future<void> addCabinetEmployee(String cabinetId, String email);
+
+  Future<void> deleteCabinetEmployee(String cabinetId, String email);
+
   Future<void> dispose();
 }

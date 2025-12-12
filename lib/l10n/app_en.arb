@@ -121,5 +121,34 @@
   "cabinetFormTaxType2024Invalid": "Tax type (2024) must be a number",
   "cabinetFormTaxRate2024Empty": "Tax rate (2024) is required",
   "cabinetFormTaxRate2024Invalid": "Tax rate (2024) must be a number",
-  "cabinetFormUnitMaintenanceCostInvalid": "Unit maintenance cost must be a number"
+  "cabinetFormUnitMaintenanceCostInvalid": "Unit maintenance cost must be a number",
+
+  "cabinetEmployeesTitle": "Cabinet Access",
+  "cabinetEmployeesError": "Error: {error}",
+  "@cabinetEmployeesError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "cabinetEmployeesRetry": "Retry",
+  "cabinetEmployeesEmpty": "No employees added",
+  "cabinetEmployeesAddButton": "Add employee",
+  "cabinetEmployeesEmailLabel": "Employee email",
+  "cabinetEmployeesEmailHint": "name@example.com",
+  "cabinetEmployeesAddTitle": "Add employee",
+  "cabinetEmployeesAddAction": "Add",
+  "cabinetEmployeesCancelAction": "Cancel",
+  "cabinetEmployeesDeleteConfirmTitle": "Remove employee",
+  "cabinetEmployeesDeleteConfirmMessage": "Are you sure you want to remove {name} from this cabinet?",
+  "@cabinetEmployeesDeleteConfirmMessage": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "cabinetEmployeesDeleteAction": "Remove",
+  "cabinetEmployeesAdded": "Employee added",
+  "cabinetEmployeesRemoved": "Employee removed",
+  "cabinetEmployeesManageTooltip": "Manage access",
+  "cabinetEmployeesEmailEmpty": "Enter email",
+  "cabinetEmployeesEmailInvalid": "Invalid email"
 }

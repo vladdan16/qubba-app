@@ -43,7 +43,7 @@ final class UserDependenciesImpl implements UserDependencies {
     );
 
     dio.interceptors.addAll([
-      LogInterceptor(requestBody: true),
+      LogInterceptor(requestBody: true, responseBody: true),
     ]);
 
     final cabinetsApi = CabinetsApi(dio);

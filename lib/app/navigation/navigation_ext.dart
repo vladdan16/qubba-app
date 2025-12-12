@@ -18,4 +18,9 @@ extension NavigationExt on BuildContext {
     '/cabinets/edit/${cabinet.id}',
     extra: cabinet,
   );
+
+  void openCabinetEmployees(String cabinetId, String cabinetName) => go(
+    '/cabinets/$cabinetId/employees',
+    extra: {'cabinetId': cabinetId, 'cabinetName': cabinetName},
+  );
 }

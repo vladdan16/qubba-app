@@ -8,8 +8,10 @@ import '../../core/di/user/user_dependencies_impl.dart';
 import '../../core/di/user/user_scope.dart';
 import '../../features/authentication/domain/bloc/auth_bloc.dart';
 import '../../features/authentication/ui/login_page.dart';
+import '../../features/cabinets/domain/bloc/cabinet_employees_bloc.dart';
 import '../../features/cabinets/domain/bloc/cabinets_bloc.dart';
 import '../../features/cabinets/domain/models/cabinet.dart';
+import '../../features/cabinets/ui/cabinet_employees_screen.dart';
 import '../../features/cabinets/ui/cabinet_form_screen.dart';
 import '../../features/cabinets/ui/cabinets_list_screen.dart';
 import '../../features/home/ui/home_page.dart';
@@ -93,6 +95,34 @@ abstract final class AppRouter {
                     builder: (context, state) {
                       final cabinet = state.extra as Cabinet?;
                       return CabinetFormScreen(cabinet: cabinet);
+                    },
+                  ),
+                  GoRoute(
+                    path: ':id/employees',
+                    builder: (context, state) {
+                      final extra = state.extra;
+                      if (extra is Map<String, String> &&
+                          extra['cabinetId'] != null &&
+                          extra['cabinetName'] != null) {
+                        final cabinetId = extra['cabinetId']!;
+                        final cabinetName = extra['cabinetName']!;
+                        return BlocProvider(
+                          create: (context) => CabinetEmployeesBloc(
+                            repository: UserScope.of(
+                              context,
+                            ).cabinetsRepository,
+                          ),
+                          child: CabinetEmployeesScreen(
+                            cabinetId: cabinetId,
+                            cabinetName: cabinetName,
+                          ),
+                        );
+                      } else {
+                        // Show an error page if extra is missing or invalid
+                        return const _StubPage(
+                          title: 'Invalid cabinet data',
+                        );
+                      }
                     },
                   ),
                 ],

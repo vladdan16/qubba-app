@@ -2,6 +2,7 @@ import '../../domain/models/cabinet.dart';
 import '../../domain/repository/cabinets_repository.dart';
 import '../api/cabinets_api.dart';
 import '../mappers/cabinet_mapper.dart';
+import '../mappers/employee_mapper.dart';
 
 final class CabinetsRepositoryImpl implements CabinetsRepository {
   final CabinetsApi _api;
@@ -57,6 +58,20 @@ final class CabinetsRepositoryImpl implements CabinetsRepository {
   @override
   Future<void> deleteCabinet(String cabinetId) async {
     await _api.deleteCabinet(cabinetId);
+  }
+
+  @override
+  Future<void> addCabinetEmployee(String cabinetId, String email) async {
+    final dto = EmployeeMapper.toAddRequest(email);
+    await _api.addCabinetEmployee(cabinetId, dto);
+  }
+
+  @override
+  Future<void> deleteCabinetEmployee(
+    String cabinetId,
+    String employeeId,
+  ) async {
+    await _api.deleteCabinetEmployee(cabinetId, employeeId);
   }
 
   @override

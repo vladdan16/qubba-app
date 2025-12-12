@@ -2,6 +2,7 @@ import '../../domain/models/cabinet.dart';
 import '../models/add_cabinet_request_dto.dart';
 import '../models/cabinet_dto.dart';
 import '../models/update_cabinet_request_dto.dart';
+import 'employee_mapper.dart';
 
 abstract final class CabinetMapper {
   static Cabinet toDomain(CabinetDto dto) => Cabinet(
@@ -26,6 +27,7 @@ abstract final class CabinetMapper {
     ozonApiActive: dto.ozonApiActive,
     createdAt: dto.createdAt,
     updatedAt: dto.updatedAt,
+    employees: dto.employees.map(EmployeeMapper.toDomain).toList(),
   );
 
   static UpdateCabinetRequestDto toUpdateRequest(Cabinet cabinet) =>

@@ -292,4 +292,62 @@ class StringsEn extends Strings {
   @override
   String get cabinetFormUnitMaintenanceCostInvalid =>
       'Unit maintenance cost must be a number';
+
+  @override
+  String get cabinetEmployeesTitle => 'Cabinet Access';
+
+  @override
+  String cabinetEmployeesError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get cabinetEmployeesRetry => 'Retry';
+
+  @override
+  String get cabinetEmployeesEmpty => 'No employees added';
+
+  @override
+  String get cabinetEmployeesAddButton => 'Add employee';
+
+  @override
+  String get cabinetEmployeesEmailLabel => 'Employee email';
+
+  @override
+  String get cabinetEmployeesEmailHint => 'name@example.com';
+
+  @override
+  String get cabinetEmployeesAddTitle => 'Add employee';
+
+  @override
+  String get cabinetEmployeesAddAction => 'Add';
+
+  @override
+  String get cabinetEmployeesCancelAction => 'Cancel';
+
+  @override
+  String get cabinetEmployeesDeleteConfirmTitle => 'Remove employee';
+
+  @override
+  String cabinetEmployeesDeleteConfirmMessage(String name) {
+    return 'Are you sure you want to remove $name from this cabinet?';
+  }
+
+  @override
+  String get cabinetEmployeesDeleteAction => 'Remove';
+
+  @override
+  String get cabinetEmployeesAdded => 'Employee added';
+
+  @override
+  String get cabinetEmployeesRemoved => 'Employee removed';
+
+  @override
+  String get cabinetEmployeesManageTooltip => 'Manage access';
+
+  @override
+  String get cabinetEmployeesEmailEmpty => 'Enter email';
+
+  @override
+  String get cabinetEmployeesEmailInvalid => 'Invalid email';
 }

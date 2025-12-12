@@ -121,5 +121,34 @@
   "cabinetFormTaxType2024Invalid": "Тип налога (2024) должен быть числом",
   "cabinetFormTaxRate2024Empty": "Ставка налога (2024) обязательна",
   "cabinetFormTaxRate2024Invalid": "Ставка налога (2024) должна быть числом",
-  "cabinetFormUnitMaintenanceCostInvalid": "Стоимость обслуживания должна быть числом"
+  "cabinetFormUnitMaintenanceCostInvalid": "Стоимость обслуживания должна быть числом",
+
+  "cabinetEmployeesTitle": "Доступ к кабинету",
+  "cabinetEmployeesError": "Ошибка: {error}",
+  "@cabinetEmployeesError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "cabinetEmployeesRetry": "Повторить",
+  "cabinetEmployeesEmpty": "Не добавлено сотрудников",
+  "cabinetEmployeesAddButton": "Добавить сотрудника",
+  "cabinetEmployeesEmailLabel": "Email сотрудника",
+  "cabinetEmployeesEmailHint": "name@example.com",
+  "cabinetEmployeesAddTitle": "Добавить сотрудника",
+  "cabinetEmployeesAddAction": "Добавить",
+  "cabinetEmployeesCancelAction": "Отмена",
+  "cabinetEmployeesDeleteConfirmTitle": "Удалить сотрудника",
+  "cabinetEmployeesDeleteConfirmMessage": "Вы уверены, что хотите удалить {name} из этого кабинета?",
+  "@cabinetEmployeesDeleteConfirmMessage": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "cabinetEmployeesDeleteAction": "Удалить",
+  "cabinetEmployeesAdded": "Сотрудник добавлен",
+  "cabinetEmployeesRemoved": "Сотрудник удален",
+  "cabinetEmployeesManageTooltip": "Управление доступом",
+  "cabinetEmployeesEmailEmpty": "Введите email",
+  "cabinetEmployeesEmailInvalid": "Некорректный email"
 }

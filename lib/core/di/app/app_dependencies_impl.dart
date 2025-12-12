@@ -30,9 +30,7 @@ final class AppDependenciesImpl implements AppDependencies {
       ),
     );
 
-    AndroidOptions getAndroidOptions() => const AndroidOptions(
-      encryptedSharedPreferences: true,
-    );
+    AndroidOptions getAndroidOptions() => AndroidOptions.defaultOptions;
     final secureStorage = FlutterSecureStorage(aOptions: getAndroidOptions());
 
     final authenticationApi = AuthenticationApi(dio);

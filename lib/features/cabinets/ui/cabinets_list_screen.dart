@@ -101,6 +101,10 @@ class _CabinetsListScreenState extends State<CabinetsListScreen> {
                       return _CabinetCard(
                         cabinet: cabinet,
                         onTap: () => context.openCabinetEdit(cabinet),
+                        onManageAccess: () => context.openCabinetEmployees(
+                          cabinet.id!,
+                          cabinet.name,
+                        ),
                       );
                     },
                   ),
@@ -113,10 +117,12 @@ class _CabinetsListScreenState extends State<CabinetsListScreen> {
 class _CabinetCard extends StatelessWidget {
   final Cabinet cabinet;
   final VoidCallback onTap;
+  final VoidCallback onManageAccess;
 
   const _CabinetCard({
     required this.cabinet,
     required this.onTap,
+    required this.onManageAccess,
   });
 
   @override
@@ -149,6 +155,14 @@ class _CabinetCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  IconButton(
+                    icon: const Icon(Icons.people, size: 20),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    tooltip: l10n.cabinetEmployeesManageTooltip,
+                    onPressed: onManageAccess,
+                  ),
+                  const SizedBox(width: 4),
                   IconButton(
                     icon: const Icon(Icons.more_vert, size: 20),
                     padding: EdgeInsets.zero,
