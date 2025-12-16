@@ -50,6 +50,9 @@ final class SalesBloc extends Bloc<SalesEvent, SalesState> {
   ) async {
     final previous = state;
 
+    final lastQuery = previous is SalesReadyState ? previous.query : null;
+    final lastPoints = previous is SalesReadyState ? previous.points : null;
+
     if (previous is SalesReadyState) {
       emit(
         SalesRefreshingState(query: previous.query, points: previous.points),
@@ -69,8 +72,8 @@ final class SalesBloc extends Bloc<SalesEvent, SalesState> {
       emit(
         SalesFailureState(
           message: error.toString(),
-          lastQuery: previous is SalesReadyState ? previous.query : null,
-          lastPoints: previous is SalesReadyState ? previous.points : null,
+          lastQuery: lastQuery,
+          lastPoints: lastPoints,
         ),
       );
     }
@@ -81,16 +84,24 @@ final class SalesBloc extends Bloc<SalesEvent, SalesState> {
     Emitter<SalesState> emit,
   ) async {
     final previous = state;
+
     final baseQuery = previous is SalesReadyState
         ? previous.query
         : _defaultQuery();
 
+    if (baseQuery.marketplace == event.marketplace) {
+      return;
+    }
+
     final nextQuery = baseQuery.copyWith(marketplace: event.marketplace);
+
+    final lastQuery = previous is SalesReadyState ? previous.query : null;
+    final lastPoints = previous is SalesReadyState ? previous.points : null;
 
     if (previous is SalesReadyState) {
       emit(
         SalesLoadingFromReadyState(
-          query: previous.query,
+          query: nextQuery,
           points: previous.points,
         ),
       );
@@ -105,8 +116,8 @@ final class SalesBloc extends Bloc<SalesEvent, SalesState> {
       emit(
         SalesFailureState(
           message: error.toString(),
-          lastQuery: previous is SalesReadyState ? previous.query : null,
-          lastPoints: previous is SalesReadyState ? previous.points : null,
+          lastQuery: lastQuery,
+          lastPoints: lastPoints,
         ),
       );
     }

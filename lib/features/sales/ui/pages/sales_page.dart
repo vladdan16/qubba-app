@@ -28,17 +28,18 @@ class _SalesView extends StatelessWidget {
     final strings = Strings.of(context);
 
     return BlocBuilder<SalesBloc, SalesState>(
-      builder: (context, state) {
-        if (state is SalesInitialState || state is SalesLoadingState) {
-          return const Scaffold(
-            appBar: _SalesAppBar(),
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
+      builder: (context, state) => switch (state) {
+        SalesInitialState() || SalesLoadingState() => const Scaffold(
+          appBar: _SalesAppBar(),
+          body: Center(child: CircularProgressIndicator()),
+        ),
 
-        if (state is SalesFailureState) {
-          final lastQuery = state.lastQuery;
-          return Scaffold(
+        SalesFailureState(
+          :final message,
+          :final lastQuery,
+          :final lastPoints,
+        ) =>
+          Scaffold(
             appBar: const _SalesAppBar(),
             body: Center(
               child: Padding(
@@ -46,10 +47,7 @@ class _SalesView extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      state.message,
-                      textAlign: TextAlign.center,
-                    ),
+                    Text(message, textAlign: TextAlign.center),
                     const SizedBox(height: 16),
                     FilledButton(
                       onPressed: () => context.read<SalesBloc>().add(
@@ -57,10 +55,10 @@ class _SalesView extends StatelessWidget {
                       ),
                       child: Text(strings.salesRetry),
                     ),
-                    if (state.lastPoints != null) ...[
+                    if (lastPoints != null) ...[
                       const SizedBox(height: 12),
                       Text(
-                        strings.salesLastLoadedPoints(state.lastPoints!.length),
+                        strings.salesLastLoadedPoints(lastPoints.length),
                         textAlign: TextAlign.center,
                       ),
                     ],
@@ -68,52 +66,82 @@ class _SalesView extends StatelessWidget {
                 ),
               ),
             ),
-          );
-        }
-
-        final ready = state is SalesReadyState ? state : null;
-        if (ready == null) {
-          return const Scaffold(
-            appBar: _SalesAppBar(),
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
-
-        return Scaffold(
-          appBar: const _SalesAppBar(),
-          body: RefreshIndicator(
-            onRefresh: () async {
-              final bloc = context.read<SalesBloc>();
-              final finished = bloc.stream.firstWhere(
-                (s) => s is SalesReadyIdleState || s is SalesFailureState,
-              );
-              bloc.add(const SalesRefreshRequested());
-              await finished;
-            },
-            child: ListView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.all(16),
-              children: [
-                _MarketplaceSwitcher(
-                  selected: ready.query.marketplace,
-                  onChanged: (m) => context.read<SalesBloc>().add(
-                    SalesMarketplaceChanged(marketplace: m),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                _SummaryCard(pointsCount: ready.points.length),
-                const SizedBox(height: 16),
-                if (ready.points.isEmpty)
-                  const _EmptyState()
-                else
-                  _PointsPreview(pointsCount: ready.points.length),
-              ],
-            ),
           ),
-        );
+
+        SalesReadyState(:final query, :final points) => _ReadySalesScaffold(
+          strings: strings,
+          isSwitchingMarketplace: state is SalesLoadingFromReadyState,
+          selectedMarketplace: query.marketplace,
+          pointsCount: points.length,
+          isEmpty: points.isEmpty,
+        ),
       },
     );
   }
+}
+
+class _ReadySalesScaffold extends StatelessWidget {
+  const _ReadySalesScaffold({
+    required this.strings,
+    required this.isSwitchingMarketplace,
+    required this.selectedMarketplace,
+    required this.pointsCount,
+    required this.isEmpty,
+  });
+
+  final Strings strings;
+  final bool isSwitchingMarketplace;
+  final Marketplace selectedMarketplace;
+  final int pointsCount;
+  final bool isEmpty;
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: const _SalesAppBar(),
+    body: Stack(
+      children: [
+        RefreshIndicator(
+          onRefresh: () async {
+            final bloc = context.read<SalesBloc>();
+            final finished = bloc.stream.firstWhere(
+              (s) => s is SalesReadyIdleState || s is SalesFailureState,
+            );
+            bloc.add(const SalesRefreshRequested());
+            await finished;
+          },
+          child: ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(16),
+            children: [
+              _MarketplaceSwitcher(
+                selected: selectedMarketplace,
+                isEnabled: !isSwitchingMarketplace,
+                onChanged: (m) => context.read<SalesBloc>().add(
+                  SalesMarketplaceChanged(marketplace: m),
+                ),
+              ),
+              const SizedBox(height: 16),
+              _SummaryCard(pointsCount: pointsCount),
+              const SizedBox(height: 16),
+              if (isEmpty)
+                const _EmptyState()
+              else
+                _PointsPreview(pointsCount: pointsCount),
+            ],
+          ),
+        ),
+        if (isSwitchingMarketplace)
+          const Positioned.fill(
+            child: AbsorbPointer(
+              child: ColoredBox(
+                color: Colors.black26,
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            ),
+          ),
+      ],
+    ),
+  );
 }
 
 class _SalesAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -148,10 +176,12 @@ class _MarketplaceSwitcher extends StatelessWidget {
   const _MarketplaceSwitcher({
     required this.selected,
     required this.onChanged,
+    required this.isEnabled,
   });
 
   final Marketplace selected;
   final ValueChanged<Marketplace> onChanged;
+  final bool isEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -169,10 +199,14 @@ class _MarketplaceSwitcher extends StatelessWidget {
         ),
       ],
       selected: {selected},
-      onSelectionChanged: (value) {
-        if (value.isEmpty) return;
-        onChanged(value.first);
-      },
+      onSelectionChanged: isEnabled
+          ? (value) {
+              if (value.isEmpty) return;
+              final next = value.first;
+              if (next == selected) return;
+              onChanged(next);
+            }
+          : null,
     );
   }
 }

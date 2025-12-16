@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
             children: [
               FilledButton(
                 onPressed: () => context.goToSales(),
-                child: const Text('Sales'),
+                child: Text(Strings.of(context).salesTitle),
               ),
               const SizedBox(height: 12),
               OutlinedButton(
