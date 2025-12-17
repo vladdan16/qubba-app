@@ -646,7 +646,10 @@ class _SalesQuantityChart extends StatelessWidget {
     final barGroups = _buildBarGroups(context);
     final maxY = points.isEmpty
         ? 100.0
-        : points.map((p) => p.salesQuantity).reduce((a, b) => a > b ? a : b).toDouble();
+        : points
+              .map((p) => p.salesQuantity)
+              .reduce((a, b) => a > b ? a : b)
+              .toDouble();
     final yInterval = _calculateYInterval(maxY);
 
     return BarChart(
