@@ -26,6 +26,6 @@ extension NavigationExt on BuildContext {
 
   void openCabinetSales(Cabinet cabinet) => go(
     '/cabinets/${cabinet.id}/sales',
-    extra: cabinet,
+    extra: {'cabinetId': cabinet.id, 'cabinetName': cabinet.name},
   );
 }
