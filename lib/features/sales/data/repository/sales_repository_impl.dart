@@ -41,9 +41,16 @@ final class SalesRepositoryImpl implements SalesRepository {
         points.add(
           SalesPoint(
             date: date,
-            revenue: metrics.salesAmount,
-            orders: metrics.ordersQuantity ?? 0,
-            units: metrics.salesQuantity,
+            salesQuantity: metrics.salesQuantity,
+            salesAmount: metrics.salesAmount,
+            returnsQuantity: metrics.returnsQuantity,
+            returnsAmount: metrics.returnsAmount,
+            profitAmount: metrics.profitAmount,
+            adsAmount: metrics.adsAmount,
+            taxAmount: metrics.taxAmount,
+            totalCostPrice: metrics.totalCostPrice,
+            ordersQuantity: metrics.ordersQuantity,
+            ordersAmount: metrics.ordersAmount,
           ),
         );
       });

@@ -20,6 +20,10 @@ final class SalesBloc extends Bloc<SalesEvent, SalesState> {
       _onMarketplaceChanged,
       transformer: restartable(),
     );
+    on<SalesDateRangeChanged>(
+      _onDateRangeChanged,
+      transformer: restartable(),
+    );
   }
 
   final SalesRepository _repository;
@@ -94,6 +98,49 @@ final class SalesBloc extends Bloc<SalesEvent, SalesState> {
     }
 
     final nextQuery = baseQuery.copyWith(marketplace: event.marketplace);
+
+    final lastQuery = previous is SalesReadyState ? previous.query : null;
+    final lastPoints = previous is SalesReadyState ? previous.points : null;
+
+    if (previous is SalesReadyState) {
+      emit(
+        SalesLoadingFromReadyState(
+          query: nextQuery,
+          points: previous.points,
+        ),
+      );
+    } else {
+      emit(const SalesLoadingState());
+    }
+
+    try {
+      final points = await _repository.getDailySales(nextQuery);
+      emit(SalesReadyIdleState(query: nextQuery, points: points));
+    } on Object catch (error, _) {
+      emit(
+        SalesFailureState(
+          message: error.toString(),
+          lastQuery: lastQuery,
+          lastPoints: lastPoints,
+        ),
+      );
+    }
+  }
+
+  Future<void> _onDateRangeChanged(
+    SalesDateRangeChanged event,
+    Emitter<SalesState> emit,
+  ) async {
+    final previous = state;
+
+    final baseQuery = previous is SalesReadyState
+        ? previous.query
+        : _defaultQuery();
+
+    final nextQuery = baseQuery.copyWith(
+      startDate: event.startDate,
+      endDate: event.endDate,
+    );
 
     final lastQuery = previous is SalesReadyState ? previous.query : null;
     final lastPoints = previous is SalesReadyState ? previous.points : null;

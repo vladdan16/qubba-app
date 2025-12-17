@@ -19,3 +19,13 @@ final class SalesMarketplaceChanged extends SalesEvent {
 
   final Marketplace marketplace;
 }
+
+final class SalesDateRangeChanged extends SalesEvent {
+  const SalesDateRangeChanged({
+    required this.startDate,
+    required this.endDate,
+  });
+
+  final DateTime startDate;
+  final DateTime endDate;
+}

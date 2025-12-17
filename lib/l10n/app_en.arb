@@ -180,5 +180,55 @@
     "placeholders": {
       "count": { "type": "int" }
     }
+  },
+
+  "salesSelectPeriod": "Select period",
+  "@salesSelectPeriod": {
+    "description": "Label for date range picker button"
+  },
+
+  "salesRevenueChart": "Revenue",
+  "@salesRevenueChart": {
+    "description": "Title for revenue chart"
+  },
+
+  "salesQuantityChart": "Sales quantity",
+  "@salesQuantityChart": {
+    "description": "Title for sales quantity chart"
+  },
+
+  "salesProfitChart": "Profit",
+  "@salesProfitChart": {
+    "description": "Title for profit chart"
+  },
+
+  "salesTotalRevenue": "Total revenue",
+  "@salesTotalRevenue": {
+    "description": "Label for total revenue statistic"
+  },
+
+  "salesTotalProfit": "Total profit",
+  "@salesTotalProfit": {
+    "description": "Label for total profit statistic"
+  },
+
+  "salesTotalSales": "Total sales",
+  "@salesTotalSales": {
+    "description": "Label for total sales count"
+  },
+
+  "salesTotalReturns": "Returns",
+  "@salesTotalReturns": {
+    "description": "Label for total returns count"
+  },
+
+  "salesAdsExpenses": "Ads expenses",
+  "@salesAdsExpenses": {
+    "description": "Label for advertising expenses"
+  },
+
+  "salesCurrencySymbol": "₽",
+  "@salesCurrencySymbol": {
+    "description": "Currency symbol for monetary values"
   }
 }

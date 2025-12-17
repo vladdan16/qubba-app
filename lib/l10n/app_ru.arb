@@ -180,5 +180,16 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "salesSelectPeriod": "Выбрать период",
+  "salesRevenueChart": "Выручка",
+  "salesQuantityChart": "Количество продаж",
+  "salesProfitChart": "Прибыль",
+  "salesTotalRevenue": "Общая выручка",
+  "salesTotalProfit": "Общая прибыль",
+  "salesTotalSales": "Всего продаж",
+  "salesTotalReturns": "Возвраты",
+  "salesAdsExpenses": "Расходы на рекламу",
+  "salesCurrencySymbol": "₽"
 }
