@@ -8,7 +8,7 @@ applyTo: "**/*.dart, **/*.arb"
 - **Decomposition:**
     - Decompose complex UIs into private widgets within the same file (e.g., `class _Header extends StatelessWidget`).
     - Extract to a separate file if the widget is reused across multiple screens.
-    - You may extract widget to separate file if it is an independent part of UI.
+    - You may extract a widget to a separate file if it is an independent part of the UI.
     - Do not use builder methods (e.g. `Widget _buildButton()`)! Use separate private widgets instead.
 - **Composition:** Prefer small, composable widgets over large build methods or helper methods returning Widgets.
 - **Constructors:** ALWAYS use `const` constructors where possible.
@@ -17,7 +17,7 @@ applyTo: "**/*.dart, **/*.arb"
 ## Logic in UI
 - **No Async Logic:** Never call async methods directly in the UI (e.g., `onTap: () async { await service.call(); }`).
 - **Reaction:** UI should strictly react to BLoC state changes. Dispatch events to the BLoC instead.
-- **Callback extraction:** Extract callbacks from build method if it larger than 3-line long (like listener in BlocListener or onTap).
+- **Callback extraction:** Extract callbacks from the build method if they are longer than 3 lines (like listeners in BlocListener or onTap).
 
 ## Styling
 - **Theme:** Always use `Theme.of(context)` for colors and text styles. Never hardcode colors (e.g., `Colors.blue`).

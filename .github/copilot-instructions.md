@@ -20,6 +20,6 @@
 - `public_member_api_docs: false` (No doc comments required for public members, however it's better
   to add comments on important features with non-obvious behaviour or public interfaces).
 - `specify_nonobvious_property_types: false`.
-- `discarded_futures: true` Futures should be properly awaited or explicitly wrapped in `unawated()`
+- `discarded_futures: true` Futures should be properly awaited or explicitly wrapped in `unawaited()`
 - `prefer_expression_function_bodies: true` To save space and make code more clear
 - **Localization:** All user-facing text must be localized via `intl`. Hardcoded strings are a lint error.
