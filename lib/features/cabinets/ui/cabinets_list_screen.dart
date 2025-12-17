@@ -97,7 +97,8 @@ class _CabinetsListScreenState extends State<CabinetsListScreen> {
                       final cabinet = cabinets[index];
                       return _CabinetCard(
                         cabinet: cabinet,
-                        onTap: () => context.openCabinetEdit(cabinet),
+                        onOpenSales: () => context.openCabinetSales(cabinet),
+                        onEdit: () => context.openCabinetEdit(cabinet),
                         onManageAccess: () => context.openCabinetEmployees(
                           cabinet.id!,
                           cabinet.name,
@@ -113,12 +114,14 @@ class _CabinetsListScreenState extends State<CabinetsListScreen> {
 
 class _CabinetCard extends StatelessWidget {
   final Cabinet cabinet;
-  final VoidCallback onTap;
+  final VoidCallback? onOpenSales;
+  final VoidCallback onEdit;
   final VoidCallback onManageAccess;
 
   const _CabinetCard({
     required this.cabinet,
-    required this.onTap,
+    required this.onOpenSales,
+    required this.onEdit,
     required this.onManageAccess,
   });
 
@@ -134,7 +137,7 @@ class _CabinetCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        onTap: onTap,
+        onTap: onOpenSales,
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -161,10 +164,10 @@ class _CabinetCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   IconButton(
-                    icon: const Icon(Icons.more_vert, size: 20),
+                    icon: const Icon(Icons.edit_outlined, size: 20),
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
-                    onPressed: onTap,
+                    onPressed: onEdit,
                   ),
                 ],
               ),

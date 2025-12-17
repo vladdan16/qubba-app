@@ -44,11 +44,14 @@ class SalesDailyDataDto {
     for (final entry in value.entries) {
       final key = entry.key;
       final item = entry.value;
-      if (key is String && item is Map) {
-        result[key] = SalesDailyMetricsDto.fromJson(
-          Map<String, dynamic>.from(item),
-        );
-      }
+      if (key is! String || item is! Map) continue;
+
+      final totalRaw = item['total'];
+      if (totalRaw is! Map) continue;
+
+      result[key] = SalesDailyMetricsDto.fromJson(
+        Map<String, dynamic>.from(totalRaw),
+      );
     }
     return result;
   }

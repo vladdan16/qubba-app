@@ -16,7 +16,7 @@ class SalesQuery {
   final DateTime startDate;
   final DateTime endDate;
 
-  final List<int> cabinetIds;
+  final List<String> cabinetIds;
 
   final bool splitByDates;
   final bool splitByProducts;
@@ -26,7 +26,7 @@ class SalesQuery {
     Marketplace? marketplace,
     DateTime? startDate,
     DateTime? endDate,
-    List<int>? cabinetIds,
+    List<String>? cabinetIds,
     bool? splitByDates,
     bool? splitByProducts,
     bool? splitByBarcodes,

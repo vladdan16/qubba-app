@@ -6,22 +6,51 @@ import '../../../../core/di/user/user_scope.dart';
 import '../../../../l10n/l10n.dart';
 import '../../domain/bloc/sales_bloc.dart';
 import '../../domain/models/marketplace.dart';
+import '../../domain/models/sales_query.dart';
 
 class SalesPage extends StatelessWidget {
-  const SalesPage({super.key});
+  const SalesPage({
+    required this.cabinetId,
+    this.cabinetName,
+    super.key,
+  });
+
+  final String cabinetId;
+  final String? cabinetName;
 
   @override
   Widget build(BuildContext context) => BlocProvider<SalesBloc>(
     lazy: false,
-    create: (context) => SalesBloc(
-      repository: UserScope.of(context).salesRepository,
-    )..add(const SalesLoadRequested()),
-    child: const _SalesView(),
+    create: (context) {
+      final bloc = SalesBloc(
+        repository: UserScope.of(context).salesRepository,
+      );
+
+      final now = DateTime.now();
+      final endDate = DateTime(now.year, now.month, now.day);
+      final startDate = endDate.subtract(const Duration(days: 30));
+
+      bloc.add(
+        SalesLoadRequested(
+          query: SalesQuery(
+            marketplace: Marketplace.wildberries,
+            startDate: startDate,
+            endDate: endDate,
+            cabinetIds: [cabinetId],
+          ),
+        ),
+      );
+
+      return bloc;
+    },
+    child: _SalesView(cabinetName: cabinetName),
   );
 }
 
 class _SalesView extends StatelessWidget {
-  const _SalesView();
+  const _SalesView({required this.cabinetName});
+
+  final String? cabinetName;
 
   @override
   Widget build(BuildContext context) {
@@ -29,18 +58,17 @@ class _SalesView extends StatelessWidget {
 
     return BlocBuilder<SalesBloc, SalesState>(
       builder: (context, state) => switch (state) {
-        SalesInitialState() || SalesLoadingState() => const Scaffold(
-          appBar: _SalesAppBar(),
-          body: Center(child: CircularProgressIndicator()),
+        SalesInitialState() || SalesLoadingState() => Scaffold(
+          appBar: _SalesAppBar(cabinetName: cabinetName),
+          body: const Center(child: CircularProgressIndicator()),
         ),
-
         SalesFailureState(
           :final message,
           :final lastQuery,
           :final lastPoints,
         ) =>
           Scaffold(
-            appBar: const _SalesAppBar(),
+            appBar: _SalesAppBar(cabinetName: cabinetName),
             body: Center(
               child: Padding(
                 padding: const EdgeInsets.all(24),
@@ -67,8 +95,8 @@ class _SalesView extends StatelessWidget {
               ),
             ),
           ),
-
         SalesReadyState(:final query, :final points) => _ReadySalesScaffold(
+          cabinetName: cabinetName,
           strings: strings,
           isSwitchingMarketplace: state is SalesLoadingFromReadyState,
           selectedMarketplace: query.marketplace,
@@ -82,6 +110,7 @@ class _SalesView extends StatelessWidget {
 
 class _ReadySalesScaffold extends StatelessWidget {
   const _ReadySalesScaffold({
+    required this.cabinetName,
     required this.strings,
     required this.isSwitchingMarketplace,
     required this.selectedMarketplace,
@@ -89,6 +118,7 @@ class _ReadySalesScaffold extends StatelessWidget {
     required this.isEmpty,
   });
 
+  final String? cabinetName;
   final Strings strings;
   final bool isSwitchingMarketplace;
   final Marketplace selectedMarketplace;
@@ -97,7 +127,7 @@ class _ReadySalesScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: const _SalesAppBar(),
+    appBar: _SalesAppBar(cabinetName: cabinetName),
     body: Stack(
       children: [
         RefreshIndicator(
@@ -145,7 +175,9 @@ class _ReadySalesScaffold extends StatelessWidget {
 }
 
 class _SalesAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _SalesAppBar();
+  const _SalesAppBar({required this.cabinetName});
+
+  final String? cabinetName;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -153,6 +185,9 @@ class _SalesAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final strings = Strings.of(context);
+    final title = (cabinetName == null || cabinetName!.isEmpty)
+        ? strings.salesTitle
+        : '${strings.salesTitle} · $cabinetName';
 
     return AppBar(
       leading: IconButton(
@@ -162,11 +197,11 @@ class _SalesAppBar extends StatelessWidget implements PreferredSizeWidget {
           if (router.canPop()) {
             context.pop();
           } else {
-            context.go('/home');
+            context.go('/cabinets');
           }
         },
       ),
-      title: Text(strings.salesTitle),
+      title: Text(title),
       centerTitle: true,
     );
   }

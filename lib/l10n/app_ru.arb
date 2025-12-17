@@ -150,7 +150,7 @@
   "cabinetEmployeesRemoved": "Сотрудник удален",
   "cabinetEmployeesManageTooltip": "Управление доступом",
   "cabinetEmployeesEmailEmpty": "Введите email",
-  "cabinetEmployeesEmailInvalid": "Некорректный email"
+  "cabinetEmployeesEmailInvalid": "Некорректный email",
   "cabinetFormUnitMaintenanceCostInvalid": "Стоимость обслуживания должна быть числом",
 
   "salesTitle": "Продажи",

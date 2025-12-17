@@ -10,8 +10,6 @@ extension NavigationExt on BuildContext {
 
   void goToHome() => go('/home');
 
-  void goToSales() => go('/sales');
-
   void goToProfile() => go('/profile');
 
   void openCabinetAdd() => go('/cabinets/add');
@@ -24,5 +22,10 @@ extension NavigationExt on BuildContext {
   void openCabinetEmployees(String cabinetId, String cabinetName) => go(
     '/cabinets/$cabinetId/employees',
     extra: {'cabinetId': cabinetId, 'cabinetName': cabinetName},
+  );
+
+  void openCabinetSales(Cabinet cabinet) => go(
+    '/cabinets/${cabinet.id}/sales',
+    extra: cabinet,
   );
 }

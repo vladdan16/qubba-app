@@ -65,10 +65,6 @@ abstract final class AppRouter {
             builder: (context, state) => const HomePage(),
           ),
           GoRoute(
-            path: '/sales',
-            builder: (context, state) => const SalesPage(),
-          ),
-          GoRoute(
             path: '/profile',
             builder: (context, state) {
               final authState = context.watch<AuthBloc>().state;
@@ -122,12 +118,27 @@ abstract final class AppRouter {
                             cabinetName: cabinetName,
                           ),
                         );
-                      } else {
-                        // Show an error page if extra is missing or invalid
-                        return const _StubPage(
-                          title: 'Invalid cabinet data',
-                        );
                       }
+                      return const _StubPage(title: 'Invalid cabinet data');
+                    },
+                  ),
+                  GoRoute(
+                    path: ':id/sales',
+                    builder: (context, state) {
+                      final cabinetId = state.pathParameters['id'];
+                      if (cabinetId == null || cabinetId.isEmpty) {
+                        return const _StubPage(title: 'Invalid cabinet id');
+                      }
+
+                      final extra = state.extra;
+                      final cabinetName = (extra is Map<String, String>)
+                          ? extra['cabinetName']
+                          : null;
+
+                      return SalesPage(
+                        cabinetId: cabinetId,
+                        cabinetName: cabinetName,
+                      );
                     },
                   ),
                 ],
