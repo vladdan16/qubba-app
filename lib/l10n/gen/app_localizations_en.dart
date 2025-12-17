@@ -350,4 +350,35 @@ class StringsEn extends Strings {
 
   @override
   String get cabinetEmployeesEmailInvalid => 'Invalid email';
+
+  @override
+  String get salesTitle => 'Sales';
+
+  @override
+  String get salesRetry => 'Retry';
+
+  @override
+  String get salesMarketplaceWildberries => 'Wildberries';
+
+  @override
+  String get salesMarketplaceOzon => 'Ozon';
+
+  @override
+  String salesPointsLabel(int count) {
+    return 'Points: $count';
+  }
+
+  @override
+  String get salesEmptyMessage =>
+      'No data for selected period. Pull to refresh.';
+
+  @override
+  String salesPreviewMessage(int count) {
+    return 'Data loaded. Next step: chart.\nPoints count: $count';
+  }
+
+  @override
+  String salesLastLoadedPoints(int count) {
+    return 'Last loaded points: $count';
+  }
 }

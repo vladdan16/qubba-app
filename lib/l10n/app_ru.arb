@@ -150,5 +150,35 @@
   "cabinetEmployeesRemoved": "Сотрудник удален",
   "cabinetEmployeesManageTooltip": "Управление доступом",
   "cabinetEmployeesEmailEmpty": "Введите email",
-  "cabinetEmployeesEmailInvalid": "Некорректный email"
+  "cabinetEmployeesEmailInvalid": "Некорректный email",
+  "cabinetFormUnitMaintenanceCostInvalid": "Стоимость обслуживания должна быть числом",
+
+  "salesTitle": "Продажи",
+  "salesRetry": "Повторить",
+
+  "salesMarketplaceWildberries": "Wildberries",
+  "salesMarketplaceOzon": "Ozon",
+
+  "salesPointsLabel": "Точек: {count}",
+  "@salesPointsLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "salesEmptyMessage": "Нет данных за выбранный период. Потяните вниз, чтобы обновить.",
+
+  "salesPreviewMessage": "Данные загружены. Следующий шаг — график.\nКоличество точек: {count}",
+  "@salesPreviewMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "salesLastLoadedPoints": "Последние загруженные точки: {count}",
+  "@salesLastLoadedPoints": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }
