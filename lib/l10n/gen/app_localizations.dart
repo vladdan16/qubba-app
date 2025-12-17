@@ -798,6 +798,66 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Last loaded points: {count}'**
   String salesLastLoadedPoints(int count);
+
+  /// Label for date range picker button
+  ///
+  /// In en, this message translates to:
+  /// **'Select period'**
+  String get salesSelectPeriod;
+
+  /// Title for revenue chart
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue'**
+  String get salesRevenueChart;
+
+  /// Title for sales quantity chart
+  ///
+  /// In en, this message translates to:
+  /// **'Sales quantity'**
+  String get salesQuantityChart;
+
+  /// Title for profit chart
+  ///
+  /// In en, this message translates to:
+  /// **'Profit'**
+  String get salesProfitChart;
+
+  /// Label for total revenue statistic
+  ///
+  /// In en, this message translates to:
+  /// **'Total revenue'**
+  String get salesTotalRevenue;
+
+  /// Label for total profit statistic
+  ///
+  /// In en, this message translates to:
+  /// **'Total profit'**
+  String get salesTotalProfit;
+
+  /// Label for total sales count
+  ///
+  /// In en, this message translates to:
+  /// **'Total sales'**
+  String get salesTotalSales;
+
+  /// Label for total returns count
+  ///
+  /// In en, this message translates to:
+  /// **'Returns'**
+  String get salesTotalReturns;
+
+  /// Label for advertising expenses
+  ///
+  /// In en, this message translates to:
+  /// **'Ads expenses'**
+  String get salesAdsExpenses;
+
+  /// Currency symbol for monetary values
+  ///
+  /// In en, this message translates to:
+  /// **'₽'**
+  String get salesCurrencySymbol;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {

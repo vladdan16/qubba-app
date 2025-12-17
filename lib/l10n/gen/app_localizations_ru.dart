@@ -383,4 +383,34 @@ class StringsRu extends Strings {
   String salesLastLoadedPoints(int count) {
     return 'Последние загруженные точки: $count';
   }
+
+  @override
+  String get salesSelectPeriod => 'Выбрать период';
+
+  @override
+  String get salesRevenueChart => 'Выручка';
+
+  @override
+  String get salesQuantityChart => 'Количество продаж';
+
+  @override
+  String get salesProfitChart => 'Прибыль';
+
+  @override
+  String get salesTotalRevenue => 'Общая выручка';
+
+  @override
+  String get salesTotalProfit => 'Общая прибыль';
+
+  @override
+  String get salesTotalSales => 'Всего продаж';
+
+  @override
+  String get salesTotalReturns => 'Возвраты';
+
+  @override
+  String get salesAdsExpenses => 'Расходы на рекламу';
+
+  @override
+  String get salesCurrencySymbol => '₽';
 }

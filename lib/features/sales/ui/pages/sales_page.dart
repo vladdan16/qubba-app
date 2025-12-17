@@ -128,7 +128,7 @@ class _ReadySalesScaffold extends StatelessWidget {
   final DateTime endDate;
   final List<SalesPoint> points;
 
-  void _onDateRangePicked(BuildContext context) async {
+  Future<void> _onDateRangePicked(BuildContext context) async {
     final bloc = context.read<SalesBloc>();
     final now = DateTime.now();
 
@@ -307,7 +307,6 @@ class _DateRangeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final strings = Strings.of(context);
     final dateFormat = DateFormat.yMMMd();
 
     return OutlinedButton.icon(
@@ -493,13 +492,16 @@ class _RevenueChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final spots = _buildSpots();
-    final minY = spots.isEmpty ? 0.0 : spots.map((s) => s.y).reduce((a, b) => a < b ? a : b);
-    final maxY = spots.isEmpty ? 100.0 : spots.map((s) => s.y).reduce((a, b) => a > b ? a : b);
+    final minY = spots.isEmpty
+        ? 0.0
+        : spots.map((s) => s.y).reduce((a, b) => a < b ? a : b);
+    final maxY = spots.isEmpty
+        ? 100.0
+        : spots.map((s) => s.y).reduce((a, b) => a > b ? a : b);
 
     return LineChart(
       LineChartData(
         gridData: FlGridData(
-          show: true,
           drawVerticalLine: false,
           horizontalInterval: _calculateInterval(maxY - minY),
           getDrawingHorizontalLine: (value) => FlLine(
@@ -538,7 +540,6 @@ class _RevenueChart extends StatelessWidget {
             spots: spots,
             isCurved: true,
             color: theme.colorScheme.primary,
-            barWidth: 2,
             isStrokeCapRound: true,
             dotData: const FlDotData(show: false),
             belowBarData: BarAreaData(
@@ -550,10 +551,12 @@ class _RevenueChart extends StatelessWidget {
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
             getTooltipItems: (touchedSpots) => touchedSpots
-                .map((spot) => LineTooltipItem(
-                      _formatTooltipValue(spot.y),
-                      TextStyle(color: theme.colorScheme.onSurface),
-                    ))
+                .map(
+                  (spot) => LineTooltipItem(
+                    _formatTooltipValue(spot.y),
+                    TextStyle(color: theme.colorScheme.onSurface),
+                  ),
+                )
                 .toList(),
           ),
         ),
@@ -630,7 +633,6 @@ class _SalesQuantityChart extends StatelessWidget {
       BarChartData(
         barGroups: barGroups,
         gridData: FlGridData(
-          show: true,
           drawVerticalLine: false,
           getDrawingHorizontalLine: (value) => FlLine(
             color: theme.colorScheme.outline.withValues(alpha: 0.2),
@@ -666,9 +668,9 @@ class _SalesQuantityChart extends StatelessWidget {
           touchTooltipData: BarTouchTooltipData(
             getTooltipItem: (group, groupIndex, rod, rodIndex) =>
                 BarTooltipItem(
-              rod.toY.toInt().toString(),
-              TextStyle(color: theme.colorScheme.onSurface),
-            ),
+                  rod.toY.toInt().toString(),
+                  TextStyle(color: theme.colorScheme.onSurface),
+                ),
           ),
         ),
       ),
@@ -756,7 +758,6 @@ class _ProfitChart extends StatelessWidget {
     return LineChart(
       LineChartData(
         gridData: FlGridData(
-          show: true,
           drawVerticalLine: false,
           horizontalInterval: _calculateInterval(maxY - minY),
           getDrawingHorizontalLine: (value) => FlLine(
@@ -795,7 +796,6 @@ class _ProfitChart extends StatelessWidget {
             spots: spots,
             isCurved: true,
             color: theme.colorScheme.tertiary,
-            barWidth: 2,
             isStrokeCapRound: true,
             dotData: const FlDotData(show: false),
             belowBarData: BarAreaData(
@@ -807,10 +807,12 @@ class _ProfitChart extends StatelessWidget {
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
             getTooltipItems: (touchedSpots) => touchedSpots
-                .map((spot) => LineTooltipItem(
-                      _formatTooltipValue(spot.y),
-                      TextStyle(color: theme.colorScheme.onSurface),
-                    ))
+                .map(
+                  (spot) => LineTooltipItem(
+                    _formatTooltipValue(spot.y),
+                    TextStyle(color: theme.colorScheme.onSurface),
+                  ),
+                )
                 .toList(),
           ),
         ),
