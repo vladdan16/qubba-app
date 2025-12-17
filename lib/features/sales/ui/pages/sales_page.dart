@@ -460,8 +460,9 @@ class _ChartCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Card(
+      clipBehavior: Clip.antiAlias,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(left: 16, right: 24, top: 16, bottom: 8),
         child: Column(
           crossAxisAlignment: .start,
           children: [
