@@ -499,11 +499,13 @@ class _RevenueChart extends StatelessWidget {
         ? 100.0
         : spots.map((s) => s.y).reduce((a, b) => a > b ? a : b);
 
+    final yInterval = _calculateInterval(maxY - minY);
+
     return LineChart(
       LineChartData(
         gridData: FlGridData(
           drawVerticalLine: false,
-          horizontalInterval: _calculateInterval(maxY - minY),
+          horizontalInterval: yInterval,
           getDrawingHorizontalLine: (value) => FlLine(
             color: theme.colorScheme.outline.withValues(alpha: 0.2),
             strokeWidth: 1,
@@ -514,10 +516,17 @@ class _RevenueChart extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 50,
-              getTitlesWidget: (value, meta) => Text(
-                _formatAxisValue(value),
-                style: theme.textTheme.bodySmall,
-              ),
+              interval: yInterval,
+              getTitlesWidget: (value, meta) {
+                // Skip min/max to avoid overlap with edge values
+                if (value == meta.min || value == meta.max) {
+                  return const SizedBox.shrink();
+                }
+                return Text(
+                  _formatAxisValue(value),
+                  style: theme.textTheme.bodySmall,
+                );
+              },
             ),
           ),
           rightTitles: const AxisTitles(),
@@ -530,6 +539,7 @@ class _RevenueChart extends StatelessWidget {
               getTitlesWidget: (value, meta) => _buildDateLabel(
                 context,
                 value,
+                meta,
               ),
             ),
           ),
@@ -584,8 +594,14 @@ class _RevenueChart extends StatelessWidget {
     return 14;
   }
 
-  Widget _buildDateLabel(BuildContext context, double value) {
+  Widget _buildDateLabel(BuildContext context, double value, TitleMeta meta) {
     if (points.isEmpty) return const SizedBox.shrink();
+
+    // Skip labels too close to the end to avoid overlap
+    final interval = _calculateDateInterval();
+    if (meta.max - value < interval * 0.8 && value != meta.max) {
+      return const SizedBox.shrink();
+    }
 
     final sortedPoints = List<SalesPoint>.from(points)
       ..sort((a, b) => a.date.compareTo(b.date));
@@ -628,12 +644,17 @@ class _SalesQuantityChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final barGroups = _buildBarGroups(context);
+    final maxY = points.isEmpty
+        ? 100.0
+        : points.map((p) => p.salesQuantity).reduce((a, b) => a > b ? a : b).toDouble();
+    final yInterval = _calculateYInterval(maxY);
 
     return BarChart(
       BarChartData(
         barGroups: barGroups,
         gridData: FlGridData(
           drawVerticalLine: false,
+          horizontalInterval: yInterval,
           getDrawingHorizontalLine: (value) => FlLine(
             color: theme.colorScheme.outline.withValues(alpha: 0.2),
             strokeWidth: 1,
@@ -644,10 +665,17 @@ class _SalesQuantityChart extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 40,
-              getTitlesWidget: (value, meta) => Text(
-                value.toInt().toString(),
-                style: theme.textTheme.bodySmall,
-              ),
+              interval: yInterval,
+              getTitlesWidget: (value, meta) {
+                // Skip min/max to avoid overlap with edge values
+                if (value == meta.min || value == meta.max) {
+                  return const SizedBox.shrink();
+                }
+                return Text(
+                  value.toInt().toString(),
+                  style: theme.textTheme.bodySmall,
+                );
+              },
             ),
           ),
           rightTitles: const AxisTitles(),
@@ -659,6 +687,7 @@ class _SalesQuantityChart extends StatelessWidget {
               getTitlesWidget: (value, meta) => _buildDateLabel(
                 context,
                 value,
+                meta,
               ),
             ),
           ),
@@ -675,6 +704,14 @@ class _SalesQuantityChart extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  double _calculateYInterval(double maxY) {
+    if (maxY <= 50) return 10;
+    if (maxY <= 100) return 20;
+    if (maxY <= 500) return 50;
+    if (maxY <= 1000) return 100;
+    return maxY / 5;
   }
 
   List<BarChartGroupData> _buildBarGroups(BuildContext context) {
@@ -708,7 +745,7 @@ class _SalesQuantityChart extends StatelessWidget {
     return 3;
   }
 
-  Widget _buildDateLabel(BuildContext context, double value) {
+  Widget _buildDateLabel(BuildContext context, double value, TitleMeta meta) {
     if (points.isEmpty) return const SizedBox.shrink();
 
     final sortedPoints = List<SalesPoint>.from(points)
@@ -719,6 +756,11 @@ class _SalesQuantityChart extends StatelessWidget {
     // Show label only for some bars to avoid clutter
     final interval = _calculateLabelInterval();
     if (value.toInt() % interval != 0) {
+      return const SizedBox.shrink();
+    }
+
+    // Skip labels too close to the end to avoid overlap
+    if (meta.max - value < interval * 0.8 && value != meta.max) {
       return const SizedBox.shrink();
     }
 
@@ -754,12 +796,13 @@ class _ProfitChart extends StatelessWidget {
     final maxY = spots.isEmpty
         ? 100.0
         : spots.map((s) => s.y).reduce((a, b) => a > b ? a : b);
+    final yInterval = _calculateInterval(maxY - minY);
 
     return LineChart(
       LineChartData(
         gridData: FlGridData(
           drawVerticalLine: false,
-          horizontalInterval: _calculateInterval(maxY - minY),
+          horizontalInterval: yInterval,
           getDrawingHorizontalLine: (value) => FlLine(
             color: theme.colorScheme.outline.withValues(alpha: 0.2),
             strokeWidth: 1,
@@ -769,11 +812,18 @@ class _ProfitChart extends StatelessWidget {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 50,
-              getTitlesWidget: (value, meta) => Text(
-                _formatAxisValue(value),
-                style: theme.textTheme.bodySmall,
-              ),
+              reservedSize: 60,
+              interval: yInterval,
+              getTitlesWidget: (value, meta) {
+                // Skip min/max to avoid overlap with edge values
+                if (value == meta.min || value == meta.max) {
+                  return const SizedBox.shrink();
+                }
+                return Text(
+                  _formatAxisValue(value),
+                  style: theme.textTheme.bodySmall,
+                );
+              },
             ),
           ),
           rightTitles: const AxisTitles(),
@@ -786,6 +836,7 @@ class _ProfitChart extends StatelessWidget {
               getTitlesWidget: (value, meta) => _buildDateLabel(
                 context,
                 value,
+                meta,
               ),
             ),
           ),
@@ -840,8 +891,14 @@ class _ProfitChart extends StatelessWidget {
     return 14;
   }
 
-  Widget _buildDateLabel(BuildContext context, double value) {
+  Widget _buildDateLabel(BuildContext context, double value, TitleMeta meta) {
     if (points.isEmpty) return const SizedBox.shrink();
+
+    // Skip labels too close to the end to avoid overlap
+    final interval = _calculateDateInterval();
+    if (meta.max - value < interval * 0.8 && value != meta.max) {
+      return const SizedBox.shrink();
+    }
 
     final sortedPoints = List<SalesPoint>.from(points)
       ..sort((a, b) => a.date.compareTo(b.date));
