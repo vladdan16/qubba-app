@@ -17,6 +17,7 @@ import '../../features/cabinets/ui/cabinets_list_screen.dart';
 import '../../features/home/ui/home_page.dart';
 import '../../features/profile/domain/bloc/profile_bloc.dart';
 import '../../features/profile/ui/pages/profile_page.dart';
+import '../../features/sales/ui/pages/sales_page.dart';
 
 abstract final class AppRouter {
   static final router = GoRouter(
@@ -117,12 +118,27 @@ abstract final class AppRouter {
                             cabinetName: cabinetName,
                           ),
                         );
-                      } else {
-                        // Show an error page if extra is missing or invalid
-                        return const _StubPage(
-                          title: 'Invalid cabinet data',
-                        );
                       }
+                      return const _StubPage(title: 'Invalid cabinet data');
+                    },
+                  ),
+                  GoRoute(
+                    path: ':id/sales',
+                    builder: (context, state) {
+                      final cabinetId = state.pathParameters['id'];
+                      if (cabinetId == null || cabinetId.isEmpty) {
+                        return const _StubPage(title: 'Invalid cabinet id');
+                      }
+
+                      final extra = state.extra;
+                      final cabinetName = (extra is Map<String, String>)
+                          ? extra['cabinetName']
+                          : null;
+
+                      return SalesPage(
+                        cabinetId: cabinetId,
+                        cabinetName: cabinetName,
+                      );
                     },
                   ),
                 ],

@@ -352,4 +352,35 @@ class StringsRu extends Strings {
 
   @override
   String get cabinetEmployeesEmailInvalid => 'Некорректный email';
+
+  @override
+  String get salesTitle => 'Продажи';
+
+  @override
+  String get salesRetry => 'Повторить';
+
+  @override
+  String get salesMarketplaceWildberries => 'Wildberries';
+
+  @override
+  String get salesMarketplaceOzon => 'Ozon';
+
+  @override
+  String salesPointsLabel(int count) {
+    return 'Точек: $count';
+  }
+
+  @override
+  String get salesEmptyMessage =>
+      'Нет данных за выбранный период. Потяните вниз, чтобы обновить.';
+
+  @override
+  String salesPreviewMessage(int count) {
+    return 'Данные загружены. Следующий шаг — график.\nКоличество точек: $count';
+  }
+
+  @override
+  String salesLastLoadedPoints(int count) {
+    return 'Последние загруженные точки: $count';
+  }
 }

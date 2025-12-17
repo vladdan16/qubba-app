@@ -19,10 +19,22 @@ class HomePage extends StatelessWidget {
       actions: const [ProfileAppBarAction()],
     ),
     body: Center(
-      child: TextButton(
-        onPressed: () =>
-            context.read<AuthBloc>().add(const AuthLogoutRequested()),
-        child: Text(Strings.of(context).logOut),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 420),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              OutlinedButton(
+                onPressed: () =>
+                    context.read<AuthBloc>().add(const AuthLogoutRequested()),
+                child: Text(Strings.of(context).logOut),
+              ),
+            ],
+          ),
+        ),
       ),
     ),
   );
