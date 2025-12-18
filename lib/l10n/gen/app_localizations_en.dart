@@ -381,4 +381,34 @@ class StringsEn extends Strings {
   String salesLastLoadedPoints(int count) {
     return 'Last loaded points: $count';
   }
+
+  @override
+  String get salesSelectPeriod => 'Select period';
+
+  @override
+  String get salesRevenueChart => 'Revenue';
+
+  @override
+  String get salesQuantityChart => 'Sales quantity';
+
+  @override
+  String get salesProfitChart => 'Profit';
+
+  @override
+  String get salesTotalRevenue => 'Total revenue';
+
+  @override
+  String get salesTotalProfit => 'Total profit';
+
+  @override
+  String get salesTotalSales => 'Total sales';
+
+  @override
+  String get salesTotalReturns => 'Returns';
+
+  @override
+  String get salesAdsExpenses => 'Ads expenses';
+
+  @override
+  String get salesCurrencySymbol => '₽';
 }
