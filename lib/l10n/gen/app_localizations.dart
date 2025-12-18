@@ -853,7 +853,7 @@ abstract class Strings {
   /// **'Ads expenses'**
   String get salesAdsExpenses;
 
-  /// Currency symbol for monetary values
+  /// Currency symbol for monetary values (application targets Russian markets only, all amounts are in Russian rubles '₽').
   ///
   /// In en, this message translates to:
   /// **'₽'**
