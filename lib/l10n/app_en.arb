@@ -229,6 +229,6 @@
 
   "salesCurrencySymbol": "₽",
   "@salesCurrencySymbol": {
-    "description": "Currency symbol for monetary values"
+    "description": "Currency symbol for monetary values (application targets Russian markets only, all amounts are in Russian rubles '₽')."
   }
 }
