@@ -10,7 +10,7 @@ extension NavigationExt on BuildContext {
 
   void goToHome() => go('/home');
 
-  void goToProfile() => go('/profile');
+  void goToProfile() => push('/profile');
 
   void openCabinetAdd() => go('/cabinets/add');
 

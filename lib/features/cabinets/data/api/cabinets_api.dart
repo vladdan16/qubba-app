@@ -40,7 +40,7 @@ sealed class CabinetsApi {
     AddEmployeeRequestDto dto,
   );
 
-  Future<void> deleteCabinetEmployee(String cabinetId, String employeeId);
+  Future<void> deleteCabinetEmployee(String cabinetId, String userId);
 
   EmployeesResponseDto parseEmployeesResponse(Map<String, Object?> json) =>
       EmployeesResponseDto.fromJson(json);
@@ -123,10 +123,10 @@ final class _CabinetsApiImpl extends CabinetsApi {
   @override
   Future<void> deleteCabinetEmployee(
     String cabinetId,
-    String employeeId,
+    String userId,
   ) async {
     await dio.delete<void>(
-      _ApiParams.deleteCabinetEmployee(cabinetId, employeeId),
+      _ApiParams.deleteCabinetEmployee(cabinetId, userId),
     );
   }
 }

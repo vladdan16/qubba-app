@@ -61,17 +61,26 @@ final class CabinetsRepositoryImpl implements CabinetsRepository {
   }
 
   @override
-  Future<void> addCabinetEmployee(String cabinetId, String email) async {
-    final dto = EmployeeMapper.toAddRequest(email);
+  Future<void> addCabinetEmployee(
+    String cabinetId, {
+    String? email,
+    String? firstName,
+    String? lastName,
+  }) async {
+    final dto = EmployeeMapper.toAddRequest(
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+    );
     await _api.addCabinetEmployee(cabinetId, dto);
   }
 
   @override
   Future<void> deleteCabinetEmployee(
     String cabinetId,
-    String employeeId,
+    String userId,
   ) async {
-    await _api.deleteCabinetEmployee(cabinetId, employeeId);
+    await _api.deleteCabinetEmployee(cabinetId, userId);
   }
 
   @override

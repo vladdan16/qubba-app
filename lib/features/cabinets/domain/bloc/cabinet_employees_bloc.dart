@@ -58,7 +58,9 @@ final class CabinetEmployeesBloc
       final cabinetId = event.cabinetId;
       await _repository.addCabinetEmployee(
         cabinetId,
-        event.email,
+        email: event.email,
+        firstName: event.firstName,
+        lastName: event.lastName,
       );
       final cabinet = await _repository.getCabinetById(cabinetId);
       final employees = cabinet.employees;
@@ -88,10 +90,10 @@ final class CabinetEmployeesBloc
     try {
       await _repository.deleteCabinetEmployee(
         event.cabinetId,
-        event.email,
+        event.userId,
       );
       final employees = currentState.employees
-          .where((e) => e.email != event.email)
+          .where((e) => e.userId != event.userId)
           .toList();
       emit(CabinetEmployeesLoaded(employees: employees));
     } on Object catch (error, stackTrace) {
