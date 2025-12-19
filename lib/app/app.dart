@@ -42,7 +42,7 @@ class App extends StatelessWidget {
           child: BlocListener<AuthBloc, AuthState>(
             listener: _handleChangeAuth,
             child: MaterialApp.router(
-              title: 'Flutter Demo',
+              title: 'Qubba',
               routerConfig: AppRouter.router,
               localizationsDelegates: const [
                 Strings.delegate,

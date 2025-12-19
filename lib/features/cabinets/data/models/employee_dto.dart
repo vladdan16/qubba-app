@@ -2,14 +2,20 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'employee_dto.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class EmployeeDto {
-  final String? id;
-  final String email;
+  final String userId;
+  final String? email;
+  final String? firstName;
+  final String? lastName;
+  final String? icon;
 
   const EmployeeDto({
-    required this.email,
-    this.id,
+    required this.userId,
+    this.email,
+    this.firstName,
+    this.lastName,
+    this.icon,
   });
 
   factory EmployeeDto.fromJson(Map<String, dynamic> json) =>

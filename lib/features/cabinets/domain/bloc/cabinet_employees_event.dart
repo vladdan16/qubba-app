@@ -11,19 +11,23 @@ final class LoadCabinetEmployees extends CabinetEmployeesEvent {
 }
 
 final class AddCabinetEmployee extends CabinetEmployeesEvent {
-  final String email;
+  final String? email;
+  final String? firstName;
+  final String? lastName;
 
   const AddCabinetEmployee({
     required super.cabinetId,
-    required this.email,
+    this.email,
+    this.firstName,
+    this.lastName,
   });
 }
 
 final class DeleteCabinetEmployee extends CabinetEmployeesEvent {
-  final String email;
+  final String userId;
 
   const DeleteCabinetEmployee({
     required super.cabinetId,
-    required this.email,
+    required this.userId,
   });
 }
