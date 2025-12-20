@@ -40,7 +40,8 @@ Qubba App is designed for sellers who operate on Russian e-commerce marketplaces
 ## 🛠 Tech Stack
 
 ### Framework & Language
-- **Flutter** 3.10+ with Dart 3.10+
+- **Flutter** SDK (stable channel recommended)
+- **Dart** SDK 3.10+ (bundled with Flutter)
 - **Material Design 3** with dynamic color theming
 - **Platform Support**: Android, iOS, Web
 
@@ -79,8 +80,7 @@ Qubba App is designed for sellers who operate on Russian e-commerce marketplaces
 
 ### Prerequisites
 
-- Flutter SDK 3.10 or higher
-- Dart SDK 3.10 or higher
+- Flutter SDK (stable channel, bundled with Dart SDK 3.10+)
 - Android Studio / Xcode (for mobile development)
 - FVM (optional, for Flutter version management)
 
