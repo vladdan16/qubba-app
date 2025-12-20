@@ -40,7 +40,7 @@ Qubba App is designed for sellers who operate on Russian e-commerce marketplaces
 ## 🛠 Tech Stack
 
 ### Framework & Language
-- **Flutter** 3.10+ with Dart 3+
+- **Flutter** 3.10+ with Dart 3.10+
 - **Material Design 3** with dynamic color theming
 - **Platform Support**: Android, iOS, Web
 
@@ -88,7 +88,7 @@ Qubba App is designed for sellers who operate on Russian e-commerce marketplaces
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/vladdan16/qubba-app.git
+   git clone <repository-url>
    cd qubba-app
    ```
 
