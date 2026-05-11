@@ -151,7 +151,6 @@
   "cabinetEmployeesManageTooltip": "Управление доступом",
   "cabinetEmployeesEmailEmpty": "Введите email",
   "cabinetEmployeesEmailInvalid": "Некорректный email",
-  "cabinetFormUnitMaintenanceCostInvalid": "Стоимость обслуживания должна быть числом",
 
   "salesTitle": "Продажи",
   "salesRetry": "Повторить",

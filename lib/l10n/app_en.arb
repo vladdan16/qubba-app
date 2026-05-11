@@ -151,7 +151,6 @@
   "cabinetEmployeesManageTooltip": "Manage access",
   "cabinetEmployeesEmailEmpty": "Enter email",
   "cabinetEmployeesEmailInvalid": "Invalid email",
-  "cabinetFormUnitMaintenanceCostInvalid": "Unit maintenance cost must be a number",
 
   "salesTitle": "Sales",
   "salesRetry": "Retry",
