@@ -413,4 +413,68 @@ class StringsRu extends Strings {
 
   @override
   String get salesCurrencySymbol => '₽';
+
+  @override
+  String get reviewsTitle => 'Отзывы';
+
+  @override
+  String get reviewsTabLabel => 'Отзывы';
+
+  @override
+  String get cabinetsTabLabel => 'Кабинеты';
+
+  @override
+  String get reviewsEmpty => 'Нет отзывов по выбранным фильтрам';
+
+  @override
+  String reviewsError(String error) {
+    return 'Ошибка: $error';
+  }
+
+  @override
+  String get reviewsRetry => 'Повторить';
+
+  @override
+  String get reviewsFilterCabinetAll => 'Все кабинеты';
+
+  @override
+  String reviewsFilterCabinetSelect(String name) {
+    return 'Кабинет: $name';
+  }
+
+  @override
+  String get reviewsFilterAnsweredAll => 'Все';
+
+  @override
+  String get reviewsFilterAnsweredYes => 'С ответом';
+
+  @override
+  String get reviewsFilterAnsweredNo => 'Без ответа';
+
+  @override
+  String get reviewCardSellerAnswerLabel => 'Ваш ответ';
+
+  @override
+  String get reviewCardNoText => 'Без текста';
+
+  @override
+  String get reviewCardNoAnswer => 'Без ответа';
+
+  @override
+  String get reviewCardAiAnswerLabel => 'AI-ответ';
+
+  @override
+  String get reviewCardAnonymousBuyer => 'Покупатель';
+
+  @override
+  String get reviewDetailTitle => 'Отзыв';
+
+  @override
+  String get reviewDetailNoAnswer => 'Нет ответа на отзыв';
+
+  @override
+  String get reviewDetailGenerateAnswer => 'Сгенерировать ответ';
+
+  @override
+  String get reviewDetailGenerateSoon => 'Скоро будет доступно';
 }

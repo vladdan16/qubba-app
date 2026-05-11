@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../../../features/cabinets/domain/repository/cabinets_repository.dart';
 import '../../../features/profile/domain/repository/profile_repository.dart';
+import '../../../features/reviews/domain/repository/reviews_repository.dart';
 import '../../../features/sales/domain/repository/sales_repository.dart';
 
 abstract interface class UserDependencies {
@@ -14,6 +15,8 @@ abstract interface class UserDependencies {
   ProfileRepository get profileRepository;
 
   SalesRepository get salesRepository;
+
+  ReviewsRepository get reviewsRepository;
 
   Future<void> dispose();
 }

@@ -191,5 +191,39 @@
   "salesTotalSales": "Всего продаж",
   "salesTotalReturns": "Возвраты",
   "salesAdsExpenses": "Расходы на рекламу",
-  "salesCurrencySymbol": "₽"
+  "salesCurrencySymbol": "₽",
+
+  "reviewsTitle": "Отзывы",
+  "reviewsTabLabel": "Отзывы",
+  "cabinetsTabLabel": "Кабинеты",
+  "reviewsEmpty": "Нет отзывов по выбранным фильтрам",
+  "reviewsError": "Ошибка: {error}",
+  "@reviewsError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "reviewsRetry": "Повторить",
+
+  "reviewsFilterCabinetAll": "Все кабинеты",
+  "reviewsFilterCabinetSelect": "Кабинет: {name}",
+  "@reviewsFilterCabinetSelect": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "reviewsFilterAnsweredAll": "Все",
+  "reviewsFilterAnsweredYes": "С ответом",
+  "reviewsFilterAnsweredNo": "Без ответа",
+
+  "reviewCardSellerAnswerLabel": "Ваш ответ",
+  "reviewCardNoText": "Без текста",
+  "reviewCardNoAnswer": "Без ответа",
+  "reviewCardAiAnswerLabel": "AI-ответ",
+  "reviewCardAnonymousBuyer": "Покупатель",
+
+  "reviewDetailTitle": "Отзыв",
+  "reviewDetailNoAnswer": "Нет ответа на отзыв",
+  "reviewDetailGenerateAnswer": "Сгенерировать ответ",
+  "reviewDetailGenerateSoon": "Скоро будет доступно"
 }

@@ -411,4 +411,68 @@ class StringsEn extends Strings {
 
   @override
   String get salesCurrencySymbol => '₽';
+
+  @override
+  String get reviewsTitle => 'Reviews';
+
+  @override
+  String get reviewsTabLabel => 'Reviews';
+
+  @override
+  String get cabinetsTabLabel => 'Cabinets';
+
+  @override
+  String get reviewsEmpty => 'No reviews for selected filters';
+
+  @override
+  String reviewsError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get reviewsRetry => 'Retry';
+
+  @override
+  String get reviewsFilterCabinetAll => 'All cabinets';
+
+  @override
+  String reviewsFilterCabinetSelect(String name) {
+    return 'Cabinet: $name';
+  }
+
+  @override
+  String get reviewsFilterAnsweredAll => 'All';
+
+  @override
+  String get reviewsFilterAnsweredYes => 'Answered';
+
+  @override
+  String get reviewsFilterAnsweredNo => 'Unanswered';
+
+  @override
+  String get reviewCardSellerAnswerLabel => 'Your reply';
+
+  @override
+  String get reviewCardNoText => 'No text';
+
+  @override
+  String get reviewCardNoAnswer => 'No reply';
+
+  @override
+  String get reviewCardAiAnswerLabel => 'AI reply';
+
+  @override
+  String get reviewCardAnonymousBuyer => 'Buyer';
+
+  @override
+  String get reviewDetailTitle => 'Review';
+
+  @override
+  String get reviewDetailNoAnswer => 'No reply to this review';
+
+  @override
+  String get reviewDetailGenerateAnswer => 'Generate reply';
+
+  @override
+  String get reviewDetailGenerateSoon => 'Coming soon';
 }

@@ -8,6 +8,10 @@ import '../../../features/profile/data/api/profile_api.dart';
 import '../../../features/profile/data/repository/profile_repository_impl.dart';
 import '../../../features/profile/domain/repository/profile_repository.dart';
 
+import '../../../features/reviews/data/api/reviews_api.dart';
+import '../../../features/reviews/data/repository/reviews_repository_impl.dart';
+import '../../../features/reviews/domain/repository/reviews_repository.dart';
+
 import '../../../features/sales/data/api/sales_api.dart';
 import '../../../features/sales/data/repository/sales_repository_impl.dart';
 import '../../../features/sales/domain/repository/sales_repository.dart';
@@ -31,12 +35,16 @@ final class UserDependenciesImpl implements UserDependencies {
   @override
   final SalesRepository salesRepository;
 
+  @override
+  final ReviewsRepository reviewsRepository;
+
   UserDependenciesImpl._({
     required this.dio,
     required this.reportDio,
     required this.cabinetsRepository,
     required this.profileRepository,
     required this.salesRepository,
+    required this.reviewsRepository,
   });
 
   static Future<UserDependencies> init({
@@ -93,12 +101,16 @@ final class UserDependenciesImpl implements UserDependencies {
     final salesApi = SalesApi(reportDio);
     final salesRepository = SalesRepositoryImpl(salesApi);
 
+    final reviewsApi = ReviewsApi(dio);
+    final reviewsRepository = ReviewsRepositoryImpl(api: reviewsApi);
+
     return UserDependenciesImpl._(
       dio: dio,
       reportDio: reportDio,
       cabinetsRepository: cabinetsRepository,
       profileRepository: profileRepository,
       salesRepository: salesRepository,
+      reviewsRepository: reviewsRepository,
     );
   }
 
@@ -107,6 +119,7 @@ final class UserDependenciesImpl implements UserDependencies {
     await cabinetsRepository.dispose();
     await profileRepository.dispose();
     await salesRepository.dispose();
+    await reviewsRepository.dispose();
     dio.close();
     reportDio.close();
   }
