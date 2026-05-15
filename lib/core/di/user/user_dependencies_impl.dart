@@ -16,6 +16,7 @@ import '../../../features/sales/data/api/sales_api.dart';
 import '../../../features/sales/data/repository/sales_repository_impl.dart';
 import '../../../features/sales/domain/repository/sales_repository.dart';
 
+import '../../network/retry_on_connection_closed_interceptor.dart';
 import '../app/app_dependencies.dart';
 import 'user_dependencies.dart';
 
@@ -64,6 +65,7 @@ final class UserDependenciesImpl implements UserDependencies {
     );
 
     dio.interceptors.addAll([
+      RetryOnConnectionClosedInterceptor(dio),
       LogInterceptor(
         requestBody: true,
         responseBody: true,
@@ -84,6 +86,7 @@ final class UserDependenciesImpl implements UserDependencies {
     );
 
     reportDio.interceptors.addAll([
+      RetryOnConnectionClosedInterceptor(reportDio),
       LogInterceptor(
         requestBody: true,
         responseBody: true,
