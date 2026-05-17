@@ -289,22 +289,22 @@ class _GenerateReplyButtonState extends State<_GenerateReplyButton>
                           : _idleGradient,
                     ),
                   ),
-                  if (generating)
-                    FractionalTranslation(
-                      translation: Offset(-1 + 2 * t, 0),
-                      child: const DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0x00FFFFFF),
-                              Color(0x40FFFFFF),
-                              Color(0x00FFFFFF),
-                            ],
-                            stops: [0.35, 0.5, 0.65],
-                          ),
-                        ),
-                      ),
-                    ),
+                  // if (generating)
+                  //   FractionalTranslation(
+                  //     translation: Offset(-1 + 2 * t, 0),
+                  //     child: const DecoratedBox(
+                  //       decoration: BoxDecoration(
+                  //         gradient: LinearGradient(
+                  //           colors: [
+                  //             Color(0x00FFFFFF),
+                  //             Color(0x40FFFFFF),
+                  //             Color(0x00FFFFFF),
+                  //           ],
+                  //           stops: [0.35, 0.5, 0.65],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
                   Material(
                     color: Colors.transparent,
                     child: InkWell(
