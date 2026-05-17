@@ -1,21 +1,18 @@
 import 'package:dio/dio.dart';
 
+import '../../../features/authentication/data/utils/auth_interceptor.dart';
 import '../../../features/cabinets/data/api/cabinets_api.dart';
 import '../../../features/cabinets/data/repository/cabinets_repository_impl.dart';
 import '../../../features/cabinets/domain/repository/cabinets_repository.dart';
-
 import '../../../features/profile/data/api/profile_api.dart';
 import '../../../features/profile/data/repository/profile_repository_impl.dart';
 import '../../../features/profile/domain/repository/profile_repository.dart';
-
 import '../../../features/reviews/data/api/reviews_api.dart';
 import '../../../features/reviews/data/repository/reviews_repository_impl.dart';
 import '../../../features/reviews/domain/repository/reviews_repository.dart';
-
 import '../../../features/sales/data/api/sales_api.dart';
 import '../../../features/sales/data/repository/sales_repository_impl.dart';
 import '../../../features/sales/domain/repository/sales_repository.dart';
-
 import '../../network/retry_on_connection_closed_interceptor.dart';
 import '../app/app_dependencies.dart';
 import 'user_dependencies.dart';
@@ -51,21 +48,19 @@ final class UserDependenciesImpl implements UserDependencies {
   static Future<UserDependencies> init({
     required AppDependencies appDeps,
   }) async {
-    final token = await appDeps.authRepository.token;
-
     final dio = Dio(
       BaseOptions(
         baseUrl: 'https://api.qubba.io/',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
         },
       ),
     );
 
     dio.interceptors.addAll([
       RetryOnConnectionClosedInterceptor(dio),
+      AuthInterceptor(dio, appDeps.authRepository),
       LogInterceptor(
         requestBody: true,
         responseBody: true,
@@ -80,13 +75,13 @@ final class UserDependenciesImpl implements UserDependencies {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
         },
       ),
     );
 
     reportDio.interceptors.addAll([
       RetryOnConnectionClosedInterceptor(reportDio),
+      AuthInterceptor(reportDio, appDeps.authRepository),
       LogInterceptor(
         requestBody: true,
         responseBody: true,
