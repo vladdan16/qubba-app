@@ -13,9 +13,15 @@ final class ReviewDetailLoadingState extends ReviewDetailState {
 }
 
 final class ReviewDetailLoadedState extends ReviewDetailState {
-  const ReviewDetailLoadedState({required this.review});
+  const ReviewDetailLoadedState({
+    required this.review,
+    this.isGenerating = false,
+    this.generationError,
+  });
 
   final Review review;
+  final bool isGenerating;
+  final String? generationError;
 }
 
 final class ReviewDetailFailureState extends ReviewDetailState {

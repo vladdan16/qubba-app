@@ -50,7 +50,15 @@ class _ReviewDetailView extends StatelessWidget {
         title: Text(strings.reviewDetailTitle),
         centerTitle: true,
       ),
-      body: BlocBuilder<ReviewDetailBloc, ReviewDetailState>(
+      body: BlocConsumer<ReviewDetailBloc, ReviewDetailState>(
+        listenWhen: (_, curr) =>
+            curr is ReviewDetailLoadedState && curr.generationError != null,
+        listener: (context, state) {
+          final error = (state as ReviewDetailLoadedState).generationError!;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(strings.reviewsError(error))),
+          );
+        },
         builder: (context, state) => switch (state) {
           ReviewDetailInitialState() ||
           ReviewDetailLoadingState() => const Center(
@@ -79,96 +87,164 @@ class _ReviewDetailView extends StatelessWidget {
               ),
             ),
           ),
-          ReviewDetailLoadedState(:final review) => SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    MarketplaceBadge(marketplace: review.marketplace),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            review.buyerName ??
-                                strings.reviewCardAnonymousBuyer,
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(fontWeight: FontWeight.w600),
-                          ),
-                          if (review.createdDate != null)
+          ReviewDetailLoadedState(:final review, :final isGenerating) =>
+            SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      MarketplaceBadge(marketplace: review.marketplace),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                             Text(
-                              DateFormat.yMMMd().add_Hm().format(
-                                review.createdDate!,
-                              ),
-                              style:
-                                  Theme.of(
-                                    context,
-                                  ).textTheme.bodySmall?.copyWith(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onSurfaceVariant,
-                                  ),
+                              review.buyerName ??
+                                  strings.reviewCardAnonymousBuyer,
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.w600),
                             ),
-                        ],
+                            if (review.createdDate != null)
+                              Text(
+                                DateFormat.yMMMd().add_Hm().format(
+                                  review.createdDate!,
+                                ),
+                                style:
+                                    Theme.of(
+                                      context,
+                                    ).textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurfaceVariant,
+                                    ),
+                              ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    RatingStars(rating: review.rating, size: 20),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                const Divider(),
-                const SizedBox(height: 16),
-                if (review.text?.isNotEmpty ?? false)
-                  Text(
-                    review.text!,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  )
-                else
-                  Text(
-                    strings.reviewCardNoText,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontStyle: FontStyle.italic,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                const SizedBox(height: 24),
-                if (review.answer != null) ...[
-                  ReviewAnswerBlock(
-                    answer: review.answer!,
-                    isAi: review.isAiAnswered,
-                  ),
-                ] else ...[
-                  Text(
-                    strings.reviewDetailNoAnswer,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                      const SizedBox(width: 8),
+                      RatingStars(rating: review.rating, size: 20),
+                    ],
                   ),
                   const SizedBox(height: 16),
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton.icon(
-                      // TODO(reviews-ai): connect AI generate endpoint
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(strings.reviewDetailGenerateSoon),
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.auto_awesome),
-                      label: Text(strings.reviewDetailGenerateAnswer),
+                  const Divider(),
+                  const SizedBox(height: 16),
+                  if (review.text?.isNotEmpty ?? false)
+                    Text(
+                      review.text!,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    )
+                  else
+                    Text(
+                      strings.reviewCardNoText,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontStyle: FontStyle.italic,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  const SizedBox(height: 24),
+                  if (review.answer != null) ...[
+                    ReviewAnswerBlock(
+                      answer: review.answer!,
+                      isAi: review.isAiAnswered,
+                    ),
+                  ] else ...[
+                    Text(
+                      strings.reviewDetailNoAnswer,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    _GenerateReplyButton(
+                      isGenerating: isGenerating,
+                      onPressed: () => context.read<ReviewDetailBloc>().add(
+                        ReviewDetailGenerateReplyRequested(id: review.id),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+        },
+      ),
+    );
+  }
+}
+
+class _GenerateReplyButton extends StatelessWidget {
+  const _GenerateReplyButton({
+    required this.isGenerating,
+    required this.onPressed,
+  });
+
+  final bool isGenerating;
+  final VoidCallback onPressed;
+
+  static const _borderRadius = BorderRadius.all(Radius.circular(26));
+  static const _gradient = LinearGradient(
+    colors: [Color(0xFF8B5CF6), Color(0xFF3B82F6)],
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final strings = Strings.of(context);
+
+    return SizedBox(
+      width: double.infinity,
+      height: 52,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: isGenerating ? null : _gradient,
+          color: isGenerating ? colorScheme.surfaceContainerHighest : null,
+          borderRadius: _borderRadius,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: _borderRadius,
+          child: InkWell(
+            borderRadius: _borderRadius,
+            onTap: isGenerating ? null : onPressed,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (isGenerating)
+                    SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    )
+                  else
+                    const Icon(
+                      Icons.auto_awesome,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  const SizedBox(width: 8),
+                  Text(
+                    isGenerating
+                        ? strings.reviewDetailGenerating
+                        : strings.reviewDetailGenerateAnswer,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: isGenerating
+                          ? colorScheme.onSurfaceVariant
+                          : Colors.white,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
-              ],
+              ),
             ),
           ),
-        },
+        ),
       ),
     );
   }

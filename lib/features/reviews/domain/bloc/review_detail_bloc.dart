@@ -13,6 +13,10 @@ final class ReviewDetailBloc
     : _repository = repository,
       super(const ReviewDetailInitialState()) {
     on<ReviewDetailLoadRequested>(_onLoad, transformer: restartable());
+    on<ReviewDetailGenerateReplyRequested>(
+      _onGenerateReply,
+      transformer: droppable(),
+    );
   }
 
   final ReviewsRepository _repository;
@@ -28,6 +32,28 @@ final class ReviewDetailBloc
       emit(ReviewDetailLoadedState(review: review));
     } on Object catch (error, _) {
       emit(ReviewDetailFailureState(message: error.toString(), id: event.id));
+    }
+  }
+
+  Future<void> _onGenerateReply(
+    ReviewDetailGenerateReplyRequested event,
+    Emitter<ReviewDetailState> emit,
+  ) async {
+    final current = state;
+    if (current is! ReviewDetailLoadedState) return;
+
+    emit(ReviewDetailLoadedState(review: current.review, isGenerating: true));
+
+    try {
+      final updated = await _repository.generateReply(event.id);
+      emit(ReviewDetailLoadedState(review: updated));
+    } on Object catch (error, _) {
+      emit(
+        ReviewDetailLoadedState(
+          review: current.review,
+          generationError: error.toString(),
+        ),
+      );
     }
   }
 }

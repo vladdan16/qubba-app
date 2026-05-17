@@ -9,3 +9,9 @@ final class ReviewDetailLoadRequested extends ReviewDetailEvent {
 
   final String id;
 }
+
+final class ReviewDetailGenerateReplyRequested extends ReviewDetailEvent {
+  const ReviewDetailGenerateReplyRequested({required this.id});
+
+  final String id;
+}

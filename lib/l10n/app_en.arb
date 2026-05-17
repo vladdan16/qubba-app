@@ -263,5 +263,5 @@
   "reviewDetailTitle": "Review",
   "reviewDetailNoAnswer": "No reply to this review",
   "reviewDetailGenerateAnswer": "Generate reply",
-  "reviewDetailGenerateSoon": "Coming soon"
+  "reviewDetailGenerating": "Generating…"
 }

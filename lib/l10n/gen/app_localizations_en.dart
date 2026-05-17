@@ -474,5 +474,5 @@ class StringsEn extends Strings {
   String get reviewDetailGenerateAnswer => 'Generate reply';
 
   @override
-  String get reviewDetailGenerateSoon => 'Coming soon';
+  String get reviewDetailGenerating => 'Generating…';
 }

@@ -19,10 +19,12 @@ final class RetryOnConnectionClosedInterceptor extends Interceptor {
     ErrorInterceptorHandler handler,
   ) async {
     final error = err.error;
-    final isConnectionClosed = err.type == DioExceptionType.unknown &&
+    final isConnectionClosed =
+        err.type == DioExceptionType.unknown &&
         error is HttpException &&
-        error.message
-            .contains('Connection closed before full header was received');
+        error.message.contains(
+          'Connection closed before full header was received',
+        );
 
     final alreadyRetried = err.requestOptions.extra[_retriedKey] == true;
 

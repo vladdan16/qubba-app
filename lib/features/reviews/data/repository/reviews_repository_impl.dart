@@ -36,5 +36,11 @@ final class ReviewsRepositoryImpl implements ReviewsRepository {
   }
 
   @override
+  Future<Review> generateReply(String reviewId) async {
+    final response = await _api.generateReply(reviewId);
+    return ReviewMapper.toDomain(response.data.review);
+  }
+
+  @override
   Future<void> dispose() async {}
 }

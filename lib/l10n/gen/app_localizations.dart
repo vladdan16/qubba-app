@@ -973,11 +973,11 @@ abstract class Strings {
   /// **'Generate reply'**
   String get reviewDetailGenerateAnswer;
 
-  /// No description provided for @reviewDetailGenerateSoon.
+  /// No description provided for @reviewDetailGenerating.
   ///
   /// In en, this message translates to:
-  /// **'Coming soon'**
-  String get reviewDetailGenerateSoon;
+  /// **'Generating…'**
+  String get reviewDetailGenerating;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {

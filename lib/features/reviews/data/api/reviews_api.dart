@@ -19,6 +19,8 @@ sealed class ReviewsApi {
   });
 
   Future<ReviewDetailResponseDto> getReviewById(String id);
+
+  Future<ReviewDetailResponseDto> generateReply(String id);
 }
 
 final class _ReviewsApiImpl extends ReviewsApi {
@@ -64,6 +66,25 @@ final class _ReviewsApiImpl extends ReviewsApi {
   Future<ReviewDetailResponseDto> getReviewById(String id) async {
     final response = await _dio.get<Map<String, dynamic>>(
       _ApiParams.reviewById(id),
+    );
+
+    final data = response.data;
+    if (data == null) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        type: DioExceptionType.badResponse,
+        error: 'Empty response body',
+      );
+    }
+
+    return ReviewDetailResponseDto.fromJson(data);
+  }
+
+  @override
+  Future<ReviewDetailResponseDto> generateReply(String id) async {
+    final response = await _dio.post<Map<String, dynamic>>(
+      _ApiParams.generateReply(id),
     );
 
     final data = response.data;

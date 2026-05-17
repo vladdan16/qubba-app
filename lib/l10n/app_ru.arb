@@ -224,5 +224,5 @@
   "reviewDetailTitle": "Отзыв",
   "reviewDetailNoAnswer": "Нет ответа на отзыв",
   "reviewDetailGenerateAnswer": "Сгенерировать ответ",
-  "reviewDetailGenerateSoon": "Скоро будет доступно"
+  "reviewDetailGenerating": "Генерирую…"
 }

@@ -476,5 +476,5 @@ class StringsRu extends Strings {
   String get reviewDetailGenerateAnswer => 'Сгенерировать ответ';
 
   @override
-  String get reviewDetailGenerateSoon => 'Скоро будет доступно';
+  String get reviewDetailGenerating => 'Генерирую…';
 }
