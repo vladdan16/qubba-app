@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -174,7 +177,7 @@ class _ReviewDetailView extends StatelessWidget {
   }
 }
 
-class _GenerateReplyButton extends StatelessWidget {
+class _GenerateReplyButton extends StatefulWidget {
   const _GenerateReplyButton({
     required this.isGenerating,
     required this.onPressed,
@@ -183,68 +186,155 @@ class _GenerateReplyButton extends StatelessWidget {
   final bool isGenerating;
   final VoidCallback onPressed;
 
-  static const _borderRadius = BorderRadius.all(Radius.circular(26));
-  static const _gradient = LinearGradient(
-    colors: [Color(0xFF8B5CF6), Color(0xFF3B82F6)],
+  @override
+  State<_GenerateReplyButton> createState() => _GenerateReplyButtonState();
+}
+
+class _GenerateReplyButtonState extends State<_GenerateReplyButton>
+    with SingleTickerProviderStateMixin {
+  static const _height = 56.0;
+  static const _borderRadius = BorderRadius.all(Radius.circular(_height / 2));
+
+  static const _idleGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF7C3AED), Color(0xFF4338CA)],
   );
+
+  // First color equals last — guarantees a seamless rotation loop.
+  static const _spinColors = [
+    Color(0xFF6366F1),
+    Color(0xFFA855F7),
+    Color(0xFFEC4899),
+    Color(0xFFA855F7),
+    Color(0xFF6366F1),
+  ];
+  static const _glowColor = Color(0xFF8B5CF6);
+
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 3),
+      vsync: this,
+    );
+    if (widget.isGenerating) unawaited(_controller.repeat());
+  }
+
+  @override
+  void didUpdateWidget(_GenerateReplyButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isGenerating == oldWidget.isGenerating) return;
+    if (widget.isGenerating) {
+      unawaited(_controller.repeat());
+    } else {
+      _controller
+        ..stop()
+        ..value = 0;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final strings = Strings.of(context);
+    final textStyle = Theme.of(context).textTheme.labelLarge?.copyWith(
+      color: Colors.white,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 0.3,
+    );
 
     return SizedBox(
       width: double.infinity,
-      height: 52,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: isGenerating ? null : _gradient,
-          color: isGenerating ? colorScheme.surfaceContainerHighest : null,
-          borderRadius: _borderRadius,
-        ),
-        child: Material(
-          color: Colors.transparent,
-          borderRadius: _borderRadius,
-          child: InkWell(
-            borderRadius: _borderRadius,
-            onTap: isGenerating ? null : onPressed,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      height: _height,
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, _) {
+          final generating = widget.isGenerating;
+          final t = _controller.value;
+          final angle = t * 2 * math.pi;
+          final glowAlpha = generating ? 0.35 + 0.15 * math.sin(angle) : 0.22;
+
+          return DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: _borderRadius,
+              boxShadow: [
+                BoxShadow(
+                  color: _glowColor.withValues(alpha: glowAlpha),
+                  blurRadius: generating ? 28 : 14,
+                  spreadRadius: generating ? 2 : 0,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: _borderRadius,
+              child: Stack(
+                fit: StackFit.expand,
                 children: [
-                  if (isGenerating)
-                    SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                    )
-                  else
-                    const Icon(
-                      Icons.auto_awesome,
-                      color: Colors.white,
-                      size: 18,
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: generating
+                          ? SweepGradient(
+                              transform: GradientRotation(angle),
+                              colors: _spinColors,
+                            )
+                          : _idleGradient,
                     ),
-                  const SizedBox(width: 8),
-                  Text(
-                    isGenerating
-                        ? strings.reviewDetailGenerating
-                        : strings.reviewDetailGenerateAnswer,
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: isGenerating
-                          ? colorScheme.onSurfaceVariant
-                          : Colors.white,
-                      fontWeight: FontWeight.w600,
+                  ),
+                  if (generating)
+                    FractionalTranslation(
+                      translation: Offset(-1 + 2 * t, 0),
+                      child: const DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color(0x00FFFFFF),
+                              Color(0x40FFFFFF),
+                              Color(0x00FFFFFF),
+                            ],
+                            stops: [0.35, 0.5, 0.65],
+                          ),
+                        ),
+                      ),
+                    ),
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: generating ? null : widget.onPressed,
+                      child: Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.auto_awesome,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              generating
+                                  ? strings.reviewDetailGenerating
+                                  : strings.reviewDetailGenerateAnswer,
+                              style: textStyle,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

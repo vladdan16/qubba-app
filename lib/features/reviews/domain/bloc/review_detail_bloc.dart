@@ -45,6 +45,7 @@ final class ReviewDetailBloc
     emit(ReviewDetailLoadedState(review: current.review, isGenerating: true));
 
     try {
+      await Future<void>.delayed(const Duration(seconds: 10));
       final updated = await _repository.generateReply(event.id);
       emit(ReviewDetailLoadedState(review: updated));
     } on Object catch (error, _) {
