@@ -6,7 +6,7 @@ import '../api/reviews_api.dart';
 import '../mappers/review_mapper.dart';
 
 final class ReviewsRepositoryImpl implements ReviewsRepository {
-  const ReviewsRepositoryImpl({required ReviewsApi api}) : _api = api;
+  const ReviewsRepositoryImpl({required this._api});
 
   final ReviewsApi _api;
 

@@ -9,9 +9,8 @@ part 'review_detail_state.dart';
 
 final class ReviewDetailBloc
     extends Bloc<ReviewDetailEvent, ReviewDetailState> {
-  ReviewDetailBloc({required ReviewsRepository repository})
-    : _repository = repository,
-      super(const ReviewDetailInitialState()) {
+  ReviewDetailBloc({required this._repository})
+    : super(const ReviewDetailInitialState()) {
     on<ReviewDetailLoadRequested>(_onLoad, transformer: restartable());
     on<ReviewDetailGenerateReplyRequested>(
       _onGenerateReply,

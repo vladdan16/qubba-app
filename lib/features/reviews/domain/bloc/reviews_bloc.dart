@@ -9,9 +9,8 @@ part 'reviews_event.dart';
 part 'reviews_state.dart';
 
 final class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
-  ReviewsBloc({required ReviewsRepository repository})
-    : _repository = repository,
-      super(const ReviewsInitialState(filter: ReviewsFilter())) {
+  ReviewsBloc({required this._repository})
+    : super(const ReviewsInitialState(filter: ReviewsFilter())) {
     on<ReviewsLoadRequested>(_onLoad, transformer: restartable());
     on<ReviewsRefreshRequested>(_onRefresh, transformer: restartable());
     on<ReviewsFilterChanged>(_onFilterChanged, transformer: restartable());

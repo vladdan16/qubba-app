@@ -8,8 +8,8 @@ final class CabinetsRepositoryImpl implements CabinetsRepository {
   final CabinetsApi _api;
 
   const CabinetsRepositoryImpl({
-    required CabinetsApi api,
-  }) : _api = api;
+    required this._api,
+  });
 
   @override
   Future<List<Cabinet>> getAllCabinets({int? limit, int? offset}) async {

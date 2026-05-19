@@ -15,9 +15,8 @@ final class CabinetsBloc extends Bloc<CabinetsEvent, CabinetsState> {
   final CabinetsRepository _repository;
 
   CabinetsBloc({
-    required CabinetsRepository repository,
-  }) : _repository = repository,
-       super(const CabinetsInitial()) {
+    required this._repository,
+  }) : super(const CabinetsInitial()) {
     on<LoadCabinets>(_onLoadCabinets);
     on<CreateCabinet>(_onCreateCabinet);
     on<UpdateCabinet>(_onUpdateCabinet);

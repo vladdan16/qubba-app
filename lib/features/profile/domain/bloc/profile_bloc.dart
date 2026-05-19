@@ -9,9 +9,8 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc({required ProfileRepository repository})
-    : _repository = repository,
-      super(const ProfileInitialState()) {
+  ProfileBloc({required this._repository})
+    : super(const ProfileInitialState()) {
     on<ProfileLoadRequested>(_onLoad, transformer: restartable());
     on<ProfileRefreshRequested>(_onRefresh, transformer: restartable());
     on<ProfileUpdateRequested>(_onUpdate, transformer: droppable());
