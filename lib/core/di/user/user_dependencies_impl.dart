@@ -120,6 +120,7 @@ final class UserDependenciesImpl implements UserDependencies {
 
     aiDio.interceptors.addAll([
       RetryOnConnectionClosedInterceptor(aiDio),
+      AuthInterceptor(aiDio, appDeps.authRepository),
       LogInterceptor(
         requestBody: true,
         responseBody: true,
