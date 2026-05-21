@@ -17,11 +17,13 @@ final class ReviewDetailLoadedState extends ReviewDetailState {
     required this.review,
     this.isGenerating = false,
     this.generationError,
+    this.justGenerated = false,
   });
 
   final Review review;
   final bool isGenerating;
   final String? generationError;
+  final bool justGenerated;
 }
 
 final class ReviewDetailFailureState extends ReviewDetailState {

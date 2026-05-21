@@ -475,4 +475,45 @@ class StringsEn extends Strings {
 
   @override
   String get reviewDetailGenerating => 'Generating…';
+
+  @override
+  String get reviewDetailAnswerGenerated => 'Reply generated';
+
+  @override
+  String get reviewsAiSettingsTitle => 'Generation settings';
+
+  @override
+  String get reviewsAiSettingsTooltip => 'Generation settings';
+
+  @override
+  String get reviewsAiSettingsPromptLabel => 'Prompt';
+
+  @override
+  String get reviewsAiSettingsPromptHint =>
+      'Describe the tone, length and rules for replies…';
+
+  @override
+  String get reviewsAiSettingsModelLabel => 'Model';
+
+  @override
+  String get reviewsAiSettingsModelNotSelected => 'Not selected';
+
+  @override
+  String get reviewsAiSettingsSaveButton => 'Save';
+
+  @override
+  String get reviewsAiSettingsSaved => 'Settings saved';
+
+  @override
+  String reviewsAiSettingsLoadError(String message) {
+    return 'Failed to load settings: $message';
+  }
+
+  @override
+  String reviewsAiSettingsSaveError(String message) {
+    return 'Failed to save: $message';
+  }
+
+  @override
+  String get reviewsAiSettingsRetry => 'Retry';
 }

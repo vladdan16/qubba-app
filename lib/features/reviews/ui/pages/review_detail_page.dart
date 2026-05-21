@@ -55,12 +55,19 @@ class _ReviewDetailView extends StatelessWidget {
       ),
       body: BlocConsumer<ReviewDetailBloc, ReviewDetailState>(
         listenWhen: (_, curr) =>
-            curr is ReviewDetailLoadedState && curr.generationError != null,
+            curr is ReviewDetailLoadedState &&
+            (curr.generationError != null || curr.justGenerated),
         listener: (context, state) {
-          final error = (state as ReviewDetailLoadedState).generationError!;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(strings.reviewsError(error))),
-          );
+          final loaded = state as ReviewDetailLoadedState;
+          if (loaded.justGenerated) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(strings.reviewDetailAnswerGenerated)),
+            );
+          } else if (loaded.generationError case final error?) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(strings.reviewsError(error))),
+            );
+          }
         },
         builder: (context, state) => switch (state) {
           ReviewDetailInitialState() ||

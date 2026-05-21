@@ -32,4 +32,6 @@ extension NavigationExt on BuildContext {
   void goToReviews() => go('/reviews');
 
   void openReviewDetail(String id) => push('/reviews/$id');
+
+  void openReviewsAiSettings() => push('/reviews/settings');
 }

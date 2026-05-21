@@ -263,5 +263,28 @@
   "reviewDetailTitle": "Review",
   "reviewDetailNoAnswer": "No reply to this review",
   "reviewDetailGenerateAnswer": "Generate reply",
-  "reviewDetailGenerating": "Generating…"
+  "reviewDetailGenerating": "Generating…",
+  "reviewDetailAnswerGenerated": "Reply generated",
+
+  "reviewsAiSettingsTitle": "Generation settings",
+  "reviewsAiSettingsTooltip": "Generation settings",
+  "reviewsAiSettingsPromptLabel": "Prompt",
+  "reviewsAiSettingsPromptHint": "Describe the tone, length and rules for replies…",
+  "reviewsAiSettingsModelLabel": "Model",
+  "reviewsAiSettingsModelNotSelected": "Not selected",
+  "reviewsAiSettingsSaveButton": "Save",
+  "reviewsAiSettingsSaved": "Settings saved",
+  "reviewsAiSettingsLoadError": "Failed to load settings: {message}",
+  "@reviewsAiSettingsLoadError": {
+    "placeholders": {
+      "message": { "type": "String" }
+    }
+  },
+  "reviewsAiSettingsSaveError": "Failed to save: {message}",
+  "@reviewsAiSettingsSaveError": {
+    "placeholders": {
+      "message": { "type": "String" }
+    }
+  },
+  "reviewsAiSettingsRetry": "Retry"
 }

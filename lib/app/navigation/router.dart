@@ -17,6 +17,7 @@ import '../../features/cabinets/ui/cabinets_list_screen.dart';
 import '../../features/profile/domain/bloc/profile_bloc.dart';
 import '../../features/profile/ui/pages/profile_page.dart';
 import '../../features/reviews/ui/pages/review_detail_page.dart';
+import '../../features/reviews/ui/pages/reviews_ai_settings_page.dart';
 import '../../features/reviews/ui/pages/reviews_page.dart';
 import '../../features/sales/ui/pages/sales_page.dart';
 import 'main_shell.dart';
@@ -153,6 +154,11 @@ abstract final class AppRouter {
                     path: '/reviews',
                     builder: (context, state) => const ReviewsPage(),
                     routes: [
+                      GoRoute(
+                        path: 'settings',
+                        builder: (context, state) =>
+                            const ReviewsAiSettingsPage(),
+                      ),
                       GoRoute(
                         path: ':id',
                         builder: (context, state) {
