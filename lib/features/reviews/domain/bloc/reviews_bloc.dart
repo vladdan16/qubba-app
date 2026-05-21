@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../domain/models/review.dart';
 import '../../domain/models/reviews_filter.dart';
@@ -42,7 +43,8 @@ final class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
           hasMore: page.reviews.length >= _pageSize,
         ),
       );
-    } on Object catch (error, _) {
+    } on Object catch (error, stackTrace) {
+      debugPrint('ReviewsBloc._onLoad: $error\n$stackTrace');
       emit(ReviewsFailureState(filter: filter, message: error.toString()));
     }
   }
@@ -81,7 +83,8 @@ final class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
           hasMore: page.reviews.length >= _pageSize,
         ),
       );
-    } on Object catch (error, _) {
+    } on Object catch (error, stackTrace) {
+      debugPrint('ReviewsBloc._onRefresh: $error\n$stackTrace');
       emit(
         ReviewsFailureState(
           filter: filter,
@@ -132,7 +135,8 @@ final class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
           hasMore: page.reviews.length >= _pageSize,
         ),
       );
-    } on Object catch (error, _) {
+    } on Object catch (error, stackTrace) {
+      debugPrint('ReviewsBloc._onFilterChanged: $error\n$stackTrace');
       emit(
         ReviewsFailureState(
           filter: newFilter,
@@ -174,7 +178,8 @@ final class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
           hasMore: page.reviews.length >= _pageSize,
         ),
       );
-    } on Object catch (error, _) {
+    } on Object catch (error, stackTrace) {
+      debugPrint('ReviewsBloc._onLoadMore: $error\n$stackTrace');
       emit(
         ReviewsReadyIdleState(
           filter: previous.filter,

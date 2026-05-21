@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../domain/models/review.dart';
 import '../../domain/repository/reviews_repository.dart';
@@ -29,7 +30,8 @@ final class ReviewDetailBloc
     try {
       final review = await _repository.getReviewById(event.id);
       emit(ReviewDetailLoadedState(review: review));
-    } on Object catch (error, _) {
+    } on Object catch (error, stackTrace) {
+      debugPrint('ReviewDetailBloc._onLoad: $error\n$stackTrace');
       emit(ReviewDetailFailureState(message: error.toString(), id: event.id));
     }
   }
@@ -46,7 +48,8 @@ final class ReviewDetailBloc
     try {
       final updated = await _repository.generateReply(event.id);
       emit(ReviewDetailLoadedState(review: updated, justGenerated: true));
-    } on Object catch (error, _) {
+    } on Object catch (error, stackTrace) {
+      debugPrint('ReviewDetailBloc._onGenerateReply: $error\n$stackTrace');
       emit(
         ReviewDetailLoadedState(
           review: current.review,

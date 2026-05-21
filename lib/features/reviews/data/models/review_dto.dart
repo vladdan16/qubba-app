@@ -2,6 +2,13 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'review_dto.g.dart';
 
+int? _intFromJson(dynamic value) {
+  if (value == null) return null;
+  if (value is num) return value.toInt();
+  if (value is String) return int.tryParse(value);
+  return null;
+}
+
 @JsonSerializable(createToJson: false)
 class ReviewDto {
   const ReviewDto({
@@ -31,6 +38,7 @@ class ReviewDto {
   @JsonKey(name: 'cabinet_id')
   final String? cabinetId;
 
+  @JsonKey(fromJson: _intFromJson)
   final int? marketplace;
 
   @JsonKey(name: 'marketplace_review_id')
@@ -40,6 +48,7 @@ class ReviewDto {
   final String? marketplaceProductId;
 
   final String? text;
+  @JsonKey(fromJson: _intFromJson)
   final int? rating;
   final String? answer;
 

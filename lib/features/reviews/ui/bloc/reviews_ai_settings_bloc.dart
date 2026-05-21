@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../../features/ai_models/domain/models/ai_model.dart';
 import '../../../../features/ai_models/domain/repository/ai_models_repository.dart';
@@ -61,7 +62,8 @@ final class ReviewsAiSettingsBloc
           selectedModel: selectedModel,
         ),
       );
-    } on Object catch (error, _) {
+    } on Object catch (error, stackTrace) {
+      debugPrint('ReviewsAiSettingsBloc._onLoad: $error\n$stackTrace');
       emit(
         state.copyWith(
           loadState: ReviewsAiSettingsLoadState.failure,
@@ -96,7 +98,8 @@ final class ReviewsAiSettingsBloc
         prompt: state.prompt,
       );
       emit(state.copyWith(isSaving: false, saveSuccess: true));
-    } on Object catch (error, _) {
+    } on Object catch (error, stackTrace) {
+      debugPrint('ReviewsAiSettingsBloc._onSave: $error\n$stackTrace');
       emit(
         state.copyWith(
           isSaving: false,
