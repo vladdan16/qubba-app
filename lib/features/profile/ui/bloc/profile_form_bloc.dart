@@ -16,15 +16,13 @@ typedef OnSaveProfile =
 
 final class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
   ProfileFormBloc({
-    required OnSaveProfile onSave,
+    required this._onSave,
     required String email,
     String firstName = '',
     String lastName = '',
     String phone = '',
-    Duration debounce = const Duration(milliseconds: 300),
-  }) : _onSave = onSave,
-       _debounce = debounce,
-       super(
+    this._debounce = const Duration(milliseconds: 300),
+  }) : super(
          ProfileFormInitialState(
            email: email,
            firstName: firstName,

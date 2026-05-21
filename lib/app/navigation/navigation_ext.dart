@@ -28,4 +28,8 @@ extension NavigationExt on BuildContext {
     '/cabinets/${cabinet.id}/sales',
     extra: {'cabinetId': cabinet.id, 'cabinetName': cabinet.name},
   );
+
+  void goToReviews() => go('/reviews');
+
+  void openReviewDetail(String id) => push('/reviews/$id');
 }

@@ -11,9 +11,7 @@ part 'sales_event.dart';
 part 'sales_state.dart';
 
 final class SalesBloc extends Bloc<SalesEvent, SalesState> {
-  SalesBloc({required SalesRepository repository})
-    : _repository = repository,
-      super(const SalesInitialState()) {
+  SalesBloc({required this._repository}) : super(const SalesInitialState()) {
     on<SalesLoadRequested>(_onLoad, transformer: restartable());
     on<SalesRefreshRequested>(_onRefresh, transformer: restartable());
     on<SalesMarketplaceChanged>(

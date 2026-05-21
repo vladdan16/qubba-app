@@ -5,6 +5,7 @@ import '../../../features/authentication/data/api/authentication_api.dart';
 import '../../../features/authentication/data/repository/authentication_repository_impl.dart';
 import '../../../features/authentication/data/utils/auth_interceptor.dart';
 import '../../../features/authentication/domain/repository/authentication_repository.dart';
+import '../../network/retry_on_connection_closed_interceptor.dart';
 import 'app_dependencies.dart';
 
 final class AppDependenciesImpl implements AppDependencies {
@@ -40,6 +41,7 @@ final class AppDependenciesImpl implements AppDependencies {
     );
 
     dio.interceptors.addAll([
+      RetryOnConnectionClosedInterceptor(dio),
       AuthInterceptor(dio, authRepository),
       LogInterceptor(requestBody: true, responseBody: true),
     ]);

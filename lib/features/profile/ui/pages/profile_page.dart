@@ -85,9 +85,9 @@ class ProfilePage extends StatelessWidget {
           create: (context) => ProfileFormBloc(
             onSave:
                 ({
-                  required String firstName,
-                  required String lastName,
-                  required String phone,
+                  required firstName,
+                  required lastName,
+                  required phone,
                 }) async {
                   final bloc = context.read<ProfileBloc>();
                   final finished = bloc.stream.firstWhere(

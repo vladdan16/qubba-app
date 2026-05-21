@@ -151,7 +151,6 @@
   "cabinetEmployeesManageTooltip": "Manage access",
   "cabinetEmployeesEmailEmpty": "Enter email",
   "cabinetEmployeesEmailInvalid": "Invalid email",
-  "cabinetFormUnitMaintenanceCostInvalid": "Unit maintenance cost must be a number",
 
   "salesTitle": "Sales",
   "salesRetry": "Retry",
@@ -230,5 +229,39 @@
   "salesCurrencySymbol": "₽",
   "@salesCurrencySymbol": {
     "description": "Currency symbol for monetary values (application targets Russian markets only, all amounts are in Russian rubles '₽')."
-  }
+  },
+
+  "reviewsTitle": "Reviews",
+  "reviewsTabLabel": "Reviews",
+  "cabinetsTabLabel": "Cabinets",
+  "reviewsEmpty": "No reviews for selected filters",
+  "reviewsError": "Error: {error}",
+  "@reviewsError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "reviewsRetry": "Retry",
+
+  "reviewsFilterCabinetAll": "All cabinets",
+  "reviewsFilterCabinetSelect": "Cabinet: {name}",
+  "@reviewsFilterCabinetSelect": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "reviewsFilterAnsweredAll": "All",
+  "reviewsFilterAnsweredYes": "Answered",
+  "reviewsFilterAnsweredNo": "Unanswered",
+
+  "reviewCardSellerAnswerLabel": "Your reply",
+  "reviewCardNoText": "No text",
+  "reviewCardNoAnswer": "No reply",
+  "reviewCardAiAnswerLabel": "AI reply",
+  "reviewCardAnonymousBuyer": "Buyer",
+
+  "reviewDetailTitle": "Review",
+  "reviewDetailNoAnswer": "No reply to this review",
+  "reviewDetailGenerateAnswer": "Generate reply",
+  "reviewDetailGenerating": "Generating…"
 }

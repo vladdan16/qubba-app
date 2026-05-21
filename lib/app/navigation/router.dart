@@ -14,10 +14,12 @@ import '../../features/cabinets/domain/models/cabinet.dart';
 import '../../features/cabinets/ui/cabinet_employees_screen.dart';
 import '../../features/cabinets/ui/cabinet_form_screen.dart';
 import '../../features/cabinets/ui/cabinets_list_screen.dart';
-import '../../features/home/ui/home_page.dart';
 import '../../features/profile/domain/bloc/profile_bloc.dart';
 import '../../features/profile/ui/pages/profile_page.dart';
+import '../../features/reviews/ui/pages/review_detail_page.dart';
+import '../../features/reviews/ui/pages/reviews_page.dart';
 import '../../features/sales/ui/pages/sales_page.dart';
+import 'main_shell.dart';
 
 abstract final class AppRouter {
   static final router = GoRouter(
@@ -38,7 +40,6 @@ abstract final class AppRouter {
           GoRoute(
             path: '/registration',
             builder: (context, state) =>
-                // TODO(vladdan16): implement RegistrationScreen
                 const _StubPage(title: 'Registration (stub)'),
           ),
         ],
@@ -61,10 +62,6 @@ abstract final class AppRouter {
         ),
         routes: [
           GoRoute(
-            path: '/home',
-            builder: (context, state) => const HomePage(),
-          ),
-          GoRoute(
             path: '/profile',
             builder: (context, state) {
               final authState = context.watch<AuthBloc>().state;
@@ -75,71 +72,98 @@ abstract final class AppRouter {
               return ProfilePage(email: email);
             },
           ),
-          ShellRoute(
-            builder: (context, state, child) => BlocProvider<CabinetsBloc>(
-              create: (context) => CabinetsBloc(
-                repository: UserScope.of(context).cabinetsRepository,
-              ),
-              child: child,
-            ),
-            routes: [
-              GoRoute(
-                path: '/cabinets',
-                builder: (context, state) => const CabinetsListScreen(),
+          StatefulShellRoute.indexedStack(
+            builder: (context, state, navigationShell) =>
+                BlocProvider<CabinetsBloc>(
+                  create: (context) => CabinetsBloc(
+                    repository: UserScope.of(context).cabinetsRepository,
+                  ),
+                  child: MainShell(navigationShell: navigationShell),
+                ),
+            branches: [
+              StatefulShellBranch(
                 routes: [
                   GoRoute(
-                    path: 'add',
-                    builder: (context, state) => const CabinetFormScreen(),
-                  ),
-                  GoRoute(
-                    path: 'edit/:id',
-                    builder: (context, state) {
-                      final cabinet = state.extra as Cabinet?;
-                      return CabinetFormScreen(cabinet: cabinet);
-                    },
-                  ),
-                  GoRoute(
-                    path: ':id/employees',
-                    builder: (context, state) {
-                      final extra = state.extra;
-                      if (extra is Map<String, String> &&
-                          extra['cabinetId'] != null &&
-                          extra['cabinetName'] != null) {
-                        final cabinetId = extra['cabinetId']!;
-                        final cabinetName = extra['cabinetName']!;
-                        return BlocProvider(
-                          create: (context) => CabinetEmployeesBloc(
-                            repository: UserScope.of(
-                              context,
-                            ).cabinetsRepository,
-                          ),
-                          child: CabinetEmployeesScreen(
+                    path: '/cabinets',
+                    builder: (context, state) => const CabinetsListScreen(),
+                    routes: [
+                      GoRoute(
+                        path: 'add',
+                        builder: (context, state) => const CabinetFormScreen(),
+                      ),
+                      GoRoute(
+                        path: 'edit/:id',
+                        builder: (context, state) {
+                          final cabinet = state.extra as Cabinet?;
+                          return CabinetFormScreen(cabinet: cabinet);
+                        },
+                      ),
+                      GoRoute(
+                        path: ':id/employees',
+                        builder: (context, state) {
+                          final extra = state.extra;
+                          if (extra is Map<String, String> &&
+                              extra['cabinetId'] != null &&
+                              extra['cabinetName'] != null) {
+                            final cabinetId = extra['cabinetId']!;
+                            final cabinetName = extra['cabinetName']!;
+                            return BlocProvider(
+                              create: (context) => CabinetEmployeesBloc(
+                                repository: UserScope.of(
+                                  context,
+                                ).cabinetsRepository,
+                              ),
+                              child: CabinetEmployeesScreen(
+                                cabinetId: cabinetId,
+                                cabinetName: cabinetName,
+                              ),
+                            );
+                          }
+                          return const _StubPage(
+                            title: 'Invalid cabinet data',
+                          );
+                        },
+                      ),
+                      GoRoute(
+                        path: ':id/sales',
+                        builder: (context, state) {
+                          final cabinetId = state.pathParameters['id'];
+                          if (cabinetId == null || cabinetId.isEmpty) {
+                            return const _StubPage(title: 'Invalid cabinet id');
+                          }
+
+                          final extra = state.extra;
+                          final cabinetName = (extra is Map<String, String>)
+                              ? extra['cabinetName']
+                              : null;
+
+                          return SalesPage(
                             cabinetId: cabinetId,
                             cabinetName: cabinetName,
-                          ),
-                        );
-                      }
-                      return const _StubPage(title: 'Invalid cabinet data');
-                    },
+                          );
+                        },
+                      ),
+                    ],
                   ),
+                ],
+              ),
+              StatefulShellBranch(
+                routes: [
                   GoRoute(
-                    path: ':id/sales',
-                    builder: (context, state) {
-                      final cabinetId = state.pathParameters['id'];
-                      if (cabinetId == null || cabinetId.isEmpty) {
-                        return const _StubPage(title: 'Invalid cabinet id');
-                      }
-
-                      final extra = state.extra;
-                      final cabinetName = (extra is Map<String, String>)
-                          ? extra['cabinetName']
-                          : null;
-
-                      return SalesPage(
-                        cabinetId: cabinetId,
-                        cabinetName: cabinetName,
-                      );
-                    },
+                    path: '/reviews',
+                    builder: (context, state) => const ReviewsPage(),
+                    routes: [
+                      GoRoute(
+                        path: ':id',
+                        builder: (context, state) {
+                          final id = state.pathParameters['id'];
+                          if (id == null || id.isEmpty) {
+                            return const _StubPage(title: 'Invalid review id');
+                          }
+                          return ReviewDetailPage(reviewId: id);
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -151,7 +175,6 @@ abstract final class AppRouter {
   );
 }
 
-/// Временная заглушка для экранов, чтобы приложение собиралось
 class _StubPage extends StatelessWidget {
   const _StubPage({required this.title});
 

@@ -858,6 +858,126 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'₽'**
   String get salesCurrencySymbol;
+
+  /// No description provided for @reviewsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get reviewsTitle;
+
+  /// No description provided for @reviewsTabLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get reviewsTabLabel;
+
+  /// No description provided for @cabinetsTabLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cabinets'**
+  String get cabinetsTabLabel;
+
+  /// No description provided for @reviewsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No reviews for selected filters'**
+  String get reviewsEmpty;
+
+  /// No description provided for @reviewsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String reviewsError(String error);
+
+  /// No description provided for @reviewsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get reviewsRetry;
+
+  /// No description provided for @reviewsFilterCabinetAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All cabinets'**
+  String get reviewsFilterCabinetAll;
+
+  /// No description provided for @reviewsFilterCabinetSelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Cabinet: {name}'**
+  String reviewsFilterCabinetSelect(String name);
+
+  /// No description provided for @reviewsFilterAnsweredAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get reviewsFilterAnsweredAll;
+
+  /// No description provided for @reviewsFilterAnsweredYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Answered'**
+  String get reviewsFilterAnsweredYes;
+
+  /// No description provided for @reviewsFilterAnsweredNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Unanswered'**
+  String get reviewsFilterAnsweredNo;
+
+  /// No description provided for @reviewCardSellerAnswerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your reply'**
+  String get reviewCardSellerAnswerLabel;
+
+  /// No description provided for @reviewCardNoText.
+  ///
+  /// In en, this message translates to:
+  /// **'No text'**
+  String get reviewCardNoText;
+
+  /// No description provided for @reviewCardNoAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'No reply'**
+  String get reviewCardNoAnswer;
+
+  /// No description provided for @reviewCardAiAnswerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'AI reply'**
+  String get reviewCardAiAnswerLabel;
+
+  /// No description provided for @reviewCardAnonymousBuyer.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer'**
+  String get reviewCardAnonymousBuyer;
+
+  /// No description provided for @reviewDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get reviewDetailTitle;
+
+  /// No description provided for @reviewDetailNoAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'No reply to this review'**
+  String get reviewDetailNoAnswer;
+
+  /// No description provided for @reviewDetailGenerateAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate reply'**
+  String get reviewDetailGenerateAnswer;
+
+  /// No description provided for @reviewDetailGenerating.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating…'**
+  String get reviewDetailGenerating;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {

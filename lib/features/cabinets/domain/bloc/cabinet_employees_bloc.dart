@@ -16,9 +16,8 @@ final class CabinetEmployeesBloc
   final CabinetsRepository _repository;
 
   CabinetEmployeesBloc({
-    required CabinetsRepository repository,
-  }) : _repository = repository,
-       super(const CabinetEmployeesInitial()) {
+    required this._repository,
+  }) : super(const CabinetEmployeesInitial()) {
     on<LoadCabinetEmployees>(_onLoadCabinetEmployees);
     on<AddCabinetEmployee>(_onAddCabinetEmployee);
     on<DeleteCabinetEmployee>(_onDeleteCabinetEmployee);
