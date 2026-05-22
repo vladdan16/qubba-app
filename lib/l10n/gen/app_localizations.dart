@@ -985,6 +985,42 @@ abstract class Strings {
   /// **'Reply generated'**
   String get reviewDetailAnswerGenerated;
 
+  /// No description provided for @reviewDetailRegenerateAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Regenerate reply'**
+  String get reviewDetailRegenerateAnswer;
+
+  /// No description provided for @reviewDetailAnswerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a reply to the buyer…'**
+  String get reviewDetailAnswerHint;
+
+  /// No description provided for @reviewDetailSaveDraftButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save draft'**
+  String get reviewDetailSaveDraftButton;
+
+  /// No description provided for @reviewDetailDraftSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft saved'**
+  String get reviewDetailDraftSaved;
+
+  /// No description provided for @reviewDetailSendButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish to marketplace'**
+  String get reviewDetailSendButton;
+
+  /// No description provided for @reviewDetailAnswerSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply published to marketplace'**
+  String get reviewDetailAnswerSent;
+
   /// No description provided for @reviewsAiSettingsTitle.
   ///
   /// In en, this message translates to:

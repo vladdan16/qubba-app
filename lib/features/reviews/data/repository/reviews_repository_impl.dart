@@ -43,5 +43,20 @@ final class ReviewsRepositoryImpl implements ReviewsRepository {
   }
 
   @override
+  Future<Review> saveDraft(String reviewId, String text) async {
+    await _api.saveAnswer(reviewId, text);
+    final response = await _api.getReviewById(reviewId);
+    return ReviewMapper.toDomain(response.data.review);
+  }
+
+  @override
+  Future<Review> saveAndSendAnswer(String reviewId, String text) async {
+    await _api.saveAnswer(reviewId, text);
+    await _api.sendAnswer(reviewId);
+    final response = await _api.getReviewById(reviewId);
+    return ReviewMapper.toDomain(response.data.review);
+  }
+
+  @override
   Future<void> dispose() async {}
 }

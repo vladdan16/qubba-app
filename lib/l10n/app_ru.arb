@@ -226,6 +226,12 @@
   "reviewDetailGenerateAnswer": "Сгенерировать ответ",
   "reviewDetailGenerating": "Генерирую…",
   "reviewDetailAnswerGenerated": "Ответ сгенерирован",
+  "reviewDetailRegenerateAnswer": "Перегенерировать ответ",
+  "reviewDetailAnswerHint": "Напишите ответ покупателю…",
+  "reviewDetailSaveDraftButton": "Сохранить черновик",
+  "reviewDetailDraftSaved": "Черновик сохранён",
+  "reviewDetailSendButton": "Отправить на маркетплейс",
+  "reviewDetailAnswerSent": "Ответ отправлен на маркетплейс",
 
   "reviewsAiSettingsTitle": "Настройки генерации",
   "reviewsAiSettingsTooltip": "Настройки генерации",

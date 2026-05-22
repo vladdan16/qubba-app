@@ -480,6 +480,24 @@ class StringsEn extends Strings {
   String get reviewDetailAnswerGenerated => 'Reply generated';
 
   @override
+  String get reviewDetailRegenerateAnswer => 'Regenerate reply';
+
+  @override
+  String get reviewDetailAnswerHint => 'Write a reply to the buyer…';
+
+  @override
+  String get reviewDetailSaveDraftButton => 'Save draft';
+
+  @override
+  String get reviewDetailDraftSaved => 'Draft saved';
+
+  @override
+  String get reviewDetailSendButton => 'Publish to marketplace';
+
+  @override
+  String get reviewDetailAnswerSent => 'Reply published to marketplace';
+
+  @override
   String get reviewsAiSettingsTitle => 'Generation settings';
 
   @override

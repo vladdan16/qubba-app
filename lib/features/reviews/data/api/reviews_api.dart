@@ -22,6 +22,10 @@ sealed class ReviewsApi {
   Future<ReviewDetailResponseDto> getReviewById(String id);
 
   Future<void> generateReply(String id);
+
+  Future<void> saveAnswer(String id, String text);
+
+  Future<void> sendAnswer(String id);
 }
 
 final class _ReviewsApiImpl extends ReviewsApi {
@@ -64,5 +68,18 @@ final class _ReviewsApiImpl extends ReviewsApi {
   @override
   Future<void> generateReply(String id) async {
     await _dio.post<void>(_ApiParams.generateReply(id));
+  }
+
+  @override
+  Future<void> saveAnswer(String id, String text) async {
+    await _dio.post<void>(
+      _ApiParams.saveAnswer(id),
+      data: {'text': text},
+    );
+  }
+
+  @override
+  Future<void> sendAnswer(String id) async {
+    await _dio.post<void>(_ApiParams.sendAnswer(id));
   }
 }

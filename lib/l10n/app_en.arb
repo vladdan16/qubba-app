@@ -265,6 +265,12 @@
   "reviewDetailGenerateAnswer": "Generate reply",
   "reviewDetailGenerating": "Generating…",
   "reviewDetailAnswerGenerated": "Reply generated",
+  "reviewDetailRegenerateAnswer": "Regenerate reply",
+  "reviewDetailAnswerHint": "Write a reply to the buyer…",
+  "reviewDetailSaveDraftButton": "Save draft",
+  "reviewDetailDraftSaved": "Draft saved",
+  "reviewDetailSendButton": "Publish to marketplace",
+  "reviewDetailAnswerSent": "Reply published to marketplace",
 
   "reviewsAiSettingsTitle": "Generation settings",
   "reviewsAiSettingsTooltip": "Generation settings",

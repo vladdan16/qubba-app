@@ -18,6 +18,14 @@ final class ReviewDetailBloc
       _onGenerateReply,
       transformer: droppable(),
     );
+    on<ReviewDetailSaveDraftPressed>(
+      _onSaveDraft,
+      transformer: droppable(),
+    );
+    on<ReviewDetailSendAnswerPressed>(
+      _onSendAnswer,
+      transformer: droppable(),
+    );
   }
 
   final ReviewsRepository _repository;
@@ -56,6 +64,52 @@ final class ReviewDetailBloc
         ReviewDetailLoadedState(
           review: current.review,
           generationError: errorMessage(error),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onSaveDraft(
+    ReviewDetailSaveDraftPressed event,
+    Emitter<ReviewDetailState> emit,
+  ) async {
+    final current = state;
+    if (current is! ReviewDetailLoadedState) return;
+
+    emit(ReviewDetailLoadedState(review: current.review, isSavingDraft: true));
+
+    try {
+      final updated = await _repository.saveDraft(event.id, event.text);
+      emit(ReviewDetailLoadedState(review: updated, justSavedDraft: true));
+    } on Object catch (error, stackTrace) {
+      debugPrint('ReviewDetailBloc._onSaveDraft: $error\n$stackTrace');
+      emit(
+        ReviewDetailLoadedState(
+          review: current.review,
+          saveDraftError: errorMessage(error),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onSendAnswer(
+    ReviewDetailSendAnswerPressed event,
+    Emitter<ReviewDetailState> emit,
+  ) async {
+    final current = state;
+    if (current is! ReviewDetailLoadedState) return;
+
+    emit(ReviewDetailLoadedState(review: current.review, isSending: true));
+
+    try {
+      final updated = await _repository.saveAndSendAnswer(event.id, event.text);
+      emit(ReviewDetailLoadedState(review: updated, justSent: true));
+    } on Object catch (error, stackTrace) {
+      debugPrint('ReviewDetailBloc._onSendAnswer: $error\n$stackTrace');
+      emit(
+        ReviewDetailLoadedState(
+          review: current.review,
+          sendError: errorMessage(error),
         ),
       );
     }

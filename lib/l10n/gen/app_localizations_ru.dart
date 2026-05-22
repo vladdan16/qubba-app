@@ -482,6 +482,24 @@ class StringsRu extends Strings {
   String get reviewDetailAnswerGenerated => 'Ответ сгенерирован';
 
   @override
+  String get reviewDetailRegenerateAnswer => 'Перегенерировать ответ';
+
+  @override
+  String get reviewDetailAnswerHint => 'Напишите ответ покупателю…';
+
+  @override
+  String get reviewDetailSaveDraftButton => 'Сохранить черновик';
+
+  @override
+  String get reviewDetailDraftSaved => 'Черновик сохранён';
+
+  @override
+  String get reviewDetailSendButton => 'Отправить на маркетплейс';
+
+  @override
+  String get reviewDetailAnswerSent => 'Ответ отправлен на маркетплейс';
+
+  @override
   String get reviewsAiSettingsTitle => 'Настройки генерации';
 
   @override

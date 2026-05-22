@@ -15,3 +15,17 @@ final class ReviewDetailGenerateReplyRequested extends ReviewDetailEvent {
 
   final String id;
 }
+
+final class ReviewDetailSaveDraftPressed extends ReviewDetailEvent {
+  const ReviewDetailSaveDraftPressed({required this.id, required this.text});
+
+  final String id;
+  final String text;
+}
+
+final class ReviewDetailSendAnswerPressed extends ReviewDetailEvent {
+  const ReviewDetailSendAnswerPressed({required this.id, required this.text});
+
+  final String id;
+  final String text;
+}
