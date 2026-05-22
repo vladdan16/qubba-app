@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../../../utils/error_message.dart';
 import '../../domain/models/review.dart';
 import '../../domain/repository/reviews_repository.dart';
 
@@ -32,7 +33,8 @@ final class ReviewDetailBloc
       emit(ReviewDetailLoadedState(review: review));
     } on Object catch (error, stackTrace) {
       debugPrint('ReviewDetailBloc._onLoad: $error\n$stackTrace');
-      emit(ReviewDetailFailureState(message: error.toString(), id: event.id));
+      emit(ReviewDetailFailureState(message: errorMessage(error), id: event.id),
+      );
     }
   }
 
@@ -53,7 +55,7 @@ final class ReviewDetailBloc
       emit(
         ReviewDetailLoadedState(
           review: current.review,
-          generationError: error.toString(),
+          generationError: errorMessage(error),
         ),
       );
     }

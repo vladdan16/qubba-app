@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../../../../features/ai_models/domain/models/ai_model.dart';
 import '../../../../features/ai_models/domain/repository/ai_models_repository.dart';
 import '../../../../features/user_settings/domain/repository/user_settings_repository.dart';
+import '../../../../utils/error_message.dart';
 
 part 'reviews_ai_settings_event.dart';
 part 'reviews_ai_settings_state.dart';
@@ -67,7 +68,7 @@ final class ReviewsAiSettingsBloc
       emit(
         state.copyWith(
           loadState: ReviewsAiSettingsLoadState.failure,
-          loadError: error.toString(),
+          loadError: errorMessage(error),
         ),
       );
     }
@@ -103,7 +104,7 @@ final class ReviewsAiSettingsBloc
       emit(
         state.copyWith(
           isSaving: false,
-          saveError: error.toString(),
+          saveError: errorMessage(error),
           saveSuccess: false,
         ),
       );
