@@ -10,7 +10,7 @@ ReviewDto _$ReviewDtoFromJson(Map<String, dynamic> json) => ReviewDto(
   id: json['id'] as String,
   userId: json['user_id'] as String?,
   cabinetId: json['cabinet_id'] as String?,
-  marketplace: _intFromJson(json['marketplace']),
+  marketplace: json['marketplace'] as String?,
   marketplaceReviewId: json['marketplace_review_id'] as String?,
   marketplaceProductId: json['marketplace_product_id'] as String?,
   text: json['text'] as String?,

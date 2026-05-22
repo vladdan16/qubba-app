@@ -22,9 +22,9 @@ abstract final class ReviewMapper {
     createdDate: dto.createdDate,
   );
 
-  static Marketplace? _marketplaceFromCode(int? code) => switch (code) {
-    1 => Marketplace.wildberries,
-    2 => Marketplace.ozon,
+  static Marketplace? _marketplaceFromCode(String? code) => switch (code) {
+    'wb' => Marketplace.wildberries,
+    'ozon' => Marketplace.ozon,
     _ => null,
   };
 }

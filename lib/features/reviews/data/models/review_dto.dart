@@ -38,8 +38,7 @@ class ReviewDto {
   @JsonKey(name: 'cabinet_id')
   final String? cabinetId;
 
-  @JsonKey(fromJson: _intFromJson)
-  final int? marketplace;
+  final String? marketplace;
 
   @JsonKey(name: 'marketplace_review_id')
   final String? marketplaceReviewId;
