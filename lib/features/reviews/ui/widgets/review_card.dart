@@ -44,6 +44,29 @@ class ReviewCard extends StatelessWidget {
                   RatingStars(rating: review.rating),
                 ],
               ),
+              if (review.productName != null || review.productIcon != null) ...[
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    if (review.productIcon case final iconUrl?)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: _ProductThumb(url: iconUrl, size: 36),
+                      ),
+                    if (review.productName case final name?)
+                      Expanded(
+                        child: Text(
+                          name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ],
               const SizedBox(height: 10),
               if (review.text?.isNotEmpty ?? false)
                 Text(
@@ -139,6 +162,34 @@ class ReviewAnswerBlock extends StatelessWidget {
       ),
     );
   }
+}
+
+class _ProductThumb extends StatelessWidget {
+  const _ProductThumb({required this.url, required this.size});
+
+  final String url;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) => ClipRRect(
+    borderRadius: BorderRadius.circular(6),
+    child: Image.network(
+      url,
+      width: size,
+      height: size,
+      fit: BoxFit.cover,
+      errorBuilder: (_, _, _) => Container(
+        width: size,
+        height: size,
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        child: Icon(
+          Icons.image_not_supported_outlined,
+          size: size * 0.55,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
+      ),
+    ),
+  );
 }
 
 class _NoAnswerChip extends StatelessWidget {

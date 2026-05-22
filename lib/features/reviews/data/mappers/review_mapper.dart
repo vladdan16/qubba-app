@@ -10,6 +10,8 @@ abstract final class ReviewMapper {
     marketplace: _marketplaceFromCode(dto.marketplace),
     marketplaceReviewId: dto.marketplaceReviewId,
     marketplaceProductId: dto.marketplaceProductId,
+    productName: dto.productName,
+    productIcon: dto.productIcon,
     text: dto.text,
     rating: dto.rating,
     answer: dto.answer,

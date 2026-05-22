@@ -18,6 +18,8 @@ class ReviewDto {
     this.marketplace,
     this.marketplaceReviewId,
     this.marketplaceProductId,
+    this.productName,
+    this.productIcon,
     this.text,
     this.rating,
     this.answer,
@@ -45,6 +47,12 @@ class ReviewDto {
 
   @JsonKey(name: 'marketplace_product_id')
   final String? marketplaceProductId;
+
+  @JsonKey(name: 'product_name')
+  final String? productName;
+
+  @JsonKey(name: 'product_icon')
+  final String? productIcon;
 
   final String? text;
   @JsonKey(fromJson: _intFromJson)

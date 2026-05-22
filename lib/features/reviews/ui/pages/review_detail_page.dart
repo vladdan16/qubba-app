@@ -137,6 +137,49 @@ class _ReviewDetailView extends StatelessWidget {
                       RatingStars(rating: review.rating, size: 20),
                     ],
                   ),
+                  if (review.productIcon != null ||
+                      review.productName != null) ...[
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        if (review.productIcon case final iconUrl?)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 12),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(
+                                iconUrl,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, _, _) => Container(
+                                  width: 70,
+                                  height: 70,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceContainerHighest,
+                                  child: Icon(
+                                    Icons.image_not_supported_outlined,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        if (review.productName case final name?)
+                          Expanded(
+                            child: Text(
+                              name,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              maxLines: 5,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
                   const SizedBox(height: 16),
                   const Divider(),
                   const SizedBox(height: 16),
