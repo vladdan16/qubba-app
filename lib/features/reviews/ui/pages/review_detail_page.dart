@@ -13,18 +13,6 @@ import '../../domain/bloc/review_detail_bloc.dart';
 import '../widgets/rating_stars.dart';
 import '../widgets/review_card.dart' show ReviewAnswerBlock;
 
-void _popDetail(BuildContext context) {
-  final justGenerated = switch (context.read<ReviewDetailBloc>().state) {
-    ReviewDetailLoadedState(:final justGenerated) => justGenerated,
-    _ => false,
-  };
-  if (GoRouter.of(context).canPop()) {
-    context.pop(justGenerated);
-  } else {
-    context.go('/reviews');
-  }
-}
-
 class ReviewDetailPage extends StatelessWidget {
   const ReviewDetailPage({required this.reviewId, super.key});
 
@@ -49,17 +37,18 @@ class _ReviewDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = Strings.of(context);
 
-    return PopScope<bool>(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, _) {
-        if (!didPop) _popDetail(context);
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => _popDetail(context),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            if (GoRouter.of(context).canPop()) {
+              context.pop();
+            } else {
+              context.go('/reviews');
+            }
+          },
+        ),
         title: Text(strings.reviewDetailTitle),
         centerTitle: true,
       ),
@@ -190,7 +179,6 @@ class _ReviewDetailView extends StatelessWidget {
             ),
         },
       ),
-    ),
     );
   }
 }
