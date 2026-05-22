@@ -203,7 +203,17 @@ class _ReadyBody extends StatelessWidget {
                     final review = reviews[index];
                     return ReviewCard(
                       review: review,
-                      onTap: () => context.openReviewDetail(review.id),
+                      onTap: () async {
+                        final result = await context.openReviewDetail(
+                          review.id,
+                        );
+                        if (!context.mounted) return;
+                        if (result == true) {
+                          context.read<ReviewsBloc>().add(
+                            const ReviewsRefreshRequested(),
+                          );
+                        }
+                      },
                     );
                   },
                 ),

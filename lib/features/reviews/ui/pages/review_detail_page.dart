@@ -13,6 +13,18 @@ import '../../domain/bloc/review_detail_bloc.dart';
 import '../widgets/rating_stars.dart';
 import '../widgets/review_card.dart' show ReviewAnswerBlock;
 
+void _popDetail(BuildContext context) {
+  final justGenerated = switch (context.read<ReviewDetailBloc>().state) {
+    ReviewDetailLoadedState(:final justGenerated) => justGenerated,
+    _ => false,
+  };
+  if (GoRouter.of(context).canPop()) {
+    context.pop(justGenerated);
+  } else {
+    context.go('/reviews');
+  }
+}
+
 class ReviewDetailPage extends StatelessWidget {
   const ReviewDetailPage({required this.reviewId, super.key});
 
@@ -37,19 +49,17 @@ class _ReviewDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = Strings.of(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            final router = GoRouter.of(context);
-            if (router.canPop()) {
-              context.pop();
-            } else {
-              context.go('/reviews');
-            }
-          },
-        ),
+    return PopScope<bool>(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _popDetail(context);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => _popDetail(context),
+          ),
         title: Text(strings.reviewDetailTitle),
         centerTitle: true,
       ),
@@ -180,6 +190,7 @@ class _ReviewDetailView extends StatelessWidget {
             ),
         },
       ),
+    ),
     );
   }
 }
@@ -296,22 +307,6 @@ class _GenerateReplyButtonState extends State<_GenerateReplyButton>
                           : _idleGradient,
                     ),
                   ),
-                  // if (generating)
-                  //   FractionalTranslation(
-                  //     translation: Offset(-1 + 2 * t, 0),
-                  //     child: const DecoratedBox(
-                  //       decoration: BoxDecoration(
-                  //         gradient: LinearGradient(
-                  //           colors: [
-                  //             Color(0x00FFFFFF),
-                  //             Color(0x40FFFFFF),
-                  //             Color(0x00FFFFFF),
-                  //           ],
-                  //           stops: [0.35, 0.5, 0.65],
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
                   Material(
                     color: Colors.transparent,
                     child: InkWell(
