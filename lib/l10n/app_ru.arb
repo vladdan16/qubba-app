@@ -216,6 +216,7 @@
   "reviewsFilterAnsweredNo": "Без ответа",
 
   "reviewCardSellerAnswerLabel": "Ваш ответ",
+  "reviewCardDraftLabel": "Черновик",
   "reviewCardNoText": "Без текста",
   "reviewCardNoAnswer": "Без ответа",
   "reviewCardAiAnswerLabel": "AI-ответ",
@@ -224,5 +225,34 @@
   "reviewDetailTitle": "Отзыв",
   "reviewDetailNoAnswer": "Нет ответа на отзыв",
   "reviewDetailGenerateAnswer": "Сгенерировать ответ",
-  "reviewDetailGenerating": "Генерирую…"
+  "reviewDetailGenerating": "Генерирую…",
+  "reviewDetailAnswerGenerated": "Ответ сгенерирован",
+  "reviewDetailRegenerateAnswer": "Перегенерировать ответ",
+  "reviewDetailAnswerHint": "Напишите ответ покупателю…",
+  "reviewDetailSaveDraftButton": "Сохранить черновик",
+  "reviewDetailDraftSaved": "Черновик сохранён",
+  "reviewDetailSendButton": "Отправить на маркетплейс",
+  "reviewDetailAnswerSent": "Ответ отправлен на маркетплейс",
+
+  "reviewsAiSettingsTitle": "Настройки генерации",
+  "reviewsAiSettingsTooltip": "Настройки генерации",
+  "reviewsAiSettingsPromptLabel": "Промпт",
+  "reviewsAiSettingsPromptHint": "Опишите тон, длину и правила ответов на отзывы…",
+  "reviewsAiSettingsModelLabel": "Модель",
+  "reviewsAiSettingsModelNotSelected": "Не выбрано",
+  "reviewsAiSettingsSaveButton": "Сохранить",
+  "reviewsAiSettingsSaved": "Настройки сохранены",
+  "reviewsAiSettingsLoadError": "Не удалось загрузить настройки: {message}",
+  "@reviewsAiSettingsLoadError": {
+    "placeholders": {
+      "message": { "type": "String" }
+    }
+  },
+  "reviewsAiSettingsSaveError": "Не удалось сохранить: {message}",
+  "@reviewsAiSettingsSaveError": {
+    "placeholders": {
+      "message": { "type": "String" }
+    }
+  },
+  "reviewsAiSettingsRetry": "Повторить"
 }

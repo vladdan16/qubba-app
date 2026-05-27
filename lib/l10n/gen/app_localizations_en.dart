@@ -453,6 +453,9 @@ class StringsEn extends Strings {
   String get reviewCardSellerAnswerLabel => 'Your reply';
 
   @override
+  String get reviewCardDraftLabel => 'Draft';
+
+  @override
   String get reviewCardNoText => 'No text';
 
   @override
@@ -475,4 +478,63 @@ class StringsEn extends Strings {
 
   @override
   String get reviewDetailGenerating => 'Generating…';
+
+  @override
+  String get reviewDetailAnswerGenerated => 'Reply generated';
+
+  @override
+  String get reviewDetailRegenerateAnswer => 'Regenerate reply';
+
+  @override
+  String get reviewDetailAnswerHint => 'Write a reply to the buyer…';
+
+  @override
+  String get reviewDetailSaveDraftButton => 'Save draft';
+
+  @override
+  String get reviewDetailDraftSaved => 'Draft saved';
+
+  @override
+  String get reviewDetailSendButton => 'Publish to marketplace';
+
+  @override
+  String get reviewDetailAnswerSent => 'Reply published to marketplace';
+
+  @override
+  String get reviewsAiSettingsTitle => 'Generation settings';
+
+  @override
+  String get reviewsAiSettingsTooltip => 'Generation settings';
+
+  @override
+  String get reviewsAiSettingsPromptLabel => 'Prompt';
+
+  @override
+  String get reviewsAiSettingsPromptHint =>
+      'Describe the tone, length and rules for replies…';
+
+  @override
+  String get reviewsAiSettingsModelLabel => 'Model';
+
+  @override
+  String get reviewsAiSettingsModelNotSelected => 'Not selected';
+
+  @override
+  String get reviewsAiSettingsSaveButton => 'Save';
+
+  @override
+  String get reviewsAiSettingsSaved => 'Settings saved';
+
+  @override
+  String reviewsAiSettingsLoadError(String message) {
+    return 'Failed to load settings: $message';
+  }
+
+  @override
+  String reviewsAiSettingsSaveError(String message) {
+    return 'Failed to save: $message';
+  }
+
+  @override
+  String get reviewsAiSettingsRetry => 'Retry';
 }

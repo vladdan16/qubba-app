@@ -455,6 +455,9 @@ class StringsRu extends Strings {
   String get reviewCardSellerAnswerLabel => 'Ваш ответ';
 
   @override
+  String get reviewCardDraftLabel => 'Черновик';
+
+  @override
   String get reviewCardNoText => 'Без текста';
 
   @override
@@ -477,4 +480,63 @@ class StringsRu extends Strings {
 
   @override
   String get reviewDetailGenerating => 'Генерирую…';
+
+  @override
+  String get reviewDetailAnswerGenerated => 'Ответ сгенерирован';
+
+  @override
+  String get reviewDetailRegenerateAnswer => 'Перегенерировать ответ';
+
+  @override
+  String get reviewDetailAnswerHint => 'Напишите ответ покупателю…';
+
+  @override
+  String get reviewDetailSaveDraftButton => 'Сохранить черновик';
+
+  @override
+  String get reviewDetailDraftSaved => 'Черновик сохранён';
+
+  @override
+  String get reviewDetailSendButton => 'Отправить на маркетплейс';
+
+  @override
+  String get reviewDetailAnswerSent => 'Ответ отправлен на маркетплейс';
+
+  @override
+  String get reviewsAiSettingsTitle => 'Настройки генерации';
+
+  @override
+  String get reviewsAiSettingsTooltip => 'Настройки генерации';
+
+  @override
+  String get reviewsAiSettingsPromptLabel => 'Промпт';
+
+  @override
+  String get reviewsAiSettingsPromptHint =>
+      'Опишите тон, длину и правила ответов на отзывы…';
+
+  @override
+  String get reviewsAiSettingsModelLabel => 'Модель';
+
+  @override
+  String get reviewsAiSettingsModelNotSelected => 'Не выбрано';
+
+  @override
+  String get reviewsAiSettingsSaveButton => 'Сохранить';
+
+  @override
+  String get reviewsAiSettingsSaved => 'Настройки сохранены';
+
+  @override
+  String reviewsAiSettingsLoadError(String message) {
+    return 'Не удалось загрузить настройки: $message';
+  }
+
+  @override
+  String reviewsAiSettingsSaveError(String message) {
+    return 'Не удалось сохранить: $message';
+  }
+
+  @override
+  String get reviewsAiSettingsRetry => 'Повторить';
 }

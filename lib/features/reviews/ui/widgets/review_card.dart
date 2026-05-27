@@ -44,6 +44,29 @@ class ReviewCard extends StatelessWidget {
                   RatingStars(rating: review.rating),
                 ],
               ),
+              if (review.productName != null || review.productIcon != null) ...[
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    if (review.productIcon case final iconUrl?)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: _ProductThumb(url: iconUrl, size: 36),
+                      ),
+                    if (review.productName case final name?)
+                      Expanded(
+                        child: Text(
+                          name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ],
               const SizedBox(height: 10),
               if (review.text?.isNotEmpty ?? false)
                 Text(
@@ -65,6 +88,7 @@ class ReviewCard extends StatelessWidget {
                 ReviewAnswerBlock(
                   answer: review.answer!,
                   isAi: review.isAiAnswered,
+                  isPublished: review.isAnswered,
                   maxLines: 2,
                 ),
               ] else
@@ -81,12 +105,14 @@ class ReviewAnswerBlock extends StatelessWidget {
   const ReviewAnswerBlock({
     required this.answer,
     required this.isAi,
+    required this.isPublished,
     this.maxLines,
     super.key,
   });
 
   final String answer;
   final bool isAi;
+  final bool isPublished;
   final int? maxLines;
 
   @override
@@ -99,7 +125,12 @@ class ReviewAnswerBlock extends StatelessWidget {
         color: theme.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(8),
         border: Border(
-          left: BorderSide(color: theme.colorScheme.primary, width: 3),
+          left: BorderSide(
+            color: isPublished
+                ? theme.colorScheme.primary
+                : theme.colorScheme.outline,
+            width: 3,
+          ),
         ),
       ),
       padding: const EdgeInsets.all(12),
@@ -124,6 +155,10 @@ class ReviewAnswerBlock extends StatelessWidget {
                   color: theme.colorScheme.secondary,
                 ),
               ],
+              if (!isPublished) ...[
+                const Spacer(),
+                const _DraftChip(),
+              ],
             ],
           ),
           const SizedBox(height: 6),
@@ -139,6 +174,69 @@ class ReviewAnswerBlock extends StatelessWidget {
       ),
     );
   }
+}
+
+class _DraftChip extends StatelessWidget {
+  const _DraftChip();
+
+  @override
+  Widget build(BuildContext context) {
+    final strings = Strings.of(context);
+    final theme = Theme.of(context);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.secondaryContainer,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.edit_outlined,
+            size: 11,
+            color: theme.colorScheme.onSecondaryContainer,
+          ),
+          const SizedBox(width: 3),
+          Text(
+            strings.reviewCardDraftLabel,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: theme.colorScheme.onSecondaryContainer,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProductThumb extends StatelessWidget {
+  const _ProductThumb({required this.url, required this.size});
+
+  final String url;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) => ClipRRect(
+    borderRadius: BorderRadius.circular(6),
+    child: Image.network(
+      url,
+      width: size,
+      height: size,
+      fit: BoxFit.cover,
+      errorBuilder: (_, _, _) => Container(
+        width: size,
+        height: size,
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        child: Icon(
+          Icons.image_not_supported_outlined,
+          size: size * 0.55,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
+      ),
+    ),
+  );
 }
 
 class _NoAnswerChip extends StatelessWidget {

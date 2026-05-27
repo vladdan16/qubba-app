@@ -13,5 +13,9 @@ abstract interface class ReviewsRepository {
 
   Future<Review> generateReply(String reviewId);
 
+  Future<Review> saveDraft(String reviewId, String text);
+
+  Future<Review> saveAndSendAnswer(String reviewId, String text);
+
   Future<void> dispose();
 }

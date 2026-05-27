@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../../../../utils/require_data.dart';
 import '../models/review_detail_response_dto.dart';
 import '../models/reviews_list_response_dto.dart';
 
@@ -20,13 +21,17 @@ sealed class ReviewsApi {
 
   Future<ReviewDetailResponseDto> getReviewById(String id);
 
-  Future<ReviewDetailResponseDto> generateReply(String id);
+  Future<void> generateReply(String id);
+
+  Future<void> saveAnswer(String id, String text);
+
+  Future<void> sendAnswer(String id);
 }
 
 final class _ReviewsApiImpl extends ReviewsApi {
-  final Dio _dio;
-
   _ReviewsApiImpl(this._dio) : super._();
+
+  final Dio _dio;
 
   @override
   Future<ReviewsListResponseDto> getReviews({
@@ -44,59 +49,37 @@ final class _ReviewsApiImpl extends ReviewsApi {
       if (cabinetId != null) 'cabinet_id': [cabinetId],
     };
 
-    final response = await _dio.get<Map<String, dynamic>>(
+    final response = await _dio.get<Map<String, Object?>>(
       _ApiParams.reviews,
       queryParameters: queryParameters,
     );
 
-    final data = response.data;
-    if (data == null) {
-      throw DioException(
-        requestOptions: response.requestOptions,
-        response: response,
-        type: DioExceptionType.badResponse,
-        error: 'Empty response body',
-      );
-    }
-
-    return ReviewsListResponseDto.fromJson(data);
+    return ReviewsListResponseDto.fromJson(response.requireData);
   }
 
   @override
   Future<ReviewDetailResponseDto> getReviewById(String id) async {
-    final response = await _dio.get<Map<String, dynamic>>(
+    final response = await _dio.get<Map<String, Object?>>(
       _ApiParams.reviewById(id),
     );
-
-    final data = response.data;
-    if (data == null) {
-      throw DioException(
-        requestOptions: response.requestOptions,
-        response: response,
-        type: DioExceptionType.badResponse,
-        error: 'Empty response body',
-      );
-    }
-
-    return ReviewDetailResponseDto.fromJson(data);
+    return ReviewDetailResponseDto.fromJson(response.requireData);
   }
 
   @override
-  Future<ReviewDetailResponseDto> generateReply(String id) async {
-    final response = await _dio.post<Map<String, dynamic>>(
-      _ApiParams.generateReply(id),
+  Future<void> generateReply(String id) async {
+    await _dio.post<void>(_ApiParams.generateReply(id));
+  }
+
+  @override
+  Future<void> saveAnswer(String id, String text) async {
+    await _dio.post<void>(
+      _ApiParams.saveAnswer(id),
+      data: {'text': text},
     );
+  }
 
-    final data = response.data;
-    if (data == null) {
-      throw DioException(
-        requestOptions: response.requestOptions,
-        response: response,
-        type: DioExceptionType.badResponse,
-        error: 'Empty response body',
-      );
-    }
-
-    return ReviewDetailResponseDto.fromJson(data);
+  @override
+  Future<void> sendAnswer(String id) async {
+    await _dio.post<void>(_ApiParams.sendAnswer(id));
   }
 }

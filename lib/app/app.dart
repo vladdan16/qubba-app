@@ -42,6 +42,7 @@ class App extends StatelessWidget {
           child: BlocListener<AuthBloc, AuthState>(
             listener: _handleChangeAuth,
             child: MaterialApp.router(
+              debugShowCheckedModeBanner: false,
               title: 'Qubba',
               routerConfig: AppRouter.router,
               localizationsDelegates: const [
@@ -50,7 +51,8 @@ class App extends StatelessWidget {
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
               ],
-              supportedLocales: Strings.supportedLocales,
+              // supportedLocales: Strings.supportedLocales,
+              supportedLocales: const [Locale('ru')],
               theme: ThemeData(
                 useMaterial3: true,
                 colorScheme: lightScheme,

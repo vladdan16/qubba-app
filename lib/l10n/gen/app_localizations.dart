@@ -931,6 +931,12 @@ abstract class Strings {
   /// **'Your reply'**
   String get reviewCardSellerAnswerLabel;
 
+  /// No description provided for @reviewCardDraftLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get reviewCardDraftLabel;
+
   /// No description provided for @reviewCardNoText.
   ///
   /// In en, this message translates to:
@@ -978,6 +984,114 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Generating…'**
   String get reviewDetailGenerating;
+
+  /// No description provided for @reviewDetailAnswerGenerated.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply generated'**
+  String get reviewDetailAnswerGenerated;
+
+  /// No description provided for @reviewDetailRegenerateAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Regenerate reply'**
+  String get reviewDetailRegenerateAnswer;
+
+  /// No description provided for @reviewDetailAnswerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a reply to the buyer…'**
+  String get reviewDetailAnswerHint;
+
+  /// No description provided for @reviewDetailSaveDraftButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save draft'**
+  String get reviewDetailSaveDraftButton;
+
+  /// No description provided for @reviewDetailDraftSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft saved'**
+  String get reviewDetailDraftSaved;
+
+  /// No description provided for @reviewDetailSendButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish to marketplace'**
+  String get reviewDetailSendButton;
+
+  /// No description provided for @reviewDetailAnswerSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply published to marketplace'**
+  String get reviewDetailAnswerSent;
+
+  /// No description provided for @reviewsAiSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Generation settings'**
+  String get reviewsAiSettingsTitle;
+
+  /// No description provided for @reviewsAiSettingsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Generation settings'**
+  String get reviewsAiSettingsTooltip;
+
+  /// No description provided for @reviewsAiSettingsPromptLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Prompt'**
+  String get reviewsAiSettingsPromptLabel;
+
+  /// No description provided for @reviewsAiSettingsPromptHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the tone, length and rules for replies…'**
+  String get reviewsAiSettingsPromptHint;
+
+  /// No description provided for @reviewsAiSettingsModelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Model'**
+  String get reviewsAiSettingsModelLabel;
+
+  /// No description provided for @reviewsAiSettingsModelNotSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Not selected'**
+  String get reviewsAiSettingsModelNotSelected;
+
+  /// No description provided for @reviewsAiSettingsSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get reviewsAiSettingsSaveButton;
+
+  /// No description provided for @reviewsAiSettingsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings saved'**
+  String get reviewsAiSettingsSaved;
+
+  /// No description provided for @reviewsAiSettingsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load settings: {message}'**
+  String reviewsAiSettingsLoadError(String message);
+
+  /// No description provided for @reviewsAiSettingsSaveError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save: {message}'**
+  String reviewsAiSettingsSaveError(String message);
+
+  /// No description provided for @reviewsAiSettingsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get reviewsAiSettingsRetry;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {

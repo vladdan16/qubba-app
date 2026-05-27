@@ -60,7 +60,14 @@ class _ReviewsViewState extends State<_ReviewsView> {
         appBar: AppBar(
           title: Text(strings.reviewsTitle),
           centerTitle: true,
-          actions: const [ProfileAppBarAction()],
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings_outlined),
+              tooltip: strings.reviewsAiSettingsTooltip,
+              onPressed: context.openReviewsAiSettings,
+            ),
+            const ProfileAppBarAction(),
+          ],
         ),
         body: switch (state) {
           ReviewsInitialState() || ReviewsLoadingState() => Column(
@@ -196,7 +203,13 @@ class _ReadyBody extends StatelessWidget {
                     final review = reviews[index];
                     return ReviewCard(
                       review: review,
-                      onTap: () => context.openReviewDetail(review.id),
+                      onTap: () async {
+                        await context.openReviewDetail(review.id);
+                        if (!context.mounted) return;
+                        context.read<ReviewsBloc>().add(
+                          const ReviewsRefreshRequested(),
+                        );
+                      },
                     );
                   },
                 ),

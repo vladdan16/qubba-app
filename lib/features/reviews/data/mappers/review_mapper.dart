@@ -10,6 +10,8 @@ abstract final class ReviewMapper {
     marketplace: _marketplaceFromCode(dto.marketplace),
     marketplaceReviewId: dto.marketplaceReviewId,
     marketplaceProductId: dto.marketplaceProductId,
+    productName: dto.productName,
+    productIcon: dto.productIcon,
     text: dto.text,
     rating: dto.rating,
     answer: dto.answer,
@@ -22,9 +24,9 @@ abstract final class ReviewMapper {
     createdDate: dto.createdDate,
   );
 
-  static Marketplace? _marketplaceFromCode(int? code) => switch (code) {
-    1 => Marketplace.wildberries,
-    2 => Marketplace.ozon,
+  static Marketplace? _marketplaceFromCode(String? code) => switch (code) {
+    'wb' => Marketplace.wildberries,
+    'ozon' => Marketplace.ozon,
     _ => null,
   };
 }

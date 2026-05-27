@@ -13,6 +13,8 @@ final class Review {
     this.marketplace,
     this.marketplaceReviewId,
     this.marketplaceProductId,
+    this.productName,
+    this.productIcon,
     this.text,
     this.rating,
     this.answer,
@@ -29,6 +31,8 @@ final class Review {
   final Marketplace? marketplace;
   final String? marketplaceReviewId;
   final String? marketplaceProductId;
+  final String? productName;
+  final String? productIcon;
   final String? text;
   final int? rating;
   final String? answer;
@@ -48,6 +52,8 @@ final class Review {
         userId == other.userId &&
         cabinetId == other.cabinetId &&
         marketplace == other.marketplace &&
+        productName == other.productName &&
+        productIcon == other.productIcon &&
         text == other.text &&
         rating == other.rating &&
         answer == other.answer &&
@@ -63,6 +69,8 @@ final class Review {
     userId,
     cabinetId,
     marketplace,
+    productName,
+    productIcon,
     text,
     rating,
     answer,
