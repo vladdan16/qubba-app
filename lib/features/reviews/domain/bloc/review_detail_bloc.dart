@@ -41,7 +41,8 @@ final class ReviewDetailBloc
       emit(ReviewDetailLoadedState(review: review));
     } on Object catch (error, stackTrace) {
       debugPrint('ReviewDetailBloc._onLoad: $error\n$stackTrace');
-      emit(ReviewDetailFailureState(message: errorMessage(error), id: event.id),
+      emit(
+        ReviewDetailFailureState(message: errorMessage(error), id: event.id),
       );
     }
   }

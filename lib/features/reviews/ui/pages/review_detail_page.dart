@@ -228,6 +228,7 @@ class _ReviewDetailView extends StatelessWidget {
                     ReviewAnswerBlock(
                       answer: review.answer!,
                       isAi: review.isAiAnswered,
+                      isPublished: true,
                     ),
                   ] else ...[
                     _AnswerEditor(

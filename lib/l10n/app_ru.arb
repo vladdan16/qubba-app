@@ -216,6 +216,7 @@
   "reviewsFilterAnsweredNo": "Без ответа",
 
   "reviewCardSellerAnswerLabel": "Ваш ответ",
+  "reviewCardDraftLabel": "Черновик",
   "reviewCardNoText": "Без текста",
   "reviewCardNoAnswer": "Без ответа",
   "reviewCardAiAnswerLabel": "AI-ответ",

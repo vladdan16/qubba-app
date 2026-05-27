@@ -7,8 +7,7 @@ String errorMessage(Object error) {
       return switch (error.type) {
         DioExceptionType.connectionTimeout ||
         DioExceptionType.sendTimeout ||
-        DioExceptionType.receiveTimeout =>
-          'Connection timed out',
+        DioExceptionType.receiveTimeout => 'Connection timed out',
         DioExceptionType.connectionError => 'No internet connection',
         DioExceptionType.cancel => 'Request cancelled',
         _ => 'Network error',

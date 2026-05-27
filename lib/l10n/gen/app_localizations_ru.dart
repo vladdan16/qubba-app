@@ -455,6 +455,9 @@ class StringsRu extends Strings {
   String get reviewCardSellerAnswerLabel => 'Ваш ответ';
 
   @override
+  String get reviewCardDraftLabel => 'Черновик';
+
+  @override
   String get reviewCardNoText => 'Без текста';
 
   @override

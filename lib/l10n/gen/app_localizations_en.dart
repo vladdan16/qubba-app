@@ -453,6 +453,9 @@ class StringsEn extends Strings {
   String get reviewCardSellerAnswerLabel => 'Your reply';
 
   @override
+  String get reviewCardDraftLabel => 'Draft';
+
+  @override
   String get reviewCardNoText => 'No text';
 
   @override

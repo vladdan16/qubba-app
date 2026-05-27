@@ -88,6 +88,7 @@ class ReviewCard extends StatelessWidget {
                 ReviewAnswerBlock(
                   answer: review.answer!,
                   isAi: review.isAiAnswered,
+                  isPublished: review.isAnswered,
                   maxLines: 2,
                 ),
               ] else
@@ -104,12 +105,14 @@ class ReviewAnswerBlock extends StatelessWidget {
   const ReviewAnswerBlock({
     required this.answer,
     required this.isAi,
+    required this.isPublished,
     this.maxLines,
     super.key,
   });
 
   final String answer;
   final bool isAi;
+  final bool isPublished;
   final int? maxLines;
 
   @override
@@ -122,7 +125,12 @@ class ReviewAnswerBlock extends StatelessWidget {
         color: theme.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(8),
         border: Border(
-          left: BorderSide(color: theme.colorScheme.primary, width: 3),
+          left: BorderSide(
+            color: isPublished
+                ? theme.colorScheme.primary
+                : theme.colorScheme.outline,
+            width: 3,
+          ),
         ),
       ),
       padding: const EdgeInsets.all(12),
@@ -147,6 +155,10 @@ class ReviewAnswerBlock extends StatelessWidget {
                   color: theme.colorScheme.secondary,
                 ),
               ],
+              if (!isPublished) ...[
+                const Spacer(),
+                const _DraftChip(),
+              ],
             ],
           ),
           const SizedBox(height: 6),
@@ -157,6 +169,41 @@ class ReviewAnswerBlock extends StatelessWidget {
                 ? TextOverflow.ellipsis
                 : TextOverflow.clip,
             style: theme.textTheme.bodyMedium,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DraftChip extends StatelessWidget {
+  const _DraftChip();
+
+  @override
+  Widget build(BuildContext context) {
+    final strings = Strings.of(context);
+    final theme = Theme.of(context);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.secondaryContainer,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.edit_outlined,
+            size: 11,
+            color: theme.colorScheme.onSecondaryContainer,
+          ),
+          const SizedBox(width: 3),
+          Text(
+            strings.reviewCardDraftLabel,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: theme.colorScheme.onSecondaryContainer,
+            ),
           ),
         ],
       ),

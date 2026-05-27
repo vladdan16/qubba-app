@@ -255,6 +255,7 @@
   "reviewsFilterAnsweredNo": "Unanswered",
 
   "reviewCardSellerAnswerLabel": "Your reply",
+  "reviewCardDraftLabel": "Draft",
   "reviewCardNoText": "No text",
   "reviewCardNoAnswer": "No reply",
   "reviewCardAiAnswerLabel": "AI reply",

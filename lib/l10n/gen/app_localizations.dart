@@ -931,6 +931,12 @@ abstract class Strings {
   /// **'Your reply'**
   String get reviewCardSellerAnswerLabel;
 
+  /// No description provided for @reviewCardDraftLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get reviewCardDraftLabel;
+
   /// No description provided for @reviewCardNoText.
   ///
   /// In en, this message translates to:
